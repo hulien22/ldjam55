@@ -14,6 +14,7 @@ func _ready():
 	for npc in NpcRegistry.contestants:
 		var npc_instance = npc_scene.instantiate()
 		npc_instance.set_name("contestant" + str(npc.number))
+		npc_instance.base_stats = npc
 		npc_instance.global_position = Vector2.from_angle(angle_offset*npc.number)*spawn_radius
 		print(npc_instance.global_position)
 		add_child(npc_instance)
