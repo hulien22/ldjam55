@@ -22,7 +22,7 @@ func set_actions(actions: Array[GoapAction]):
 # Returns a list of actions to be executed.
 #
 func get_plan(goal: GoapGoal, blackboard: Dictionary = {}) -> Array:
-	print("Goal: %s" % goal.get_clazz())
+	#print("Goal: %s" % goal.get_clazz())
 	#WorldState.console_message("Goal: %s" % goal.get_clazz())
 	var desired_state = goal.get_desired_state().duplicate()
 
