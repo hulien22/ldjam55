@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbn73ymox5yuo"]
+
+[ext_resource type="Script" path="res://scripts/movable.gd" id="1_pxrdn"]
+
+[node name="npc" type="Node2D"]
+script = ExtResource("1_pxrdn")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-1, -1, -1, 1, 1, 1, 1, -1)
+
+[node name="Camera2D" type="Camera2D" parent="."]

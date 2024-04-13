@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxxx2v7iw0jog"]
+
+[ext_resource type="PackedScene" uid="uid://bbf53at30n0ed" path="res://scenes/map.tscn" id="1_43egk"]
+[ext_resource type="PackedScene" uid="uid://cbn73ymox5yuo" path="res://scenes/npc.tscn" id="2_mnl14"]
+
+[node name="Game" type="Node2D"]
+
+[node name="npc8" parent="." instance=ExtResource("2_mnl14")]
+
+[node name="Map" parent="." instance=ExtResource("1_43egk")]
+
+[node name="npc" parent="." instance=ExtResource("2_mnl14")]
+
+[node name="npc2" parent="." instance=ExtResource("2_mnl14")]
+
+[node name="npc3" parent="." instance=ExtResource("2_mnl14")]
+
+[node name="npc4" parent="." instance=ExtResource("2_mnl14")]
+
+[node name="npc5" parent="." instance=ExtResource("2_mnl14")]
+
+[node name="npc6" parent="." instance=ExtResource("2_mnl14")]
+
+[node name="npc7" parent="." instance=ExtResource("2_mnl14")]
+
+[node name="npc9" parent="." instance=ExtResource("2_mnl14")]
