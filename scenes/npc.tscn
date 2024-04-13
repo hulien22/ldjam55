@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://cbn73ymox5yuo"]
+[gd_scene load_steps=7 format=3 uid="uid://cbn73ymox5yuo"]
 
 [ext_resource type="Script" path="res://scripts/npc.gd" id="1_5rgut"]
 [ext_resource type="Script" path="res://scripts/NavAgentComponent.gd" id="1_j3nkj"]
-[ext_resource type="Texture2D" uid="uid://xduuyikssqaj" path="res://art/Units/MainCharacter.png" id="3_we6rw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_shg6q"]
 radius = 100.0
@@ -17,13 +16,11 @@ bg_color = Color(0.121569, 0.121569, 0.121569, 1)
 bg_color = Color(0.360784, 0.682353, 0.443137, 1)
 
 [node name="npc" type="Node2D"]
-position = Vector2(-1, 1)
 script = ExtResource("1_5rgut")
 
 [node name="NavAgentComponent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("actor")]
 path_desired_distance = 5.0
 target_desired_distance = 5.0
-debug_enabled = true
 script = ExtResource("1_j3nkj")
 actor = NodePath("..")
 
@@ -56,10 +53,6 @@ scale = Vector2(0.095, 0.095)
 theme_override_styles/background = SubResource("StyleBoxFlat_qmg17")
 theme_override_styles/fill = SubResource("StyleBoxFlat_d86oh")
 value = 89.71
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0.4, 0.2)
-texture = ExtResource("3_we6rw")
 
 [connection signal="area_shape_entered" from="ScanRegion" to="." method="_on_scan_region_area_shape_entered"]
 [connection signal="area_shape_exited" from="ScanRegion" to="." method="_on_scan_region_area_shape_exited"]

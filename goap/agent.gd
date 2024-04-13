@@ -31,12 +31,14 @@ func _process(delta : float):
 	if (_actor.skip_planning()):
 		_follow_plan(_current_plan, delta)
 		return
-	# if any part of our current plan is invalid, try to come up with a new plan and goal
-	if (is_plan_invalid(_current_plan)):
-		_current_goal = null
+	## if any part of our current plan is invalid, try to come up with a new plan and goal
+	#if (is_plan_invalid(_current_plan)):
+		#_current_goal = null
 	
 	var goal = _get_best_goal()
-	if _current_goal == null or goal != _current_goal:
+	var new_plan:Array = _actor.get_action_planner().get_plan(goal, _actor.get_blackboard())
+	#if _current_goal == null or goal != _current_goal:
+	if _current_goal == null || !are_plans_equivalent(_current_plan, new_plan):
 	# You can set in the blackboard any relevant information you want to use
 	# when calculating action costs and status. I'm not sure here is the best
 	# place to leave it, but I kept here to keep things simple.
@@ -47,7 +49,8 @@ func _process(delta : float):
 		#for s in WorldState._state:
 			#blackboard[s] = WorldState._state[s]
 		_current_goal = goal
-		_current_plan = _actor.get_action_planner().get_plan(_current_goal, _actor.get_blackboard())
+		_current_plan = new_plan
+		#_current_plan = _actor.get_action_planner().get_plan(_current_goal, _actor.get_blackboard())
 		_current_plan_step = 0
 		_last_plan_name = ""
 	else:
@@ -86,6 +89,7 @@ func _get_best_goal() -> GoapGoal:
 func _follow_plan(plan: Array, delta: float):
 	if plan.size() == 0:
 		_last_plan_name = ""
+		_current_goal = null
 		return
 
 	var current_plan = plan[_current_plan_step] as GoapAction
@@ -115,3 +119,11 @@ func is_plan_invalid(plan: Array):
 		else:
 			return true
 	return false
+
+func are_plans_equivalent(planA: Array, planB: Array):
+	if (planA.size() != planB.size()):
+		return false
+	for i in planA.size():
+		if planA[i].get_clazz() != planB[i].get_clazz():
+			return false
+	return true
