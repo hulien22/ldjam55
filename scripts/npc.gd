@@ -25,7 +25,7 @@ func _ready():
 	agent.init(self, [
 		ExplorationGoal.new(),
 		FightEnemiesGoal.new(),
-		#StayInCombatGoal.new()
+		#SurviveGoal.new()
 	])
 
 	add_child(agent)
@@ -59,7 +59,9 @@ func calculate_state():
 		#"in_range_of_enemy": (closest_enemy_dist <= attack_range_sq),
 		"attack_range_sq": attack_range_sq,
 		"can_attack": _can_attack,
-		"can_dash": _can_dash
+		"can_dash": _can_dash,
+		"max_health": base_stats.max_health,
+		"cur_health": _health
 	}
 	if _can_attack:
 		modulate = Color.GREEN
@@ -67,7 +69,6 @@ func calculate_state():
 		modulate = Color.RED
 
 func skip_planning() -> bool:
-
 	return false
 
 func _on_scan_region_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int):

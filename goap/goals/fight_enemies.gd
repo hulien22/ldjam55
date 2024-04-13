@@ -12,7 +12,7 @@ func is_valid(actor) -> bool:
 
 # lower priority compared to other goals
 func priority(_actor) -> int:
-	return 5
+	return 8
 
 func get_desired_state() -> Dictionary:
 	return {

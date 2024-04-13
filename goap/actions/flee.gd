@@ -1,24 +1,23 @@
 extends GoapAction
-class_name StrafeAction
+class_name FleeAction
 
 # Moves around the enemy, if moving out of range then aborts
 
-func get_clazz() -> String: return "StrafeAction"
+func get_clazz() -> String: return "FleeAction"
 
 func is_valid(_blackboard: Dictionary) -> bool:
+	# TODO also check if close to storm
 	return _blackboard.get("closest_enemy") != null
 
 func get_cost(_blackboard: Dictionary) -> int:
 	return 10
 
 func get_preconditions() -> Dictionary:
-	return {
-		"in_range_of_enemy": true
-	}
+	return {}
 
 func get_effects() -> Dictionary:
 	return {
-		"fighting_enemies": true
+		"survive": true
 	}
 
 func perform(actor, _delta: float, first_time: bool) -> bool:
