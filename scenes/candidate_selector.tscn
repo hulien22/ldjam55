@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://denkppn03wouj"]
+[gd_scene load_steps=4 format=3 uid="uid://b7jpts72uj40i"]
 
 [ext_resource type="Texture2D" uid="uid://pgsbug3prbdi" path="res://art/icon.svg" id="1_d1es0"]
 [ext_resource type="Script" path="res://scripts/candidate_selector.gd" id="1_m1vcn"]
-[ext_resource type="PackedScene" uid="uid://bxxx2v7iw0jog" path="res://scenes/game.tscn" id="2_8k7hk"]
+[ext_resource type="PackedScene" uid="uid://q8jttyob4isq" path="res://scenes/main_map.tscn" id="2_c7ssi"]
 
 [node name="candidate_selector" type="Control"]
 layout_mode = 3
@@ -12,7 +12,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_m1vcn")
-confirm_scene = ExtResource("2_8k7hk")
+confirm_scene = ExtResource("2_c7ssi")
 temp_icon = ExtResource("1_d1es0")
 
 [node name="candidate_list" type="ItemList" parent="."]

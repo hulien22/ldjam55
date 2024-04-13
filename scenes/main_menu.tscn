@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cgi1i631xqacy"]
+[gd_scene load_steps=3 format=3 uid="uid://0pikx5nw10hc"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_fqcoh"]
-[ext_resource type="PackedScene" uid="uid://denkppn03wouj" path="res://scenes/candidate_selector.tscn" id="2_hy4ch"]
+[ext_resource type="PackedScene" uid="uid://b7jpts72uj40i" path="res://scenes/candidate_selector.tscn" id="2_hy4ch"]
 
 [node name="main_menu" type="Control"]
 layout_mode = 3
