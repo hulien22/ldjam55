@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://q8jttyob4isq"]
+
+[ext_resource type="Script" path="res://scripts/moveCamera.gd" id="1_btitd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mhd5q"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_ieb1b"]
+
+[node name="MainMap" type="Node2D"]
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+material = SubResource("ShaderMaterial_mhd5q")
+position = Vector2(-31, 0)
+color = Color(0.541176, 0.541176, 0.541176, 1)
+texture = SubResource("CanvasTexture_ieb1b")
+polygon = PackedVector2Array(-1176, -870, 1441, -867, 1434, 1132, -1176, 1125)
+
+[node name="Polygon2D2" type="Polygon2D" parent="."]
+material = SubResource("ShaderMaterial_mhd5q")
+position = Vector2(309, 259)
+color = Color(0.0901961, 0.0901961, 0.0901961, 1)
+texture = SubResource("CanvasTexture_ieb1b")
+polygon = PackedVector2Array(-1176, -870, 1441, -867, 1434, 1132, -1176, 1125)
+
+[node name="Polygon2D3" type="Polygon2D" parent="."]
+material = SubResource("ShaderMaterial_mhd5q")
+position = Vector2(777, 534)
+color = Color(0.607843, 0.607843, 0.607843, 1)
+texture = SubResource("CanvasTexture_ieb1b")
+polygon = PackedVector2Array(-1176, -870, 1441, -867, 1434, 1132, -1176, 1125)
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(-457, -346)
+script = ExtResource("1_btitd")
+speed = 1460
+
+[node name="Camera2D" type="Camera2D" parent="Area2D"]
