@@ -1,9 +1,15 @@
-[gd_resource type="Resource" script_class="ConsumableItem" load_steps=2 format=3 uid="uid://bfsw77pi04cjr"]
+[gd_resource type="Resource" script_class="ConsumableSummon" load_steps=3 format=3 uid="uid://bfsw77pi04cjr"]
 
-[ext_resource type="Script" path="res://scripts/items/consumable_item.gd" id="1_0y7rn"]
+[ext_resource type="Texture2D" uid="uid://cv4sh4pg6nw2t" path="res://art/items/health potion.png" id="1_4fxi2"]
+[ext_resource type="Script" path="res://scripts/Summons/consumable_summon.gd" id="2_qfkto"]
 
 [resource]
-script = ExtResource("1_0y7rn")
-affected_stat = 0
-amount_affected = 5.0
+script = ExtResource("2_qfkto")
 level = 1
+image = ExtResource("1_4fxi2")
+health_mod = 10.0
+damage_mod = 0.0
+defense_mod = 0.0
+attack_per_minute_mod = 0.0
+range_mod = 0.0
+movement_speed_mod = 0.0
