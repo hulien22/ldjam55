@@ -8,7 +8,8 @@ var first: bool = true
 
 func _ready():
 	#target_position = Vector2(randi()%size-size/2, randi()%size-size/2)
-	speed = randf() * 200 + 50
+	#speed = randf() * 200 + 50
+	speed = 50
 
 func _physics_process(delta):
 	#if has_new_target_posn:

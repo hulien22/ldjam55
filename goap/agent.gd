@@ -27,6 +27,14 @@ var _actor
 #
 func _process(delta : float):
 	_actor.calculate_state()
+	# Are we stuck in some action, in which case don't plan anything new and stick to current plan
+	if (_actor.skip_planning()):
+		_follow_plan(_current_plan, delta)
+		return
+	# if any part of our current plan is invalid, try to come up with a new plan and goal
+	if (is_plan_invalid(_current_plan)):
+		_current_goal = null
+	
 	var goal = _get_best_goal()
 	if _current_goal == null or goal != _current_goal:
 	# You can set in the blackboard any relevant information you want to use
@@ -87,8 +95,23 @@ func _follow_plan(plan: Array, delta: float):
 		_last_plan_name = current_plan.get_clazz()
 
 	var is_step_complete = current_plan.perform(_actor, delta, first_time)
+	
+	#print("performing action: ", current_plan.get_clazz() , " | " , is_step_complete)
 	if is_step_complete:
-		# If done, still allow for repeating of this most recent action
 		_last_plan_name = ""
 		if _current_plan_step < plan.size() - 1:
 			_current_plan_step += 1
+		else:
+			#print("clearing goal: ", _current_goal.get_clazz())
+			_current_goal = null
+
+func is_plan_invalid(plan: Array):
+	if (plan == null):
+		return true
+	for action in plan:
+		if (action is GoapAction):
+			if !action.is_valid(_actor.get_blackboard()):
+				return true
+		else:
+			return true
+	return false
