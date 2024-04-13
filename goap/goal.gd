@@ -5,6 +5,8 @@ extends Node
 
 class_name GoapGoal
 
+func get_clazz() -> String: return ""
+
 #
 # This indicates if the goal should be considered or not.
 # Sometimes instead of changing the priority, it is easier to

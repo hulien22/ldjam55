@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scripts/NavAgentComponent.gd" id="1_j3nkj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_shg6q"]
-radius = 20.0
+radius = 100.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_llk2g"]
 radius = 1.0
@@ -19,6 +19,9 @@ bg_color = Color(0.360784, 0.682353, 0.443137, 1)
 script = ExtResource("1_5rgut")
 
 [node name="NavAgentComponent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("actor")]
+path_desired_distance = 5.0
+target_desired_distance = 5.0
+debug_enabled = true
 script = ExtResource("1_j3nkj")
 actor = NodePath("..")
 
