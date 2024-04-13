@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var npc_scene: PackedScene
-@export var spawn_radius: float = 10
+@export var spawn_radius: float = 3100
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	print(len(NpcRegistry.contestants))
