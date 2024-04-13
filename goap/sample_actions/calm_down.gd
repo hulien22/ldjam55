@@ -3,7 +3,7 @@ extends GoapAction
 class_name CalmDownAction
 
 
-func get_clazz(): return "CalmDownAction"
+func get_clazz() -> String: return "CalmDownAction"
 
 
 func get_cost(_blackboard) -> int:
@@ -22,5 +22,5 @@ func get_effects() -> Dictionary:
 	}
 
 
-func perform(actor, _delta) -> bool:
+func perform(actor, _delta: float, first_time: bool) -> bool:
 	return actor.calm_down()

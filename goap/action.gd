@@ -6,6 +6,8 @@ extends Node
 class_name GoapAction
 
 
+func get_clazz() -> String: return ""
+
 #
 # This indicates if the action should be considered or not.
 #
@@ -23,7 +25,7 @@ func is_valid() -> bool:
 #
 # Check "./actions/chop_tree.gd" for a situational cost example.
 #
-func get_cost(_blackboard) -> int:
+func get_cost(_blackboard: Dictionary) -> int:
 	return 1000
 
 #
@@ -62,5 +64,5 @@ func get_effects() -> Dictionary:
 # or even let your NPC decide how to handle the action. In other words,
 # your NPC could just receive the action name and decide what to do.
 #
-func perform(_actor, _delta) -> bool:
+func perform(_actor, _delta: float, _first_time: bool) -> bool:
 	return false

@@ -6,14 +6,14 @@ extends Node
 
 class_name GoapActionPlanner
 
-var _actions: Array
+var _actions: Array[GoapAction]
 
 
 #
 # set actions available for planning.
 # this can be changed in runtime for more dynamic options.
 #
-func set_actions(actions: Array):
+func set_actions(actions: Array[GoapAction]):
 	_actions = actions
 
 
@@ -21,7 +21,7 @@ func set_actions(actions: Array):
 # Receives a Goal and an optional blackboard.
 # Returns a list of actions to be executed.
 #
-func get_plan(goal: GoapGoal, blackboard = {}) -> Array:
+func get_plan(goal: GoapGoal, blackboard: Dictionary = {}) -> Array:
 	print("Goal: %s" % goal.get_clazz())
 	#WorldState.console_message("Goal: %s" % goal.get_clazz())
 	var desired_state = goal.get_desired_state().duplicate()
@@ -33,7 +33,7 @@ func get_plan(goal: GoapGoal, blackboard = {}) -> Array:
 
 
 
-func _find_best_plan(goal, desired_state, blackboard):
+func _find_best_plan(goal: GoapGoal, desired_state: Dictionary, blackboard: Dictionary) -> Array:
   # goal is set as root action. It does feel weird
   # but the code is simpler this way.
 	var root = {
@@ -55,13 +55,13 @@ func _find_best_plan(goal, desired_state, blackboard):
 # Compares plan's cost and returns
 # actions included in the cheapest one.
 #
-func _get_cheapest_plan(plans):
-	var best_plan
+func _get_cheapest_plan(plans: Array[Dictionary]) -> Array:
+	var best_plan: Dictionary
 	for p in plans:
 		_print_plan(p)
-		if best_plan == null or p.cost < best_plan.cost:
+		if best_plan == null or p["cost"] < best_plan.get("cost", 9223372036854775807):
 			best_plan = p
-	return best_plan.actions
+	return best_plan["actions"]
 
 
 #
@@ -142,8 +142,8 @@ func _build_plans(step, blackboard):
 #
 # Returns list of plans.
 #
-func _transform_tree_into_array(p, blackboard):
-	var plans = []
+func _transform_tree_into_array(p: Dictionary, blackboard: Dictionary) -> Array[Dictionary]:
+	var plans: Array[Dictionary] = []
 
 	if p.children.size() == 0:
 		plans.push_back({ "actions": [p.action], "cost": p.action.get_cost(blackboard) })

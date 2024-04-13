@@ -1,11 +1,27 @@
-extends "res://goap/action.gd"
+extends GoapAction
+class_name ExploreAction
 
+# Requires actor to have explore and done_movement functions.
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+func get_clazz() -> String: return "ExploreAction"
 
+func is_valid() -> bool:
+	return true
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func get_cost(_blackboard: Dictionary) -> int:
+	return 1
+
+func get_preconditions() -> Dictionary:
+	return {}
+
+func get_effects() -> Dictionary:
+	return {
+		"exploring": true
+	}
+
+func perform(actor, _delta: float, first_time: bool) -> bool:
+	if (first_time):
+		# TODO better exploration?
+		actor.explore()
+		
+	return actor.done_movement()

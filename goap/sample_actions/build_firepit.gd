@@ -5,7 +5,7 @@ class_name BuildFirepitAction
 #const Firepit = preload("res://scenes/firepit.tscn")
 
 
-func get_clazz(): return "BuildFirepitAction"
+func get_clazz() -> String: return "BuildFirepitAction"
 
 
 func get_cost(_blackboard) -> int:
@@ -24,7 +24,7 @@ func get_effects() -> Dictionary:
 	}
 
 
-func perform(actor, delta) -> bool:
+func perform(actor, _delta: float, first_time: bool) -> bool:
 	#var _closest_spot = WorldState.get_closest_element("firepit_spot", actor)
 #
 	#if _closest_spot == null:
