@@ -10,17 +10,25 @@
 [node name="Map" parent="." instance=ExtResource("1_43egk")]
 
 [node name="npc" parent="." instance=ExtResource("2_mnl14")]
+position = Vector2(-110, 33)
 
 [node name="npc2" parent="." instance=ExtResource("2_mnl14")]
+position = Vector2(-24, -62)
 
 [node name="npc3" parent="." instance=ExtResource("2_mnl14")]
+position = Vector2(141, -56)
 
 [node name="npc4" parent="." instance=ExtResource("2_mnl14")]
+position = Vector2(23, 135)
 
 [node name="npc5" parent="." instance=ExtResource("2_mnl14")]
+position = Vector2(107, -25)
 
 [node name="npc6" parent="." instance=ExtResource("2_mnl14")]
+position = Vector2(44, -41)
 
 [node name="npc7" parent="." instance=ExtResource("2_mnl14")]
+position = Vector2(137, 110)
 
 [node name="npc9" parent="." instance=ExtResource("2_mnl14")]
+position = Vector2(-20, 161)

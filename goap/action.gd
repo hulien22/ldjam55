@@ -15,7 +15,7 @@ func get_clazz() -> String: return ""
 # also be used during execution to abort the plan in case the world state
 # does not allow this action anymore.
 #
-func is_valid() -> bool:
+func is_valid(_blackboard: Dictionary) -> bool:
 	return true
 
 

@@ -82,13 +82,15 @@ func _get_cheapest_plan(plans: Array[Dictionary]) -> Array:
 func _build_plans(step, blackboard):
 	var has_followup = false
 
-  # each node in the graph has it's own desired state.
-	var state = step.state.duplicate()
-  # checks if the blackboard contains data that can
-  # satisfy the current state.
-	for s in step.state:
-		if state[s] == blackboard.get(s):
-			state.erase(s)
+	# TODO(julien) have changed this logic, check if we want it back?
+	var state = step.state
+	## each node in the graph has it's own desired state.
+	#var state = step.state.duplicate()
+	## checks if the blackboard contains data that can
+	## satisfy the current state.
+	#for s in step.state:
+		#if state[s] == blackboard.get(s):
+			#state.erase(s)
 
   # if the state is empty, it means this branch already
   # found the solution, so it doesn't need to look for
@@ -97,7 +99,7 @@ func _build_plans(step, blackboard):
 		return true
 
 	for action in _actions:
-		if not action.is_valid():
+		if not action.is_valid(blackboard):
 			continue
 
 		var should_use_action = false

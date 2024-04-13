@@ -26,6 +26,7 @@ var _actor
 # for the new high priority goal.
 #
 func _process(delta : float):
+	_actor.calculate_state()
 	var goal = _get_best_goal()
 	if _current_goal == null or goal != _current_goal:
 	# You can set in the blackboard any relevant information you want to use
@@ -55,10 +56,14 @@ func init(actor, goals: Array[GoapGoal]):
 #
 func _get_best_goal() -> GoapGoal:
 	var highest_priority: GoapGoal
+	var highest_priority_val: int = 0
 
 	for goal in _goals:
-		if goal.is_valid() and (highest_priority == null or goal.priority() > highest_priority.priority()):
-			highest_priority = goal
+		if goal.is_valid(_actor):
+			var priority_val = goal.priority(_actor)
+			if (highest_priority == null or priority_val > highest_priority_val):
+				highest_priority = goal
+				highest_priority_val = priority_val
 
 	return highest_priority
 

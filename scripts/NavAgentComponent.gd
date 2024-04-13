@@ -26,4 +26,4 @@ func _physics_process(delta):
 
 func update_target_position(posn: Vector2):
 	set_target_position(posn)
-	print(target_position)
+	#print(target_position)

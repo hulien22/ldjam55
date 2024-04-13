@@ -8,8 +8,8 @@ func get_clazz() -> String: return "CalmDownGoal"
 	#return WorldState.get_state("is_frightened", false)
 
 
-func priority() -> int:
-	return 10
+#func priority() -> int:
+	#return 10
 
 
 func get_desired_state() -> Dictionary:

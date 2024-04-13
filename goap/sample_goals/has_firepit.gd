@@ -9,8 +9,8 @@ func get_clazz() -> String: return "KeepFirepitBurningGoal"
 	#return WorldState.get_elements("firepit").size() == 0
 
 
-func priority() -> int:
-	return 1
+#func priority() -> int:
+	#return 1
 
 
 func get_desired_state() -> Dictionary:
