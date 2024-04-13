@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://q8jttyob4isq"]
+[gd_scene load_steps=4 format=3 uid="uid://c3kwwaw5pgx8b"]
 
 [ext_resource type="Script" path="res://scripts/moveCamera.gd" id="1_btitd"]
 [ext_resource type="TileSet" uid="uid://bxxwvdlpdlm04" path="res://art/tileset/background_art.tres" id="2_jww75"]

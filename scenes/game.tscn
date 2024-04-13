@@ -1,34 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://bxxx2v7iw0jog"]
+[gd_scene load_steps=4 format=3 uid="uid://bxxx2v7iw0jog"]
 
 [ext_resource type="PackedScene" uid="uid://bbf53at30n0ed" path="res://scenes/map.tscn" id="1_43egk"]
 [ext_resource type="PackedScene" uid="uid://cbn73ymox5yuo" path="res://scenes/npc.tscn" id="2_mnl14"]
+[ext_resource type="Script" path="res://scripts/npcs_spawner.gd" id="3_i4a8q"]
 
 [node name="Game" type="Node2D"]
 
-[node name="npc8" parent="." instance=ExtResource("2_mnl14")]
-
 [node name="Map" parent="." instance=ExtResource("1_43egk")]
 
-[node name="npc" parent="." instance=ExtResource("2_mnl14")]
-position = Vector2(-110, 33)
-
-[node name="npc2" parent="." instance=ExtResource("2_mnl14")]
-position = Vector2(-24, -62)
-
-[node name="npc3" parent="." instance=ExtResource("2_mnl14")]
-position = Vector2(141, -56)
-
-[node name="npc4" parent="." instance=ExtResource("2_mnl14")]
-position = Vector2(23, 135)
-
-[node name="npc5" parent="." instance=ExtResource("2_mnl14")]
-position = Vector2(107, -25)
-
-[node name="npc6" parent="." instance=ExtResource("2_mnl14")]
-position = Vector2(44, -41)
-
-[node name="npc7" parent="." instance=ExtResource("2_mnl14")]
-position = Vector2(137, 110)
-
-[node name="npc9" parent="." instance=ExtResource("2_mnl14")]
-position = Vector2(-20, 161)
+[node name="npcs" type="Node2D" parent="."]
+script = ExtResource("3_i4a8q")
+npc_scene = ExtResource("2_mnl14")
+spawn_radius = 100.0

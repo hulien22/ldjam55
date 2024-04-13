@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://chy23urckfjgf"]
+
+[ext_resource type="Script" path="res://scripts/npc_registry.gd" id="1_l3kkr"]
+
+[node name="npc_registry" type="Node"]
+script = ExtResource("1_l3kkr")
