@@ -1,6 +1,8 @@
 extends Node2D
 
-var agent: NavigationAgent2D
+@onready var agent = $NavigationAgent2D
+
+#var agent: NavigationAgent2D
 var first: bool = true
 @export var size: int = 500
 # Called when the node enters the scene tree for the first time.
