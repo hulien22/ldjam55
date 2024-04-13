@@ -33,20 +33,20 @@ func _process(delta):
 
 	#Mouse on edge of screen control
 	var mouse_position = get_viewport().get_mouse_position()
-
+	var mouseVelocity = Vector2.ZERO
 	if screen.has_point(mouse_position) && mouse_position.x < radius_required_to_move:
-		position +=  Vector2.LEFT * camera_speed_mouse * delta
+		mouseVelocity +=  Vector2.LEFT 
 
 	if screen.has_point(mouse_position) && abs(mouse_position.x-screen_size.x) < radius_required_to_move:
-		position +=  Vector2.RIGHT * camera_speed_mouse * delta
+		mouseVelocity +=  Vector2.RIGHT 
 
 	if screen.has_point(mouse_position) && mouse_position.y < radius_required_to_move:
-		position +=  Vector2.UP * camera_speed_mouse * delta
+		mouseVelocity +=  Vector2.UP 
 
 	if screen.has_point(mouse_position) && abs(mouse_position.y-screen_size.y) < radius_required_to_move && mouse_position.y < screen_size.y:
-		position +=  Vector2.DOWN * camera_speed_mouse * delta
+		mouseVelocity +=  Vector2.DOWN 
 
+	position += mouseVelocity.normalized() * camera_speed_mouse * delta 
 func _on_viewport_resize():
-	print("resize")
 	screen = get_viewport_rect()
 	screen_size = screen.size

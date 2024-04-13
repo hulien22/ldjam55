@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgi1i631xqacy"]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_fqcoh"]
+[ext_resource type="PackedScene" uid="uid://denkppn03wouj" path="res://scenes/candidate_selector.tscn" id="2_hy4ch"]
+
+[node name="main_menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fqcoh")
+play_scene = ExtResource("2_hy4ch")
+
+[node name="Play" type="Button" parent="."]
+layout_mode = 0
+offset_left = 487.0
+offset_top = 294.0
+offset_right = 682.0
+offset_bottom = 378.0
+text = "Play"
+
+[connection signal="pressed" from="Play" to="." method="on_play"]
