@@ -1,15 +1,15 @@
 extends GoapAction
-class_name DodgeAction
+class_name StrafeAction
 
-# Requires actor to have explore and done_movement functions.
+# Moves around the enemy, if moving out of range then aborts
 
-func get_clazz() -> String: return "DodgeAction"
+func get_clazz() -> String: return "StrafeAction"
 
 func is_valid(_blackboard: Dictionary) -> bool:
 	return _blackboard.get("closest_enemy") != null && !_blackboard.get("can_attack", false)
 
 func get_cost(_blackboard: Dictionary) -> int:
-	return 1
+	return 10
 
 func get_preconditions() -> Dictionary:
 	return {
@@ -18,7 +18,7 @@ func get_preconditions() -> Dictionary:
 
 func get_effects() -> Dictionary:
 	return {
-		"staying_in_combat": true
+		"fighting_enemies": true
 	}
 
 func perform(actor, _delta: float, first_time: bool) -> bool:
@@ -26,6 +26,11 @@ func perform(actor, _delta: float, first_time: bool) -> bool:
 	# TODO replace -- strafe around?
 		actor.explore()
 		return false
-		
-	return actor.done_movement()
+	
+	var blackboard:Dictionary = actor.get_blackboard()
+	var enemy: Node2D = blackboard.get("closest_enemy")
+	if (enemy == null):
+		return false
+	
+	return actor.done_movement() || enemy.global_position.distance_squared_to(actor.global_position) > blackboard.get("attack_range_sq", 0)
 

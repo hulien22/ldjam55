@@ -24,7 +24,7 @@ func _ready():
 	agent.init(self, [
 		ExplorationGoal.new(),
 		FightEnemiesGoal.new(),
-		StayInCombatGoal.new()
+		#StayInCombatGoal.new()
 	])
 	
 	add_child(agent)
@@ -32,13 +32,13 @@ func _ready():
 	_action_planner.set_actions([
 		ExploreAction.new(),
 		AttackEnemyAction.new(),
-		DodgeAction.new(),
+		StrafeAction.new(),
 		MoveTowardsEnemyAction.new()
 	])
 	
-	_max_health = randi() % 7 + 3
+	_max_health = randi() % 7 + 30
 	_health = _max_health
-	_cooldown = randf() * 0.5 + 0.5
+	_cooldown = randf() * 0.5 + 1
 
 func get_action_planner() -> GoapActionPlanner:
 	return _action_planner
@@ -48,14 +48,24 @@ func get_blackboard() -> Dictionary:
 
 # Calculate at the start of finding a goal
 func calculate_state():
+	var closest_enemy: NPC = get_nearest_enemy()
+	#var closest_enemy_dist:float = closest_enemy.global_position.distance_squared_to(global_position)
+	
 	_blackboard = {
 		"global_posn": global_position,
 		"enemies_in_range" : enemies_in_range,
-		"closest_enemy": get_nearest_enemy(),
+		"closest_enemy": closest_enemy,
+		#"distance_sq_to_closest_enemy": closest_enemy_dist,
+		#"in_range_of_enemy": (closest_enemy_dist <= attack_range_sq),
 		"attack_range_sq": attack_range_sq,
 		"can_attack": _can_attack,
 		"can_dash": _can_dash
 	}
+	if _can_attack:
+		modulate = Color.GREEN
+	else:
+		modulate = Color.RED
+		
 
 func skip_planning() -> bool:
 	
@@ -100,11 +110,11 @@ func damage(dmg: int):
 
 func explore():
 	move_towards(Vector2(randi()%size-size/2, randi()%size-size/2))
-	modulate = Color.BLUE
+	#modulate = Color.BLUE
 
 func move_towards(posn:Vector2):
 	nav_agent_component.update_target_position(posn)
-	modulate = Color.GREEN
+	#modulate = Color.GREEN
 
 func cancel_movement():
 	move_towards(global_position)
