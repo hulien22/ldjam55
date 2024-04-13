@@ -15,9 +15,10 @@ var _can_attack: bool = true
 var _can_dash: bool = true
 
 # TODO move elsewhere (component)
-var _max_health: int = 10
 var _health: int = 10
 var _cooldown: float = 0.5
+
+var base_stats: npc_base_stats
 
 func _ready():
 	var agent = GoapAgent.new()
@@ -36,8 +37,7 @@ func _ready():
 		MoveTowardsEnemyAction.new()
 	])
 	
-	_max_health = randi() % 7 + 3
-	_health = _max_health
+	_health = base_stats.max_health
 	_cooldown = randf() * 0.5 + 0.5
 
 func get_action_planner() -> GoapActionPlanner:
@@ -94,8 +94,9 @@ func attack_enemy(enemy):
 	
 func damage(dmg: int):
 	_health -= dmg
-	$ProgressBar.value = _health * 100.0 / float(_max_health)
+	$ProgressBar.value = _health * 100.0 / float(base_stats.max_health)
 	if (_health <= 0):
+		print(base_stats.first_name + " " + base_stats.last_name + " has died :(")
 		queue_free()
 
 func explore():
