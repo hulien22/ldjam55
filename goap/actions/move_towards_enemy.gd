@@ -23,7 +23,6 @@ func perform(actor, _delta: float, first_time: bool) -> bool:
 	var blackboard:Dictionary = actor.get_blackboard()
 	var enemy: Node2D = blackboard.get("closest_enemy")
 	if (enemy):
-		print("dist ", enemy.global_position.distance_squared_to(actor.global_position))
 		if (enemy.global_position.distance_squared_to(actor.global_position) < blackboard.get("attack_range_sq", 0)):
 			actor.cancel_movement()
 			return true
