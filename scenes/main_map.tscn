@@ -30,8 +30,7 @@ texture = SubResource("CanvasTexture_ieb1b")
 polygon = PackedVector2Array(-1176, -870, 1441, -867, 1434, 1132, -1176, 1125)
 
 [node name="Area2D" type="Area2D" parent="."]
-position = Vector2(-457, -346)
+position = Vector2(-457, -343)
 script = ExtResource("1_btitd")
-speed = 1460
 
 [node name="Camera2D" type="Camera2D" parent="Area2D"]
