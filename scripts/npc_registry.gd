@@ -3,7 +3,7 @@ extends Node
 @export var initial_npc_count: int = 100
 
 var contestants: Array = []
-var _chosen: int = 0
+var chosen: int = 1
 
 func generate_initial_npcs(count):
 	print("generating npcs")
@@ -20,7 +20,7 @@ func create_npc_stats(number):
 	return npc
 
 func set_chosen_candidate(number):
-	_chosen = number
+	chosen = number
 
 @export var first_names: Array[String] = [
 "Aaron",

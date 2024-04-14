@@ -30,4 +30,5 @@ offset_right = 624.0
 offset_bottom = 644.0
 text = "Confirm"
 
+[connection signal="item_selected" from="candidate_list" to="." method="on_candidate_selected"]
 [connection signal="pressed" from="confirm" to="." method="on_confirm"]
