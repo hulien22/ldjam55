@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://3h86u45dh76w"]
+[gd_scene load_steps=4 format=3 uid="uid://3h86u45dh76w"]
 
 [ext_resource type="Texture2D" uid="uid://b5dqst2wprggr" path="res://art/summon bar/summon bar.png" id="1_oarfc"]
 [ext_resource type="Texture2D" uid="uid://d3ggbpqw3f2kl" path="res://art/summon bar/tiles_center.png" id="2_rn1i1"]
+[ext_resource type="Script" path="res://scripts/slot.gd" id="3_yu626"]
 
 [node name="SummonBar" type="Node2D"]
 scale = Vector2(0.5, 0.5)
@@ -12,6 +13,7 @@ offset_bottom = 128.0
 texture = ExtResource("1_oarfc")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="bar"]
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 metadata/_edit_use_anchors_ = true
@@ -19,19 +21,24 @@ metadata/_edit_use_anchors_ = true
 [node name="slot 1" type="TextureRect" parent="bar/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("2_rn1i1")
+script = ExtResource("3_yu626")
 
 [node name="slot 2" type="TextureRect" parent="bar/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("2_rn1i1")
+script = ExtResource("3_yu626")
 
 [node name="slot 3" type="TextureRect" parent="bar/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("2_rn1i1")
+script = ExtResource("3_yu626")
 
 [node name="slot 4" type="TextureRect" parent="bar/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("2_rn1i1")
+script = ExtResource("3_yu626")
 
 [node name="slot 5" type="TextureRect" parent="bar/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("2_rn1i1")
+script = ExtResource("3_yu626")

@@ -1,24 +1,32 @@
+class_name SummonTexture
 extends TextureRect
 
+var stats: SummonResource
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var parentStats = get_parent().stats
-	texture = parentStats.image
+	texture = stats.image
 	pass # Replace with function body.
 
 func _get_drag_data(at_position):
-	print(self)
 	print()
 	var data = {}
+	data["summon_stats"] = stats
+	data["origin_node"] = get_parent()
 	
 	var drag_texture = TextureRect.new()
 	drag_texture.texture = texture
-	drag_texture.rect_position = -0.5 * drag_texture.size
+	drag_texture.size = texture.get_size()
+	
 	var control = Control.new()
 	control.add_child(drag_texture)
+	drag_texture.position = (-0.5*drag_texture.size)
 	set_drag_preview(control)
+	
 	return data
+
+func _can_drop_data(at_position, data):
+	return false
 	
 func _process(delta):
 	#global_position = get_global_mouse_position()
