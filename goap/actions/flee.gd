@@ -34,8 +34,8 @@ func perform(actor, _delta: float, first_time: bool) -> bool:
 		avg_point = avg_point / enemies.size()
 		
 		var new_posn = actor.global_position - (avg_point - actor.global_position).normalized() * 100
-		actor.move_towards(new_posn)
-		actor.set_fleeing()
+		actor.move_towards(new_posn, true) #is_fleeing
+		#actor.set_fleeing()
 		return false
 	
 	print(actor.base_stats.number, " | " , actor._is_fleeing)

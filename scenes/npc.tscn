@@ -1,7 +1,8 @@
-[gd_scene load_steps=34 format=3 uid="uid://cbn73ymox5yuo"]
+[gd_scene load_steps=35 format=3 uid="uid://cbn73ymox5yuo"]
 
 [ext_resource type="Script" path="res://scripts/npc.gd" id="1_5rgut"]
 [ext_resource type="Script" path="res://scripts/NavAgentComponent.gd" id="1_j3nkj"]
+[ext_resource type="PackedScene" uid="uid://bu4761byp6ssw" path="res://scenes/Arrow.tscn" id="2_o8ugl"]
 [ext_resource type="Texture2D" uid="uid://xduuyikssqaj" path="res://art/Units/MainCharacter.png" id="3_mlb5r"]
 [ext_resource type="Texture2D" uid="uid://c2xuyysdmywfk" path="res://art/Units/purple_character.png" id="4_50rxk"]
 [ext_resource type="Texture2D" uid="uid://cft4h1ehdqqy" path="res://art/Units/character_outside.png" id="5_hqt2j"]
@@ -248,7 +249,7 @@ _data = {
 radius = 1000.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_llk2g"]
-radius = 1.0
+radius = 20.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qmg17"]
 bg_color = Color(0.121569, 0.121569, 0.121569, 1)
@@ -259,6 +260,7 @@ bg_color = Color(0.360784, 0.682353, 0.443137, 1)
 [node name="npc" type="Node2D"]
 script = ExtResource("1_5rgut")
 size = 3500
+arrow_scene = ExtResource("2_o8ugl")
 
 [node name="NavAgentComponent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("actor")]
 path_desired_distance = 10.0

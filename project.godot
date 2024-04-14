@@ -81,6 +81,12 @@ wheel_out={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="NPCS"
+2d_physics/layer_2="WALLS"
+2d_physics/layer_3="PROJECTILES"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

@@ -17,6 +17,8 @@ class_name NPC
 # Needs to be > NavAgent's Target desired distance ^ 2
 @export var attack_range_sq: int = 4000
 
+@export var arrow_scene:PackedScene
+
 var _action_planner: GoapActionPlanner = GoapActionPlanner.new()
 var enemies_in_range: Array[NPC] = []
 var _blackboard: Dictionary = {}
@@ -24,6 +26,8 @@ var _can_attack: bool = true
 var _can_dash: bool = true
 var _taking_damage: bool = false
 var _is_fleeing: bool = false
+var _firing_ranged: bool = false
+var _in_attack_anim: bool = false
 
 var _locked_animation_count: int = 0
 
@@ -36,7 +40,7 @@ var my_line
 
 #TODO move elsewhere
 enum WEAPON_TYPE {
-	PUNCH, DAGGER, SWORD, HAMMER
+	PUNCH, DAGGER, SWORD, HAMMER, BOW
 }
 var weapon: WEAPON_TYPE = WEAPON_TYPE.PUNCH
 
@@ -82,6 +86,11 @@ func _ready():
 			weapon_sprite.show()
 			weapon_sprite.frame = 10
 			_cooldown += 1.0
+		WEAPON_TYPE.BOW:
+			weapon_sprite.show()
+			weapon_sprite.frame = 9
+			_cooldown += 2.0
+			attack_range_sq = 250000 #500^2
 	
 	character_inside.set_self_modulate(base_stats.color)
 	left_hand.set_self_modulate(base_stats.color)
@@ -172,6 +181,8 @@ func attack_enemy(enemy):
 	#modulate = Color.RED
 	#print(self, " -> ", enemy)
 	#enemy.damage(1, base_stats, global_position)
+	if enemy == null:
+		return
 	
 	_can_attack = false
 	var knockback:float = 100
@@ -190,18 +201,41 @@ func attack_enemy(enemy):
 			time_mult = 1.0
 			attack_animation_player.play("swing", -1, time_mult)
 			knockback = 200
+		WEAPON_TYPE.BOW:
+			time_mult = 1.0
+			attack_animation_player.play("shoot", -1, time_mult)
+			knockback = 0
 	
-	# Animations strike after 0.5 seconds
-	get_tree().create_timer(0.4 * (1.0 / time_mult)).timeout.connect(func():
-		for e in enemies_in_range:
-			if e.global_position.distance_squared_to(global_position) <= attack_range_sq * 1.1:
-				var angle = global_position.angle_to_point(e.global_position)
-				if angle_difference(angle, sprite_holder.rotation) < 0.785398: #45 degrees diff so 90 degrees total
-					print(self, " -> ", e)
-					e.damage(1, base_stats, global_position, knockback)
-	)
+	if (weapon == WEAPON_TYPE.BOW):
+		# Animations fires after 0.7 seconds
+		var target: Vector2 = enemy.global_position + Vector2(randf() * -10, randf() * -10)
+		get_tree().create_timer(0.6 * (1.0 / time_mult)).timeout.connect(func():
+			var arrow:Arrow = arrow_scene.instantiate()
+			var arrow_offset: float = 50
+			get_parent().add_child(arrow)
+			arrow.global_position = global_position + (target - global_position).normalized() * arrow_offset
+			arrow.init(base_stats, 100, target, 10, 1.0)
+		)
+		# slow down movement while firing
+		cancel_movement()
+		_firing_ranged = true
+	else:
+		# Animations strike after 0.5 seconds
+		get_tree().create_timer(0.4 * (1.0 / time_mult)).timeout.connect(func():
+			for e in enemies_in_range:
+				if e.global_position.distance_squared_to(global_position) <= attack_range_sq * 1.1:
+					var angle = global_position.angle_to_point(e.global_position)
+					if angle_difference(angle, sprite_holder.rotation) < 0.785398: #45 degrees diff so 90 degrees total
+						print(self, " -> ", e)
+						e.damage(1, base_stats, global_position, knockback)
+		)
 	get_tree().create_timer(_cooldown).timeout.connect(func():
 		_can_attack=true
+	)
+	_in_attack_anim = true
+	get_tree().create_timer(1).timeout.connect(func():
+		_in_attack_anim = false
+		_firing_ranged = false
 	)
 
 func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2, knockback: float):
@@ -239,9 +273,15 @@ func explore():
 	move_towards(Vector2(randi() %size - size / 2, randi() %size - size / 2))
 	#modulate = Color.BLUE
 
-func move_towards(posn: Vector2):
-	nav_agent_component.update_target_position(posn)
-	_is_fleeing = false
+func move_towards(posn: Vector2, is_fleeing:bool = false):
+	var speed_mod: float = 1.0
+	if _firing_ranged:
+		speed_mod *= 0.2
+	if is_fleeing:
+		#TODO check if too high?
+		speed_mod *= 1.2
+	nav_agent_component.update_target_position(posn, speed_mod)
+	_is_fleeing = is_fleeing
 	#modulate = Color.GREEN
 
 func cancel_movement():
@@ -255,7 +295,7 @@ func set_fleeing():
 	_is_fleeing = true
 
 func update_sprites(next_posn: Vector2):
-	if !_can_attack:
+	if _in_attack_anim:
 		return 
 	var enemy_posn:Vector2 = _blackboard.get("closest_enemy_posn", Vector2.ZERO)
 	if _is_fleeing || enemy_posn == Vector2.ZERO:

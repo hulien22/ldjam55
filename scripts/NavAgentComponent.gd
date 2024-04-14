@@ -6,6 +6,7 @@ extends NavigationAgent2D
 
 var first: bool = true
 var can_move:bool = true
+var speed_mod: float = 1.0
 
 func _ready():
 	#target_position = Vector2(randi()%size-size/2, randi()%size-size/2)
@@ -21,14 +22,15 @@ func _physics_process(delta):
 		var next_posn:Vector2 = get_next_path_position()
 		var dir = actor.global_position.direction_to(next_posn)
 		actor.update_sprites(next_posn)
-		actor.transform = actor.transform.translated(dir * speed * delta)
+		actor.transform = actor.transform.translated(dir * speed * speed_mod * delta)
 	
 	#else:
 		#target_position = Vector2(randi()%size-size/2, randi()%size-size/2)
 		#print(target_position)
 
-func update_target_position(posn: Vector2):
+func update_target_position(posn: Vector2, speed_modifier: float = 1.0):
 	can_move = true
+	speed_mod = speed_modifier
 	set_target_position(posn)
 	#print(target_position)
 

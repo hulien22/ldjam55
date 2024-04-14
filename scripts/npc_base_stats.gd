@@ -5,5 +5,5 @@ var max_health
 var max_speed
 var first_name
 var last_name
-var number
+var number: int
 var color: Color

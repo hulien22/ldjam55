@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://bu4761byp6ssw"]
+
+[ext_resource type="Texture2D" uid="uid://blppinod03mhu" path="res://art/items/weapon_arrow.png" id="1_usvbw"]
+[ext_resource type="Script" path="res://scripts/Arrow.gd" id="1_wges5"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_5vj1s"]
+a = Vector2(-5, 0)
+b = Vector2(15, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3rnix"]
+size = Vector2(20, 10)
+
+[node name="Arrow" type="Area2D"]
+collision_layer = 0
+collision_mask = 7
+script = ExtResource("1_wges5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_usvbw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-5, 0)
+shape = SubResource("SegmentShape2D_5vj1s")
+
+[node name="ArrowHitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ArrowHitbox"]
+shape = SubResource("RectangleShape2D_3rnix")
+
+[connection signal="area_shape_entered" from="." to="." method="_on_area_shape_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
