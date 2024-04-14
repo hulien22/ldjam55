@@ -7,7 +7,8 @@ func get_clazz() -> String: return "FleeAction"
 
 func is_valid(_blackboard: Dictionary) -> bool:
 	# TODO also check if close to storm
-	return _blackboard.get("closest_enemy") != null
+	# don't attack while we are currently attacking
+	return _blackboard.get("closest_enemy") != null && _blackboard.get("can_attack", false)
 
 func get_cost(_blackboard: Dictionary) -> int:
 	return 2
