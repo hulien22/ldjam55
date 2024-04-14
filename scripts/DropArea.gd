@@ -16,7 +16,7 @@ func _drop_data(at_position, data):
 	var global_v= get_global_mouse_position()
 	#add item to world
 	#var closest_v:Vector2 = NavigationServer2D.map_get_closest_point(map_rid,get_global_mouse_position())
-	item_holder.add_item(global_v,data["summon_stats"])
+	item_holder.add_item(map_rid, data["summon_stats"])
 	print("joe global mouse: ",global_v)
 	#print("joe closest V: ",closest_v)
 	#item_holder.add_item(at_position,data["summon_stats"])
