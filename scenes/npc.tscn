@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://xduuyikssqaj" path="res://art/Units/MainCharacter.png" id="3_mlb5r"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_shg6q"]
-radius = 100.0
+radius = 478.105
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_llk2g"]
 radius = 1.0
@@ -58,6 +58,20 @@ scale = Vector2(0.095, 0.095)
 theme_override_styles/background = SubResource("StyleBoxFlat_qmg17")
 theme_override_styles/fill = SubResource("StyleBoxFlat_d86oh")
 value = 89.71
+
+[node name="name_label" type="Label" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -22.0
+offset_top = -56.0
+offset_right = 22.0
+offset_bottom = -33.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "name"
 
 [connection signal="area_shape_entered" from="ScanRegion" to="." method="_on_scan_region_area_shape_entered"]
 [connection signal="area_shape_exited" from="ScanRegion" to="." method="_on_scan_region_area_shape_exited"]

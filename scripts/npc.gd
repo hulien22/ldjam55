@@ -20,10 +20,12 @@ var _cooldown: float = 0.5
 
 var base_stats: npc_base_stats
 var my_line
+var name_label
 
 signal died
 
 func _ready():
+	$name_label.text = base_stats.first_name + " '" + str(base_stats.number) + "' " + base_stats.last_name
 	my_line = Line2D.new()
 	my_line.default_color = Color.RED
 	add_child(my_line)
