@@ -4,7 +4,7 @@ extends Control
 @export var fade_speed: float
 
 var label: Label
-var button: Button
+var button: TextureButton
 func _ready():
 	modulate.a = 0.0
 	label = $Label
