@@ -1,3 +1,4 @@
+class_name MoveCamera
 extends Node2D
 
 var camera_speed_wasd = 500 # How fast the player will move (pixels/sec).
@@ -5,6 +6,8 @@ var screen_size # Size of the game window.
 var screen
 var camera_speed_mouse = 500
 var radius_required_to_move = 75
+var follow_player = true
+var target
 
 
 func _ready():
@@ -14,6 +17,11 @@ func _ready():
 
 
 func _process(delta):
+	if Input.is_action_just_pressed("toggle_camera_follow"):
+		follow_player = !follow_player
+	if follow_player and target and is_instance_valid(target):
+		global_position = target.global_position
+		return
 	#WASD control
 	var velocity = Vector2.ZERO 
 	if Input.is_action_pressed("move_right"):
