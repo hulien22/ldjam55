@@ -1,4 +1,4 @@
 class_name ConsumableSummon
-extends Summon
+extends SummonResource
 
 # not picked up but consumed

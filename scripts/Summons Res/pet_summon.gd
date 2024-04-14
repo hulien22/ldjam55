@@ -1,4 +1,4 @@
 class_name PetSummon
-extends Summon
+extends SummonResource
 
 # cant be picked up

@@ -1,4 +1,4 @@
 class_name ItemSummon
-extends Summon
+extends SummonResource
 
 # can be picked up

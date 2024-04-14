@@ -1,3 +1,32 @@
-[gd_scene format=3 uid="uid://b5sod6yq8ska7"]
+[gd_scene load_steps=7 format=3 uid="uid://b5sod6yq8ska7"]
+
+[ext_resource type="PackedScene" uid="uid://3h86u45dh76w" path="res://scenes/summon_bar.tscn" id="1_xulpx"]
+[ext_resource type="PackedScene" uid="uid://b2413m6hc6liq" path="res://scenes/summon.tscn" id="2_e8tj0"]
+[ext_resource type="Resource" uid="uid://mkt4f4u6cm30" path="res://resources/items/dagger.tres" id="3_2gjv6"]
+[ext_resource type="Resource" uid="uid://bfsw77pi04cjr" path="res://resources/items/minor_health_potion.tres" id="4_sxxx7"]
+[ext_resource type="Resource" uid="uid://cy21sow6bsekn" path="res://resources/items/shield.tres" id="5_uaafd"]
+[ext_resource type="Resource" uid="uid://bultpc1gg7fej" path="res://resources/items/wolf.tres" id="6_uko8a"]
 
 [node name="Test" type="Node2D"]
+
+[node name="SummonBar" parent="." instance=ExtResource("1_xulpx")]
+position = Vector2(475, 655)
+
+[node name="Dagger" parent="." instance=ExtResource("2_e8tj0")]
+position = Vector2(367, 493)
+stats = ExtResource("3_2gjv6")
+
+[node name="Helmet" parent="." instance=ExtResource("2_e8tj0")]
+position = Vector2(673, 405)
+
+[node name="HealthPotion" parent="." instance=ExtResource("2_e8tj0")]
+position = Vector2(475, 533)
+stats = ExtResource("4_sxxx7")
+
+[node name="Shield" parent="." instance=ExtResource("2_e8tj0")]
+position = Vector2(759, 493)
+stats = ExtResource("5_uaafd")
+
+[node name="Wolf" parent="." instance=ExtResource("2_e8tj0")]
+position = Vector2(541, 469)
+stats = ExtResource("6_uko8a")

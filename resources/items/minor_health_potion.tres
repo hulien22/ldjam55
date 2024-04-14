@@ -1,12 +1,13 @@
 [gd_resource type="Resource" script_class="ConsumableSummon" load_steps=3 format=3 uid="uid://bfsw77pi04cjr"]
 
 [ext_resource type="Texture2D" uid="uid://cv4sh4pg6nw2t" path="res://art/items/health potion.png" id="1_4fxi2"]
-[ext_resource type="Script" path="res://scripts/Summons/consumable_summon.gd" id="2_qfkto"]
+[ext_resource type="Script" path="res://scripts/Summons Res/consumable_summon.gd" id="2_qfkto"]
 
 [resource]
 script = ExtResource("2_qfkto")
 level = 1
 image = ExtResource("1_4fxi2")
+name = "health potion"
 health_mod = 10.0
 damage_mod = 0.0
 defense_mod = 0.0

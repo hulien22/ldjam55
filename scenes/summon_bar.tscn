@@ -1,18 +1,37 @@
-[gd_scene format=3 uid="uid://3h86u45dh76w"]
+[gd_scene load_steps=3 format=3 uid="uid://3h86u45dh76w"]
+
+[ext_resource type="Texture2D" uid="uid://b5dqst2wprggr" path="res://art/summon bar/summon bar.png" id="1_oarfc"]
+[ext_resource type="Texture2D" uid="uid://d3ggbpqw3f2kl" path="res://art/summon bar/tiles_center.png" id="2_rn1i1"]
 
 [node name="SummonBar" type="Node2D"]
-position = Vector2(10, 4)
+scale = Vector2(0.5, 0.5)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
+[node name="bar" type="TextureRect" parent="."]
+offset_right = 656.0
+offset_bottom = 128.0
+texture = ExtResource("1_oarfc")
 
-[node name="Button" type="Button" parent="HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="bar"]
+offset_right = 40.0
+offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
+
+[node name="slot 1" type="TextureRect" parent="bar/HBoxContainer"]
 layout_mode = 2
+texture = ExtResource("2_rn1i1")
 
-[node name="Button2" type="Button" parent="HBoxContainer"]
+[node name="slot 2" type="TextureRect" parent="bar/HBoxContainer"]
 layout_mode = 2
+texture = ExtResource("2_rn1i1")
+
+[node name="slot 3" type="TextureRect" parent="bar/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_rn1i1")
+
+[node name="slot 4" type="TextureRect" parent="bar/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_rn1i1")
+
+[node name="slot 5" type="TextureRect" parent="bar/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_rn1i1")

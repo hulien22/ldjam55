@@ -1,12 +1,13 @@
 [gd_resource type="Resource" script_class="PetSummon" load_steps=3 format=3 uid="uid://bultpc1gg7fej"]
 
 [ext_resource type="Texture2D" uid="uid://b17kbyaxmn7" path="res://art/items/wolf.png" id="1_81v4k"]
-[ext_resource type="Script" path="res://scripts/Summons/pet_summon.gd" id="1_cih8c"]
+[ext_resource type="Script" path="res://scripts/Summons Res/pet_summon.gd" id="1_cih8c"]
 
 [resource]
 script = ExtResource("1_cih8c")
 level = 1
 image = ExtResource("1_81v4k")
+name = "wolf"
 health_mod = 10.0
 damage_mod = 2.0
 defense_mod = 0.0

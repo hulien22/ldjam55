@@ -1,9 +1,10 @@
-class_name Summon
+class_name SummonResource
 extends Resource
 
 #level
 @export var level: int
 @export var image: Texture2D
+@export var name: String
 
 #fighting modifiers
 @export var health_mod: float
