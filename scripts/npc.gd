@@ -9,6 +9,7 @@ class_name NPC
 @onready var left_hand = %LeftHand
 @onready var right_hand = %RightHand
 @onready var name_label = $name_label
+@onready var arrow_spawn_marker = $SpriteHolder/ArrowSpawnMarker
 
 
 #TODO remove
@@ -211,9 +212,8 @@ func attack_enemy(enemy):
 		var target: Vector2 = enemy.global_position + Vector2(randf() * -10, randf() * -10)
 		get_tree().create_timer(0.6 * (1.0 / time_mult)).timeout.connect(func():
 			var arrow:Arrow = arrow_scene.instantiate()
-			var arrow_offset: float = 50
 			get_parent().add_child(arrow)
-			arrow.global_position = global_position + (target - global_position).normalized() * arrow_offset
+			arrow.global_position = arrow_spawn_marker.global_position
 			arrow.init(base_stats, 100, target, 10, 1.0)
 		)
 		# slow down movement while firing

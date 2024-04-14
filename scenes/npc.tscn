@@ -270,6 +270,9 @@ actor = NodePath("..")
 
 [node name="SpriteHolder" type="Node2D" parent="."]
 
+[node name="ArrowSpawnMarker" type="Marker2D" parent="SpriteHolder"]
+position = Vector2(40, 5)
+
 [node name="Polygon2D" type="Polygon2D" parent="SpriteHolder"]
 polygon = PackedVector2Array(-1, -1, -1, 1, 1, 1, 1, -1)
 
