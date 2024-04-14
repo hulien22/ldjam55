@@ -2634,6 +2634,7 @@ func set_chosen_candidate(number):
 "Mayra",
 "Mazariegos",
 "Mazur",
+"Mcdonald",
 "Mcdonnell",
 "Mckasson",
 "Mckay",
@@ -3740,6 +3741,7 @@ func set_chosen_candidate(number):
 "Tanguy",
 "Tania",
 "Tanja",
+"Tim"
 ]
 @export var last_names: Array[String] = [
 "Abad",
@@ -3997,7 +3999,6 @@ func set_chosen_candidate(number):
 "Barbara",
 "Barber",
 "Barboni",
-"Barbã©",
 "Barcenas",
 "Bari",
 "Barkley",
@@ -6703,7 +6704,6 @@ func set_chosen_candidate(number):
 "Peyser",
 "Peyvan",
 "Pezzotti",
-"Peã±a",
 "Pfau",
 "Pfeil",
 "Phah",
