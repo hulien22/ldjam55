@@ -6,3 +6,4 @@ var max_speed
 var first_name
 var last_name
 var number
+var color: Color

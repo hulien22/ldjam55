@@ -5,6 +5,10 @@ class_name NPC
 @onready var sprite_holder = $SpriteHolder
 @onready var attack_animation_player = %AttackAnimationPlayer
 @onready var weapon_sprite = %WeaponSprite
+@onready var character_inside = %CharacterInside
+@onready var left_hand = %LeftHand
+@onready var right_hand = %RightHand
+@onready var name_label = $name_label
 
 
 #TODO remove
@@ -29,7 +33,6 @@ var _cooldown: float = 0.5
 
 var base_stats: npc_base_stats
 var my_line
-var name_label
 
 #TODO move elsewhere
 enum WEAPON_TYPE {
@@ -80,6 +83,10 @@ func _ready():
 			weapon_sprite.frame = 10
 			_cooldown += 1.0
 	
+	character_inside.set_self_modulate(base_stats.color)
+	left_hand.set_self_modulate(base_stats.color)
+	right_hand.set_self_modulate(base_stats.color)
+	name_label.set_self_modulate(base_stats.color)
 
 func get_action_planner() -> GoapActionPlanner:
 	return _action_planner
@@ -109,10 +116,10 @@ func calculate_state():
 	if closest_enemy != null:
 		_blackboard["closest_enemy_posn"] = closest_enemy.global_position
 	
-	if _can_attack:
-		modulate = Color.GREEN
-	else:
-		modulate = Color.RED
+	#if _can_attack:
+		#modulate = Color.GREEN
+	#else:
+		#modulate = Color.RED
 
 func skip_processing() -> bool:
 	return _locked_animation_count > 0
