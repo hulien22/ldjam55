@@ -8,7 +8,6 @@ var stormActive = false
 @export var count_gold: Label
 @export var timer: Timer
 @export var storm: Node2D
-@export var game_over_scene: game_over_ui
 
 signal signal_storm_start
 
@@ -31,8 +30,6 @@ func on_death(x, y):
 	#the player caused the death of this NPC
 	if x.player:
 		gold += 25
-		if count == 1: #player won
-			game_over_scene.on_champion_won()
 		
 
 func _on_timer_timeout():

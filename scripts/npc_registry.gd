@@ -7,7 +7,6 @@ var chosen: int = 1
 
 func generate_initial_npcs(count):
 	print("generating npcs")
-	contestants.clear()
 	for i in range(count):
 		contestants.append(create_npc_stats(i+1))
 

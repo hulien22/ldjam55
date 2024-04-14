@@ -39,7 +39,7 @@ func add_item():
 	add_child(item)
 	current_items.push_back(item)
 	create_fade_tween()
-	if len(queued_items) > 0:
+	if len(queued_items) > 1:
 		create_move_tween()
 	else:
 		is_moving = false

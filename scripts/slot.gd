@@ -18,7 +18,7 @@ func _drop_data(at_position, data):
 	var old_summon = get_summon(self)
 	remove_summon(origin_node)
 	
-	if old_summon!=null && origin_node is SlotTexture:
+	if old_summon!=null:
 		var swap_summon = SummonTexture.new()
 		swap_summon.stats = old_summon.stats
 		swap_summon.size = old_summon.size
