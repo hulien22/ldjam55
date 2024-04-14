@@ -27,6 +27,14 @@ var _actor
 #
 func _process(delta : float):
 	_actor.calculate_state()
+
+	# Are we animating or in some other thing and don't want to do any other actions.
+	if (_actor.skip_processing()):
+		# clear out state since we need to reevaluate goals/plan afterwards (may have disrupted movement for example)
+		_current_goal = null
+		_last_plan_name = ""
+		return
+	
 	# Are we stuck in some action, in which case don't plan anything new and stick to current plan
 	if (_actor.skip_planning()):
 		_follow_plan(_current_plan, delta)
@@ -98,6 +106,7 @@ func _follow_plan(plan: Array, delta: float):
 	if (first_time):
 		_last_plan_name = current_plan.get_clazz()
 
+	print(_actor.base_stats.number, " | performing ", current_plan.get_clazz())
 	var is_step_complete = current_plan.perform(_actor, delta, first_time)
 	
 	#print("performing action: ", current_plan.get_clazz() , " | " , is_step_complete)

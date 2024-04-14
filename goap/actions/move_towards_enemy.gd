@@ -27,5 +27,5 @@ func perform(actor, _delta: float, first_time: bool) -> bool:
 			actor.cancel_movement()
 			return true
 		actor.move_towards(enemy.global_position)
-		
+
 	return false
