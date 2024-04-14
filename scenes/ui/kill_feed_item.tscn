@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://cq5ckpi640ed0"]
+
+[ext_resource type="Texture2D" uid="uid://bfmarjk2pi7tr" path="res://art/ui/Asset 12.png" id="1_85gk7"]
+[ext_resource type="Script" path="res://scripts/kill_feed_item.gd" id="1_cbwc0"]
+
+[node name="KillFeedItem" type="Panel"]
+self_modulate = Color(1, 0, 0, 0)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -378.0
+offset_top = 1.0
+offset_right = -42.0
+offset_bottom = 78.0
+grow_horizontal = 0
+script = ExtResource("1_cbwc0")
+
+[node name="killer_text" type="RichTextLabel" parent="."]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = -75.0
+offset_top = 20.0
+offset_right = 125.0
+offset_bottom = 45.0
+bbcode_enabled = true
+text = "[right]Mike '5' Wazowski"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="skull" type="Sprite2D" parent="."]
+self_modulate = Color(1, 0, 0, 1)
+position = Vector2(150, 33)
+scale = Vector2(0.066, 0.066)
+texture = ExtResource("1_85gk7")
+
+[node name="killed_text" type="RichTextLabel" parent="."]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = 175.0
+offset_top = 20.0
+offset_right = 375.0
+offset_bottom = 45.0
+text = "Mike '34' Wazowski"
+scroll_active = false
+autowrap_mode = 0

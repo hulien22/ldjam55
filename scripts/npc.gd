@@ -20,6 +20,8 @@ var _cooldown: float = 0.5
 
 var base_stats: npc_base_stats
 
+signal died
+
 func _ready():
 	var agent = GoapAgent.new()
 	agent.init(self, [
@@ -36,7 +38,7 @@ func _ready():
 		StrafeAction.new(),
 		MoveTowardsEnemyAction.new(),
 		FleeAction.new(),
-		RestAction.new()
+		#RestAction.new()
 	])
 
 	_health = base_stats.max_health
@@ -98,21 +100,22 @@ func get_nearest_enemy() -> NPC:
 func attack_enemy(enemy):
 	modulate = Color.RED
 	print(self, " -> ", enemy)
-	enemy.damage(1)
+	enemy.damage(1, base_stats)
 	_can_attack = false
 	get_tree().create_timer(_cooldown).timeout.connect(func():
 		_can_attack=true
 	)
 
-func damage(dmg: float):
+func damage(dmg: float, attacker: npc_base_stats):
 	_health -= dmg
 	$ProgressBar.value = _health * 100.0 / float(base_stats.max_health)
 	if (_health <= 0):
+		died.emit(attacker, base_stats)
 		print(base_stats.first_name + " " + base_stats.last_name + " has died :(")
 		queue_free()
 
 func rest():
-	damage(-0.01)
+	damage(-0.01, base_stats)
 
 func explore():
 	move_towards(Vector2(randi() %size - size / 2, randi() %size - size / 2))
