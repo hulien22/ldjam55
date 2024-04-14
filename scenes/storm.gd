@@ -21,7 +21,7 @@ func _start_storm():
 	stormTimer.start()
 
 func _on_storm_timer():
-	if radius < 500:
+	if radius < 1000:
 		stormTimer.stop()
 	target = radius-500
 	stormShrinkTimer.start()

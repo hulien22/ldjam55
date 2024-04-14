@@ -18,6 +18,7 @@ config/icon="res://art/icon.svg"
 [autoload]
 
 NpcRegistry="*res://scenes/npc_registry.tscn"
+ItemRegistry="*res://scenes/item_registry.tscn"
 
 [display]
 
