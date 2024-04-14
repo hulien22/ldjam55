@@ -1,4 +1,4 @@
-extends Area2D
+extends Node2D
 
 var camera_speed_wasd = 500 # How fast the player will move (pixels/sec).
 var screen_size # Size of the game window.
