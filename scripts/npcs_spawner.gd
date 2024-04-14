@@ -3,6 +3,7 @@ extends Node2D
 @export var npc_scene: PackedScene
 @export var spawn_radius: float = 3100
 @export var kill_feed_scene: kill_feed
+@export var remaining_ui_scene: remaining_ui
 @export var camera_controller: MoveCamera
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,6 +19,8 @@ func _ready():
 		npc_instance.global_position = Vector2.from_angle(angle_offset*npc.number)*spawn_radius
 		if kill_feed_scene:
 			npc_instance.connect("died", kill_feed_scene.on_contestant_killed)
+		if remaining_ui_scene:
+			npc_instance.connect("died", remaining_ui_scene.on_death)
 		add_child(npc_instance)
 		if npc.number == NpcRegistry.chosen:
 			camera_controller.target = npc_instance

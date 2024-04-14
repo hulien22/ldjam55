@@ -2,14 +2,20 @@ extends Node2D
 class_name NPC
 
 @onready var nav_agent_component = $NavAgentComponent
-@onready var animation_holder = $AnimationHolder
 @onready var sprite_holder = $SpriteHolder
+@onready var attack_animation_player = %AttackAnimationPlayer
+@onready var weapon_sprite = %WeaponSprite
+@onready var character_inside = %CharacterInside
+@onready var left_hand = %LeftHand
+@onready var right_hand = %RightHand
+@onready var name_label = $name_label
+
 
 #TODO remove
 @export var size: int = 500
 
 # Needs to be > NavAgent's Target desired distance ^ 2
-@export var attack_range_sq: int = 100
+@export var attack_range_sq: int = 4000
 
 var _action_planner: GoapActionPlanner = GoapActionPlanner.new()
 var enemies_in_range: Array[NPC] = []
@@ -17,6 +23,9 @@ var _blackboard: Dictionary = {}
 var _can_attack: bool = true
 var _can_dash: bool = true
 var _taking_damage: bool = false
+var _is_fleeing: bool = false
+
+var _locked_animation_count: int = 0
 
 # TODO move elsewhere (component)
 var _health: float = 10
@@ -24,7 +33,12 @@ var _cooldown: float = 0.5
 
 var base_stats: npc_base_stats
 var my_line
-var name_label
+
+#TODO move elsewhere
+enum WEAPON_TYPE {
+	PUNCH, DAGGER, SWORD, HAMMER
+}
+var weapon: WEAPON_TYPE = WEAPON_TYPE.PUNCH
 
 signal died
 
@@ -52,7 +66,27 @@ func _ready():
 	])
 
 	_health = base_stats.max_health
-	_cooldown = randf() * 0.5 + 0.5
+	_cooldown = randf() * 0.5 + 1.1
+	
+	weapon = WEAPON_TYPE.values()[ randi() % WEAPON_TYPE.size() ]
+	match weapon:
+		WEAPON_TYPE.PUNCH:
+			weapon_sprite.hide()
+		WEAPON_TYPE.DAGGER:
+			weapon_sprite.show()
+			weapon_sprite.frame = 0
+		WEAPON_TYPE.SWORD:
+			weapon_sprite.show()
+			weapon_sprite.frame = 11
+		WEAPON_TYPE.HAMMER:
+			weapon_sprite.show()
+			weapon_sprite.frame = 10
+			_cooldown += 1.0
+	
+	character_inside.set_self_modulate(base_stats.color)
+	left_hand.set_self_modulate(base_stats.color)
+	right_hand.set_self_modulate(base_stats.color)
+	name_label.set_self_modulate(base_stats.color)
 
 func get_action_planner() -> GoapActionPlanner:
 	return _action_planner
@@ -79,13 +113,16 @@ func calculate_state():
 		"max_health": base_stats.max_health,
 		"cur_health": _health
 	}
-	if _can_attack:
-		modulate = Color.GREEN
-	else:
-		modulate = Color.RED
+	if closest_enemy != null:
+		_blackboard["closest_enemy_posn"] = closest_enemy.global_position
+	
+	#if _can_attack:
+		#modulate = Color.GREEN
+	#else:
+		#modulate = Color.RED
 
 func skip_processing() -> bool:
-	return animation_holder.get_child_count() > 0
+	return _locked_animation_count > 0
 
 func skip_planning() -> bool:
 	return false
@@ -132,15 +169,42 @@ func get_visible_enemies():
 		
 
 func attack_enemy(enemy):
-	modulate = Color.RED
-	print(self, " -> ", enemy)
-	enemy.damage(1, base_stats, global_position)
+	#modulate = Color.RED
+	#print(self, " -> ", enemy)
+	#enemy.damage(1, base_stats, global_position)
+	
 	_can_attack = false
+	var knockback:float = 100
+	var time_mult = 1.0
+	match weapon:
+		WEAPON_TYPE.PUNCH:
+			attack_animation_player.play("punch")
+			knockback = 100
+		WEAPON_TYPE.DAGGER:
+			attack_animation_player.play("punch")
+			knockback = 100
+		WEAPON_TYPE.SWORD:
+			attack_animation_player.play("swing")
+			knockback = 100
+		WEAPON_TYPE.HAMMER:
+			time_mult = 1.0
+			attack_animation_player.play("swing", -1, time_mult)
+			knockback = 200
+	
+	# Animations strike after 0.5 seconds
+	get_tree().create_timer(0.4 * (1.0 / time_mult)).timeout.connect(func():
+		for e in enemies_in_range:
+			if e.global_position.distance_squared_to(global_position) <= attack_range_sq * 1.1:
+				var angle = global_position.angle_to_point(e.global_position)
+				if angle_difference(angle, sprite_holder.rotation) < 0.785398: #45 degrees diff so 90 degrees total
+					print(self, " -> ", e)
+					e.damage(1, base_stats, global_position, knockback)
+	)
 	get_tree().create_timer(_cooldown).timeout.connect(func():
 		_can_attack=true
 	)
 
-func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2):
+func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2, knockback: float):
 	if (dmg > 0 && _taking_damage):
 		return
 	_health -= dmg
@@ -152,19 +216,24 @@ func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2):
 		return
 	if (dmg > 0 && !_taking_damage):
 		_taking_damage = true;
+		_locked_animation_count += 1
 		# start animation stuff here
-		var new_posn = global_position - (damage_posn - global_position).normalized() * 100
-		var tween = animation_holder.create_tween()
+		var new_posn = global_position - (damage_posn - global_position).normalized() * knockback
+		var tween = create_tween()
 		tween.set_parallel()
 		tween.tween_property(self, "global_position", new_posn, 0.5)
 		tween.tween_property(sprite_holder, "scale", Vector2.ONE * 2, 0.25)
+		tween.tween_property(sprite_holder, "rotation", sprite_holder.rotation + 2*PI, 0.5)
 		tween.set_parallel(false)
 		tween.tween_property(sprite_holder, "scale", Vector2.ONE, 0.25)
-		tween.tween_callback(func(): _taking_damage = false)
+		tween.tween_callback(func(): 
+			_taking_damage = false
+			_locked_animation_count -= 1
+		)
 
 
 func rest():
-	damage(-0.01, base_stats, global_position)
+	damage(-0.01, base_stats, global_position, 0)
 
 func explore():
 	move_towards(Vector2(randi() %size - size / 2, randi() %size - size / 2))
@@ -172,10 +241,25 @@ func explore():
 
 func move_towards(posn: Vector2):
 	nav_agent_component.update_target_position(posn)
+	_is_fleeing = false
 	#modulate = Color.GREEN
 
 func cancel_movement():
-	move_towards(global_position)
+	nav_agent_component.cancel_movement()
+	_is_fleeing = false
 
 func done_movement() -> bool:
 	return nav_agent_component.done_movement()
+
+func set_fleeing():
+	_is_fleeing = true
+
+func update_sprites(next_posn: Vector2):
+	if !_can_attack:
+		return 
+	var enemy_posn:Vector2 = _blackboard.get("closest_enemy_posn", Vector2.ZERO)
+	if _is_fleeing || enemy_posn == Vector2.ZERO:
+		sprite_holder.look_at(next_posn)
+		return
+	sprite_holder.look_at(enemy_posn)
+

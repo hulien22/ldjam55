@@ -7,7 +7,8 @@ func get_clazz() -> String: return "FleeAction"
 
 func is_valid(_blackboard: Dictionary) -> bool:
 	# TODO also check if close to storm
-	return _blackboard.get("closest_enemy") != null
+	# don't attack while we are currently attacking
+	return _blackboard.get("closest_enemy") != null && _blackboard.get("can_attack", false)
 
 func get_cost(_blackboard: Dictionary) -> int:
 	return 2
@@ -34,7 +35,10 @@ func perform(actor, _delta: float, first_time: bool) -> bool:
 		
 		var new_posn = actor.global_position - (avg_point - actor.global_position).normalized() * 100
 		actor.move_towards(new_posn)
+		actor.set_fleeing()
 		return false
+	
+	print(actor.base_stats.number, " | " , actor._is_fleeing)
 	
 	return actor.done_movement()
 
