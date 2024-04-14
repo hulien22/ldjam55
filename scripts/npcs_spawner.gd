@@ -5,6 +5,8 @@ extends Node2D
 @export var kill_feed_scene: kill_feed
 @export var remaining_ui_scene: remaining_ui
 @export var camera_controller: MoveCamera
+@export var game_over_scene: game_over_ui
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	print(len(NpcRegistry.contestants))
@@ -24,4 +26,6 @@ func _ready():
 		add_child(npc_instance)
 		if npc.number == NpcRegistry.chosen:
 			camera_controller.target = npc_instance
+			npc_instance.connect("died", game_over_scene.on_champion_died)
+			
 	
