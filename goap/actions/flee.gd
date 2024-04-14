@@ -10,7 +10,7 @@ func is_valid(_blackboard: Dictionary) -> bool:
 	return _blackboard.get("closest_enemy") != null
 
 func get_cost(_blackboard: Dictionary) -> int:
-	return 10
+	return 2
 
 func get_preconditions() -> Dictionary:
 	return {}
@@ -22,14 +22,19 @@ func get_effects() -> Dictionary:
 
 func perform(actor, _delta: float, first_time: bool) -> bool:
 	if (first_time):
-	# TODO replace -- strafe around?
-		actor.explore()
+		var blackboard:Dictionary = actor.get_blackboard()
+		#get all the enemies around
+		var enemies: Array = blackboard.get("enemies_in_range", [])
+		if enemies.size() == 0:
+			return true
+		var avg_point:Vector2 = Vector2.ZERO
+		for e in enemies:
+			avg_point += e.global_position
+		avg_point = avg_point / enemies.size()
+		
+		var new_posn = actor.global_position - (avg_point - actor.global_position).normalized() * 50
+		actor.move_towards(new_posn)
 		return false
 	
-	var blackboard:Dictionary = actor.get_blackboard()
-	var enemy: Node2D = blackboard.get("closest_enemy")
-	if (enemy == null):
-		return false
-	
-	return actor.done_movement() || enemy.global_position.distance_squared_to(actor.global_position) > blackboard.get("attack_range_sq", 0)
+	return actor.done_movement()
 

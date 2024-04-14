@@ -22,7 +22,7 @@ func set_actions(actions: Array[GoapAction]):
 # Returns a list of actions to be executed.
 #
 func get_plan(goal: GoapGoal, blackboard: Dictionary = {}) -> Array:
-	print("Goal: %s" % goal.get_clazz())
+	#print("Goal: %s" % goal.get_clazz())
 	#WorldState.console_message("Goal: %s" % goal.get_clazz())
 	var desired_state = goal.get_desired_state().duplicate()
 
@@ -58,9 +58,9 @@ func _find_best_plan(goal: GoapGoal, desired_state: Dictionary, blackboard: Dict
 func _get_cheapest_plan(plans: Array[Dictionary]) -> Array:
 	var best_plan: Dictionary
 	for p in plans:
-		_print_plan(p)
 		if best_plan == null or p["cost"] < best_plan.get("cost", 9223372036854775807):
 			best_plan = p
+	_print_plan(best_plan)
 	return best_plan["actions"]
 
 
