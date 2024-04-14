@@ -1,3 +1,4 @@
+class_name MoveCamera
 extends Node2D
 
 var camera_speed_wasd = 500 # How fast the player will move (pixels/sec).
@@ -5,15 +6,39 @@ var screen_size # Size of the game window.
 var screen
 var camera_speed_mouse = 500
 var radius_required_to_move = 75
+var follow_player = true
+var target
+var camera: Camera2D
+
+@export var hold_zoom_speed: Vector2 = Vector2(3, 3)
+@export var scroll_zoom_speed: Vector2 = Vector2(0.5, 0.5)
+@export var zoom_min: Vector2 = Vector2(0.4, 0.4)
+@export var zoom_max: Vector2 = Vector2(3.0, 3.0)
 
 
 func _ready():
+	camera = $Camera2D
 	screen = get_viewport_rect()
 	screen_size = screen.size
 	get_tree().get_root().size_changed.connect(_on_viewport_resize) 
 
 
 func _process(delta):
+	print("camera", camera.get_zoom())
+	if Input.is_action_pressed("zoom_in") and camera.get_zoom() < zoom_max:
+		camera.set_zoom(camera.get_zoom() * (Vector2.ONE + hold_zoom_speed * delta))
+	elif Input.is_action_pressed("zoom_out") and camera.get_zoom() > zoom_min:
+		camera.set_zoom(camera.get_zoom() / (Vector2.ONE + hold_zoom_speed * delta))
+	elif Input.is_action_just_released("wheel_in") and camera.get_zoom() < zoom_max:
+		camera.set_zoom(camera.get_zoom() * (Vector2.ONE + scroll_zoom_speed))
+	elif Input.is_action_just_released("wheel_out") and camera.get_zoom() > zoom_min:
+		camera.set_zoom(camera.get_zoom() / (Vector2.ONE + scroll_zoom_speed))
+		
+	if Input.is_action_just_pressed("toggle_camera_follow"):
+		follow_player = !follow_player
+	if follow_player and target and is_instance_valid(target):
+		global_position = target.global_position
+		return
 	#WASD control
 	var velocity = Vector2.ZERO 
 	if Input.is_action_pressed("move_right"):

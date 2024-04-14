@@ -2,17 +2,21 @@ extends Node2D
 class_name NPC
 
 @onready var nav_agent_component = $NavAgentComponent
+@onready var animation_holder = $AnimationHolder
+@onready var sprite_holder = $SpriteHolder
+
 #TODO remove
 @export var size: int = 500
 
 # Needs to be > NavAgent's Target desired distance ^ 2
-@export var attack_range_sq: int = 36
+@export var attack_range_sq: int = 100
 
 var _action_planner: GoapActionPlanner = GoapActionPlanner.new()
 var enemies_in_range: Array[NPC] = []
 var _blackboard: Dictionary = {}
 var _can_attack: bool = true
 var _can_dash: bool = true
+var _taking_damage: bool = false
 
 # TODO move elsewhere (component)
 var _health: float = 10
@@ -33,7 +37,7 @@ func _ready():
 	agent.init(self, [
 		ExplorationGoal.new(),
 		FightEnemiesGoal.new(),
-		SurviveGoal.new()
+		SurviveGoal.new(),
 	])
 
 	add_child(agent)
@@ -79,6 +83,9 @@ func calculate_state():
 		modulate = Color.GREEN
 	else:
 		modulate = Color.RED
+
+func skip_processing() -> bool:
+	return animation_holder.get_child_count() > 0
 
 func skip_planning() -> bool:
 	return false
@@ -127,22 +134,37 @@ func get_visible_enemies():
 func attack_enemy(enemy):
 	modulate = Color.RED
 	print(self, " -> ", enemy)
-	enemy.damage(1, base_stats)
+	enemy.damage(1, base_stats, global_position)
 	_can_attack = false
 	get_tree().create_timer(_cooldown).timeout.connect(func():
 		_can_attack=true
 	)
 
-func damage(dmg: float, attacker: npc_base_stats):
+func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2):
+	if (dmg > 0 && _taking_damage):
+		return
 	_health -= dmg
 	$ProgressBar.value = _health * 100.0 / float(base_stats.max_health)
 	if (_health <= 0):
 		died.emit(attacker, base_stats)
 		print(base_stats.first_name + " " + base_stats.last_name + " has died :(")
 		queue_free()
+		return
+	if (dmg > 0 && !_taking_damage):
+		_taking_damage = true;
+		# start animation stuff here
+		var new_posn = global_position - (damage_posn - global_position).normalized() * 100
+		var tween = animation_holder.create_tween()
+		tween.set_parallel()
+		tween.tween_property(self, "global_position", new_posn, 0.5)
+		tween.tween_property(sprite_holder, "scale", Vector2.ONE * 2, 0.25)
+		tween.set_parallel(false)
+		tween.tween_property(sprite_holder, "scale", Vector2.ONE, 0.25)
+		tween.tween_callback(func(): _taking_damage = false)
+
 
 func rest():
-	damage(-0.01, base_stats)
+	damage(-0.01, base_stats, global_position)
 
 func explore():
 	move_towards(Vector2(randi() %size - size / 2, randi() %size - size / 2))
