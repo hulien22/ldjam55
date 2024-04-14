@@ -6,9 +6,7 @@ var stats: SummonResource
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var collision_shape = CollisionShape2D.new()
-	
 	texture = stats.image
-	pass # Replace with function body.
 
 func _get_drag_data(at_position):
 	print()
