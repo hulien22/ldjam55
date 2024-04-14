@@ -7,3 +7,4 @@ var first_name
 var last_name
 var number: int
 var color: Color
+var player: bool

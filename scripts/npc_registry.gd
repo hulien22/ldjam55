@@ -23,6 +23,7 @@ func create_npc_stats(number):
 
 func set_chosen_candidate(number):
 	chosen = number
+	contestants[chosen-1].player = true
 
 @export var first_names: Array[String] = [
 "Aaron",

@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dt2aa6mp7lek8" path="res://art/ui/group.png" id="2_jve4a"]
 [ext_resource type="Texture2D" uid="uid://d2einjt88w4co" path="res://art/ui/goldPNG.png" id="4_n72rk"]
 
-[node name="RemainingUi" type="Control" node_paths=PackedStringArray("count_text")]
+[node name="RemainingUi" type="Control" node_paths=PackedStringArray("count_text", "count_gold", "timer")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,6 +14,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3own7")
 count_text = NodePath("TextureRect2/count_text")
+count_gold = NodePath("TextureRect2/count_gold")
+timer = NodePath("Timer")
 
 [node name="TextureRect2" type="TextureRect" parent="."]
 layout_mode = 0
@@ -58,3 +60,6 @@ offset_top = 34.0
 offset_right = 310.0
 offset_bottom = 64.0
 text = "0"
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
