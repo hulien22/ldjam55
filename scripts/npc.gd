@@ -6,7 +6,7 @@ class_name NPC
 @export var size: int = 500
 
 # Needs to be > NavAgent's Target desired distance ^ 2
-@export var attack_range_sq: int = 26
+@export var attack_range_sq: int = 36
 
 var _action_planner: GoapActionPlanner = GoapActionPlanner.new()
 var enemies_in_range: Array[NPC] = []
