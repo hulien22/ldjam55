@@ -60,7 +60,7 @@ func _get_cheapest_plan(plans: Array[Dictionary]) -> Array:
 	for p in plans:
 		if best_plan == null or p["cost"] < best_plan.get("cost", 9223372036854775807):
 			best_plan = p
-	_print_plan(best_plan)
+	#_print_plan(best_plan)
 	return best_plan["actions"]
 
 

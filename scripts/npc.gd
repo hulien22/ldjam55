@@ -45,7 +45,7 @@ func _ready():
 	_action_planner.set_actions([
 		ExploreAction.new(),
 		AttackEnemyAction.new(),
-		#StrafeAction.new(),
+		StrafeAction.new(),
 		MoveTowardsEnemyAction.new(),
 		FleeAction.new(),
 		RestAction.new()

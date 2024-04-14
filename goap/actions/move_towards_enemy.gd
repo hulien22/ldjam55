@@ -28,4 +28,5 @@ func perform(actor, _delta: float, first_time: bool) -> bool:
 			return true
 		actor.move_towards(enemy.global_position)
 
-	return false
+	return actor.done_movement()
+	#return false
