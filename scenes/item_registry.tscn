@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0lt301t0803i"]
+
+[ext_resource type="Script" path="res://scripts/item_registry.gd" id="1_wbe12"]
+
+[node name="item_registry" type="Node"]
+script = ExtResource("1_wbe12")

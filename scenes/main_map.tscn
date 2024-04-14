@@ -15,7 +15,7 @@
 [ext_resource type="Resource" uid="uid://bfsw77pi04cjr" path="res://resources/items/minor_health_potion.tres" id="10_4f50m"]
 [ext_resource type="Resource" uid="uid://cy21sow6bsekn" path="res://resources/items/shield.tres" id="11_fwpr2"]
 [ext_resource type="Resource" uid="uid://bultpc1gg7fej" path="res://resources/items/wolf.tres" id="12_d43tj"]
-[ext_resource type="PackedScene" uid="uid://16ofmeppmbda" path="res://shop.tscn" id="15_untjy"]
+[ext_resource type="PackedScene" uid="uid://16ofmeppmbda" path="res://scenes/shop.tscn" id="15_xvkgf"]
 [ext_resource type="Script" path="res://scenes/storm.gd" id="16_4e2ma"]
 [ext_resource type="PackedScene" uid="uid://b81e110yif41p" path="res://scenes/ui/game_over.tscn" id="16_gdefu"]
 
