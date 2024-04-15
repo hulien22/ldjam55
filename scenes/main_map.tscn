@@ -25,11 +25,17 @@ agent_radius = 19.56
 [node name="MainMap" type="Node2D"]
 
 [node name="Area2D" type="Node2D" parent="."]
-script = ExtResource("1_btitd")
 
 [node name="Camera2D" type="Camera2D" parent="Area2D"]
+position = Vector2(1, 0)
 zoom = Vector2(0.685, 0.685)
+limit_left = -3905
+limit_top = -3905
+limit_right = 3905
+limit_bottom = 3905
+limit_smoothed = true
 position_smoothing_enabled = true
+script = ExtResource("1_btitd")
 
 [node name="AudioListener2D" type="AudioListener2D" parent="Area2D"]
 current = true
@@ -50,7 +56,7 @@ script = ExtResource("2_ivw7p")
 npc_scene = ExtResource("4_ldqu2")
 kill_feed_scene = NodePath("../CanvasLayer/KillFeed")
 remaining_ui_scene = NodePath("../CanvasLayer/RemainingUi")
-camera_controller = NodePath("../Area2D")
+camera_controller = NodePath("../Area2D/Camera2D")
 game_over_scene = NodePath("../CanvasLayer/GameOver")
 storm_node = NodePath("../storm")
 
