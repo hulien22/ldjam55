@@ -58,7 +58,7 @@ var _current_weapon: SummonResource = null:
 			SummonResource.WEAPON_TYPE.BOW:
 				weapon_sprite.show()
 				weapon_sprite.frame = 9
-		_cooldown = w.cooldown_mod
+		_cooldown = w.cooldown_mod + 0.5 #TODO replace with player cooldown or smth
 		attack_range_sq = w.range_mod
 		weapon_sprite.modulate = w.get_color()
 		_current_weapon_type = w.weapon_type
@@ -67,7 +67,7 @@ var _locked_animation_count: int = 0
 
 # TODO move elsewhere (component)
 var _health: float = 10
-var _cooldown: float = 1.0
+var _cooldown: float = 1.5
 
 var base_stats: npc_base_stats
 var my_line

@@ -29,6 +29,7 @@ enum WEAPON_TYPE {
 @export var health_mod: float
 @export var damage_mod: float
 @export var defense_mod: float
+# keep in mind attack animation takes 1s
 @export var cooldown_mod: float
 @export var range_mod: float
 

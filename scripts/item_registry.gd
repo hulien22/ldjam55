@@ -1,7 +1,7 @@
 extends Node
 
 var itemCount: int = 0
-var items: Array = []
+var items: Array[SummonResource] = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -26,8 +26,8 @@ func loadItems(path):
 		print("An error occurred when trying to access the path.")
 
 func getItem(n):
-	return items[n]
+	return items[n].duplicate()
 
 func getRandomItem():
-	return items[randi_range(0, len(items)-1)]
+	return items[randi_range(0, len(items)-1)].duplicate()
 	
