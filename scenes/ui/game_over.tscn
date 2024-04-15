@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dj10cboxeim86"]
+[gd_scene load_steps=5 format=3 uid="uid://dj10cboxeim86"]
 
 [ext_resource type="Script" path="res://scripts/game_over.gd" id="1_y2ium"]
 [ext_resource type="Texture2D" uid="uid://63wf86sjyubb" path="res://art/ui/buttonLong_brown_pressed.png" id="2_rm6q3"]
 [ext_resource type="FontFile" uid="uid://djhfqg84rk38a" path="res://font/PipersPlayroom-2OP1K.ttf" id="2_yt81k"]
+[ext_resource type="Script" path="res://scripts/button_hover.gd" id="4_11ynb"]
 
 [node name="GameOver" type="Control"]
 layout_mode = 3
@@ -34,7 +35,9 @@ offset_left = 614.0
 offset_top = 502.0
 offset_right = 804.0
 offset_bottom = 547.0
+pivot_offset = Vector2(95, 22)
 texture_normal = ExtResource("2_rm6q3")
+script = ExtResource("4_11ynb")
 
 [node name="Label" type="Label" parent="Button"]
 layout_mode = 0
@@ -48,4 +51,6 @@ theme_override_font_sizes/font_size = 76
 text = "Return to Menu"
 horizontal_alignment = 1
 
+[connection signal="mouse_entered" from="Button" to="Button" method="on_mouse_entered"]
+[connection signal="mouse_exited" from="Button" to="Button" method="on_mouse_exited"]
 [connection signal="pressed" from="Button" to="." method="on_return_to_menu"]
