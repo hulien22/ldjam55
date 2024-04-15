@@ -10,9 +10,9 @@
 [ext_resource type="Script" path="res://behaviourtrees/actions/attack_target.gd" id="7_nmxeo"]
 [ext_resource type="Script" path="res://behaviourtrees/conditions/bboard_compare_null.gd" id="8_pb7ph"]
 [ext_resource type="Script" path="res://behaviourtrees/actions/roam.gd" id="10_kb8vd"]
-[ext_resource type="Script" path="res://behaviourtrees/actions/flee2.gd" id="11_i4a2i"]
 [ext_resource type="Script" path="res://behaviourtrees/conditions/bboard_compare_bboard.gd" id="11_o20nd"]
 [ext_resource type="Script" path="res://behaviourtrees/conditions/bboard_compare_float.gd" id="12_6lx6i"]
+[ext_resource type="Script" path="res://behaviourtrees/actions/flee.gd" id="12_8djiw"]
 [ext_resource type="Script" path="res://behaviourtrees/actions/move_to_item.gd" id="13_ibsq0"]
 [ext_resource type="Script" path="res://behaviourtrees/actions/rest.gd" id="13_xnb2x"]
 [ext_resource type="Script" path="res://behaviourtrees/actions/pickup_items.gd" id="14_pha78"]
@@ -21,7 +21,7 @@
 [node name="NpcAi" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_n0n7x")
 blackboard = NodePath("@Node@29818")
-actor = NodePath("")
+actor = NodePath("..")
 
 [node name="Root" type="Node" parent="."]
 script = ExtResource("2_numm5")
@@ -126,8 +126,8 @@ property2 = "health_threshold_flee"
 script = ExtResource("8_pb7ph")
 property = "closest_enemy"
 
-[node name="Fleeing2Action" type="Node" parent="Root/PrioritySelectorComposite/Survive/Flee"]
-script = ExtResource("11_i4a2i")
+[node name="FleeingAction" type="Node" parent="Root/PrioritySelectorComposite/Survive/Flee"]
+script = ExtResource("12_8djiw")
 
 [node name="GetWeapon" type="Node" parent="Root/PrioritySelectorComposite"]
 script = ExtResource("2_numm5")

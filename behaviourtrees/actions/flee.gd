@@ -13,12 +13,13 @@ func tick(actor, blackboard):
 	for e in enemies:
 		avg_point += e.global_position
 
-	var storm_rad: float = blackboard.get_value("storm_radius", 0.0)
-	if storm_rad > 0:
-		avg_point += actor.global_position.normalized() * storm_rad
-		avg_point = avg_point / (enemies.size() + 1)
-	else:
-		avg_point = avg_point / enemies.size()
+	#var storm_rad: float = blackboard.get_value("storm_radius", 0.0)
+	#if storm_rad > 0:
+		#avg_point += actor.global_position.normalized() * storm_rad
+		#avg_point = avg_point / (enemies.size() + 1)
+	#else:
+		#avg_point = avg_point / enemies.size()
+	avg_point = avg_point / enemies.size()
 		
 	#TODO also handle stuffs with storm and center of screen
 	#avg_point = avg_point / enemies.size()
