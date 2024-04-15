@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="ldjam55"
-run/main_scene="res://scenes/game.tscn"
+run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://art/icon.svg"
 
@@ -94,6 +94,7 @@ wheel_out={
 2d_physics/layer_1="NPCS"
 2d_physics/layer_2="WALLS"
 2d_physics/layer_3="PROJECTILES"
+2d_physics/layer_4="SUMMONED_ITEM"
 
 [rendering]
 

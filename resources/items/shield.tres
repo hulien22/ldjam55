@@ -5,9 +5,11 @@
 
 [resource]
 script = ExtResource("1_ugh0e")
+summon_type = 2
 level = 1
 image = ExtResource("1_whbnd")
 name = "wood shield"
+cost = 0
 health_mod = 0.0
 damage_mod = 0.0
 defense_mod = 10.0

@@ -1,7 +1,16 @@
 class_name SummonResource
 extends Resource
 
+enum SUMMON_TYPE {
+	WEAPON,
+	ARMOR,
+	SHIELD,
+	CONSUMABLE,
+	MONSTER
+}
+
 #level
+@export var summon_type: SUMMON_TYPE
 @export var level: int
 @export var image: Texture2D
 @export var name: String

@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://cgpk45exse67i"]
 
+[ext_resource type="Script" path="res://scripts/summon_spawner.gd" id="1_5qvj6"]
 [ext_resource type="Texture2D" uid="uid://chyln8q5mhb1p" path="res://art/particles/inner_circle3.png" id="1_ot4g5"]
-[ext_resource type="Script" path="res://scenes/summoning_effect.gd" id="1_wddwh"]
-[ext_resource type="PackedScene" uid="uid://b2413m6hc6liq" path="res://scenes/summon.tscn" id="2_atl1e"]
+[ext_resource type="PackedScene" uid="uid://cmpbb7rnbxlvp" path="res://scenes/summoned_item.tscn" id="2_n4v0d"]
 [ext_resource type="Texture2D" uid="uid://dmvclvhncx1k8" path="res://art/particles/outer_circle2.png" id="2_qqtag"]
 [ext_resource type="Texture2D" uid="uid://cpg7rwqkd58jh" path="res://art/particles/inner_balls.png" id="3_2bvu0"]
 [ext_resource type="Texture2D" uid="uid://dfutkpuxokbn6" path="res://art/particles/cloud.png" id="4_4ivax"]
@@ -47,18 +47,6 @@ tracks/2/keys = {
 "update": 0,
 "values": [3.12763, 6.26922, 3.12763, 0.0, 3.12763]
 }
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("SpriteHolder:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.6, 1.3, 2, 3),
-"transitions": PackedFloat32Array(1.62451, 0.517633, 1.46409, 0.554785, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0.690196), Color(1, 1, 1, 0.65098), Color(1, 1, 1, 1), Color(1, 1, 1, 0.809347), Color(1, 1, 1, 0.889454)]
-}
 
 [sub_resource type="Animation" id="Animation_yylk7"]
 length = 0.001
@@ -98,12 +86,12 @@ _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.663883, 1), 0.0, 0.0, 0, 0, Ve
 point_count = 3
 
 [node name="SummoningEffect" type="Node2D"]
-script = ExtResource("1_wddwh")
-summon_scene = ExtResource("2_atl1e")
+script = ExtResource("1_5qvj6")
+summon_item_scene = ExtResource("2_n4v0d")
 color = Color(0.32549, 1, 1, 1)
 
 [node name="SpriteHolder" type="Node2D" parent="."]
-modulate = Color(1, 1, 1, 0.87498)
+modulate = Color(1, 1, 1, 0.760559)
 
 [node name="InnerCircle3" type="Sprite2D" parent="SpriteHolder"]
 rotation = 3.14159
@@ -115,7 +103,7 @@ texture = ExtResource("2_qqtag")
 
 [node name="InnerBalls" type="Sprite2D" parent="SpriteHolder"]
 position = Vector2(0, -1.77636e-15)
-rotation = 1.10811
+rotation = 6.21896
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_2bvu0")
 offset = Vector2(-3.14388, 3.79534)

@@ -5,9 +5,11 @@
 
 [resource]
 script = ExtResource("1_cih8c")
+summon_type = 4
 level = 1
 image = ExtResource("1_81v4k")
 name = "wolf"
+cost = 0
 health_mod = 10.0
 damage_mod = 2.0
 defense_mod = 0.0

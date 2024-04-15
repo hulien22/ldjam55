@@ -1,0 +1,92 @@
+[gd_scene load_steps=8 format=3 uid="uid://cmpbb7rnbxlvp"]
+
+[ext_resource type="Script" path="res://scripts/summoned_item.gd" id="1_46ndp"]
+[ext_resource type="Resource" uid="uid://mkt4f4u6cm30" path="res://resources/items/dagger.tres" id="2_8kpor"]
+[ext_resource type="Texture2D" uid="uid://cvll8jvy4aoyo" path="res://art/items/weapon_bow_arrow.png" id="3_3rmqq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nq3id"]
+radius = 20.0
+
+[sub_resource type="Animation" id="Animation_rlmpv"]
+resource_name = "float"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteHolder:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -6), Vector2(0, 0), Vector2(0, -6)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpriteHolder:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-0.263545, 0.261799]
+}
+
+[sub_resource type="Animation" id="Animation_py21q"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteHolder:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -6)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpriteHolder:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.263545]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eaqco"]
+_data = {
+"RESET": SubResource("Animation_py21q"),
+"float": SubResource("Animation_rlmpv")
+}
+
+[node name="SummonedItem" type="Area2D"]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_46ndp")
+stats = ExtResource("2_8kpor")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_nq3id")
+
+[node name="SpriteHolder" type="Node2D" parent="."]
+position = Vector2(0, -6)
+rotation = -0.263545
+
+[node name="ItemSprite" type="Sprite2D" parent="SpriteHolder"]
+texture = ExtResource("3_3rmqq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_eaqco")
+}
+autoplay = "float"
