@@ -109,3 +109,21 @@ script = ExtResource("10_kb8vd")
 
 [node name="PickupItems" type="Node" parent="Root/PrioritySelectorComposite"]
 script = ExtResource("14_pha78")
+
+[node name="Attack" type="Node" parent="Root/PrioritySelectorComposite"]
+script = ExtResource("2_numm5")
+
+[node name="HasClosestEnemy" type="Node" parent="Root/PrioritySelectorComposite/Attack"]
+script = ExtResource("8_pb7ph")
+property = "closest_enemy"
+
+[node name="InRange" type="Node" parent="Root/PrioritySelectorComposite/Attack"]
+script = ExtResource("6_30iwi")
+property = "in_range_of_target"
+
+[node name="CanAttack" type="Node" parent="Root/PrioritySelectorComposite/Attack"]
+script = ExtResource("6_30iwi")
+property = "can_attack"
+
+[node name="AttackTargetAction" type="Node" parent="Root/PrioritySelectorComposite/Attack"]
+script = ExtResource("7_nmxeo")

@@ -416,7 +416,10 @@ func get_priority(goal:String) -> float:
 			return (1.0 - ch / mh) * 10.0
 		"PickupItems":
 			# always try to do this
-			return 100.0
+			return 1000.0
+		"Attack":
+			# always try to do this
+			return 999.0
 		"GetWeapon":
 			return _blackboard.get("best_weapon_score")
 	return 0.0
