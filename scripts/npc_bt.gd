@@ -40,6 +40,8 @@ var _cooldown: float = 0.5
 
 var base_stats: npc_base_stats
 var my_line
+var storm_node: storm_class
+var time_since_hurt_noise: float = 100
 
 #TODO move elsewhere
 enum WEAPON_TYPE {
@@ -95,7 +97,10 @@ func get_action_planner() -> GoapActionPlanner:
 func get_blackboard() -> Dictionary:
 	return _blackboard
 
-#func _physics_process(delta):
+func _physics_process(delta):
+	time_since_hurt_noise += delta
+	if global_position.length() > storm_node.radius:
+		tick_damage(0.01, storm_node.storm_attacker)
 	#calculate_state()
 	##TODO do we want to do stuff with calling npc_ai.tick()?
 	#npc_ai.tick()
@@ -241,6 +246,20 @@ func attack_enemy(enemy):
 		_firing_ranged = false
 	)
 
+func tick_damage(dmg: float, attacker: npc_base_stats):
+	_health -= dmg
+	_health = clampf(_health, 0, base_stats.max_health)
+	$ProgressBar.value = _health * 100.0 / float(base_stats.max_health)
+	if (_health <= 0):
+		died.emit(attacker, base_stats)
+		print(base_stats.first_name + " " + base_stats.last_name + " has died :(")
+		npc_audio.play_death()
+		queue_free()
+		return
+	if time_since_hurt_noise > 3:
+		npc_audio.play_hurt()
+		time_since_hurt_noise = 0
+
 func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2, knockback: float):
 	if (dmg > 0 && _taking_damage):
 		return
@@ -270,6 +289,7 @@ func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2, knockbac
 			_locked_animation_count -= 1
 		)
 		npc_audio.play_hurt()
+		time_since_hurt_noise = 0
 
 
 func rest():

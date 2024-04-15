@@ -6,6 +6,7 @@ extends Node2D
 @export var remaining_ui_scene: remaining_ui
 @export var camera_controller: MoveCamera
 @export var game_over_scene: game_over_ui
+@export var storm_node: storm_class
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -17,6 +18,7 @@ func _ready():
 	for npc in NpcRegistry.contestants:
 		var npc_instance = npc_scene.instantiate()
 		npc_instance.set_name("contestant" + str(npc.number))
+		npc_instance.storm_node = storm_node
 		npc_instance.base_stats = npc
 		npc_instance.global_position = Vector2.from_angle(angle_offset*npc.number)*spawn_radius
 		if kill_feed_scene:
