@@ -22,10 +22,8 @@ func _ready():
 	stormTimer.connect("timeout", self._on_storm_timer)
 	stormShrinkTimer = $StormShrinkTimer
 	stormShrinkTimer.connect("timeout", self._on_storm_shrink_timer)
-
-
-func _start_storm():
 	stormTimer.start()
+
 
 func _on_storm_timer():
 	if radius < 1000:
@@ -39,7 +37,7 @@ func _on_storm_timer():
 	
 
 func _on_storm_shrink_timer():
-	radius -= 5
+	radius -= 8
 	if radius < target:
 		stormShrinkTimer.stop()
 	queue_redraw()
