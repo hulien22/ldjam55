@@ -42,6 +42,7 @@ var _pickup_range_sq: float = pow(30, 2)
 
 var _safe_distance_sq: float = pow(600, 2)
 var _consumables_in_range: Array[SummonedItem] = []
+var _banners_in_range: Array[SummonedItem] = []
 
 var _weapons_in_range: Array[SummonedItem] = []
 var _current_weapon_type: SummonResource.WEAPON_TYPE = SummonResource.WEAPON_TYPE.NONE
@@ -125,7 +126,7 @@ func get_blackboard() -> Dictionary:
 func _physics_process(delta):
 	time_since_hurt_noise += delta
 	if in_the_storm():
-		tick_damage(0.001, storm_node.storm_attacker)
+		tick_damage(0.005, storm_node.storm_attacker)
 	#calculate_state()
 	##TODO do we want to do stuff with calling npc_ai.tick()?
 	#npc_ai.tick()
@@ -140,6 +141,7 @@ func calculate_state():
 	var best_weapon_score: float = best_weapon_dict.get("best_score")
 	
 	var best_consumable: SummonedItem = get_closest_consumable()
+	var best_banner:SummonedItem = get_closest_banner()
 	#var closest_enemy_dist:float = closest_enemy.global_position.distance_squared_to(global_position)
 
 	_blackboard = {
@@ -162,6 +164,7 @@ func calculate_state():
 		"in_storm": in_the_storm(),
 		"distance_from_storm": storm_node.radius - global_position.length(),
 		"best_consumable": best_consumable,
+		"best_banner": best_banner,
 		"safe_distance_sq": _safe_distance_sq,
 		"health_threshold_flee": _health_threshold_flee,
 		"health_threshold_leave_storm": _health_threshold_leave_storm,
@@ -205,6 +208,9 @@ func _on_scan_region_area_shape_entered(area_rid: RID, area: Area2D, area_shape_
 				_weapons_in_range.push_back(area)
 			SummonResource.SUMMON_TYPE.CONSUMABLE:
 				_consumables_in_range.push_back(area)
+			SummonResource.SUMMON_TYPE.BANNER:
+				if (base_stats.player):
+					_banners_in_range.push_back(area)
 
 func _on_scan_region_area_shape_exited(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int):
 	if (area == $HitBox || area == null):
@@ -219,6 +225,9 @@ func _on_scan_region_area_shape_exited(area_rid: RID, area: Area2D, area_shape_i
 				_weapons_in_range.erase(area)
 			SummonResource.SUMMON_TYPE.CONSUMABLE:
 				_consumables_in_range.erase(area)
+			SummonResource.SUMMON_TYPE.BANNER:
+				if (base_stats.player):
+					_banners_in_range.erase(area)
 
 func get_nearest_enemy():
 	var closest = null
@@ -257,6 +266,19 @@ func get_closest_consumable() -> SummonedItem:
 	for c in _consumables_in_range:
 		if (invalid_target_position(c.global_position)):
 			continue
+		if (in_the_storm() && c.global_position.length() > storm_node.radius):
+			continue
+		var dist: float = global_position.distance_squared_to(c.global_position)
+		if (closest == null||dist < closest_dist):
+			closest = c
+			closest_dist = dist
+	return closest
+
+func get_closest_banner() -> SummonedItem:
+	var closest:SummonedItem = null
+	var closest_dist: float = 0
+	for c in _banners_in_range:
+		# all spots are valid for banners
 		var dist: float = global_position.distance_squared_to(c.global_position)
 		if (closest == null||dist < closest_dist):
 			closest = c
@@ -425,6 +447,12 @@ func pickup_items() -> bool:
 					#_health += c.stats.health_mod
 					damage(-base_stats.max_health, base_stats, global_position, 0)
 					picked_up_something = true
+		
+		for b in _banners_in_range:
+			if global_position.distance_squared_to(b.global_position) < _pickup_range_sq:
+				if b.pick_up():
+					picked_up_something = true
+			
 	return picked_up_something
 
 func explore():
@@ -468,10 +496,17 @@ func look_at_closest_enemy():
 
 func get_priority(goal:String) -> float:
 	match goal:
-		"FightEnemy":
-			return 8.0
-		"Explore":
-			return 0.0
+		"PickupItems":
+			# always try to do this
+			return 1000.0
+		"Attack":
+			# always try to do this
+			return 999.0
+		"GoToBanner":
+			if (base_stats.player):
+				return 998.0
+			else:
+				return -1
 		"Survive":
 			#var mh:float = base_stats.max_health
 			#var ch:float = _health
@@ -481,19 +516,17 @@ func get_priority(goal:String) -> float:
 				#return 0.0
 			## TODO different formula
 			#return (1.0 - ch / mh) * 10.0
-			return 998.0
-		"PickupItems":
-			# always try to do this
-			return 1000.0
-		"Attack":
-			# always try to do this
-			return 999.0
+			return 997.0
+		"GetWeapon":
+			return _blackboard.get("best_weapon_score")
+		"FightEnemy":
+			return 8.0
 		"GetOutOfStorm":
 			# just more important than rest
 			return 0.2 
-		"GetWeapon":
-			return _blackboard.get("best_weapon_score")
 		"Rest":
 			# just more important than explore
 			return 0.1
+		"Explore":
+			return 0.0
 	return 0.0

@@ -192,3 +192,14 @@ target = 1.0
 
 [node name="RestingAction" type="Node" parent="Root/PrioritySelectorComposite/Rest"]
 script = ExtResource("13_xnb2x")
+
+[node name="GoToBanner" type="Node" parent="Root/PrioritySelectorComposite"]
+script = ExtResource("2_numm5")
+
+[node name="BannerInRange" type="Node" parent="Root/PrioritySelectorComposite/GoToBanner"]
+script = ExtResource("8_pb7ph")
+property = "best_banner"
+
+[node name="MoveToItemAction" type="Node" parent="Root/PrioritySelectorComposite/GoToBanner"]
+script = ExtResource("13_ibsq0")
+bboard_field = "best_banner"
