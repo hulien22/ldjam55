@@ -31,12 +31,13 @@ agent_radius = 19.56
 [node name="Camera2D" type="Camera2D" parent="Area2D" node_paths=PackedStringArray("ignore_mouse_regions")]
 position = Vector2(1, 0)
 zoom = Vector2(0.685, 0.685)
-limit_left = -3905
-limit_top = -3905
-limit_right = 3905
-limit_bottom = 3905
+limit_left = -4500
+limit_top = -4500
+limit_right = 4500
+limit_bottom = 4500
 limit_smoothed = true
 position_smoothing_enabled = true
+editor_draw_limits = true
 script = ExtResource("1_btitd")
 ignore_mouse_regions = [NodePath("../../CanvasLayer/BlockCameraMouse"), NodePath("../../CanvasLayer/BlockCameraMouse2")]
 

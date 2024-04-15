@@ -95,11 +95,11 @@ func _ready():
 
 	_health = base_stats.max_health
 	#_cooldown = randf() * 0.5 + 1.1
-	
+
 	_range = scan_circle.shape.radius
 	_current_weapon = null
-	
-	
+
+
 	character_inside.set_self_modulate(base_stats.color)
 	left_hand.set_self_modulate(base_stats.color)
 	right_hand.set_self_modulate(base_stats.color)
@@ -123,12 +123,12 @@ func _physics_process(delta):
 func calculate_state():
 	var closest_enemy: NPCBT = get_nearest_enemy()
 	var visible_enemies = get_visible_enemies()
-	
+
 	var best_weapon_dict: Dictionary = get_nearest_better_weapon()
 	var best_weapon: SummonedItem = best_weapon_dict.get("best_weapon")
 	var best_weapon_score: float = best_weapon_dict.get("best_score")
 	#var closest_enemy_dist:float = closest_enemy.global_position.distance_squared_to(global_position)
-	
+
 	_blackboard = {
 		"global_posn": global_position,
 		"enemies_in_range": enemies_in_range,
@@ -148,10 +148,10 @@ func calculate_state():
 	}
 	if closest_enemy != null:
 		_blackboard["closest_enemy_posn"] = closest_enemy.global_position
-		
+
 		if (global_position.distance_squared_to(closest_enemy.global_position) < attack_range_sq):
 			_blackboard["in_range_of_target"] = true
-	
+
 	npc_ai.blackboard.overwrite_dict(_blackboard)
 	#if _can_attack:
 		#modulate = Color.GREEN
@@ -222,7 +222,7 @@ func get_nearest_better_weapon() -> Dictionary:
 			best_score = s
 			item = i
 	return {"best_weapon": item, "best_score": best_score}
-	
+
 func get_item_score(item: SummonedItem) -> float:
 	var cur_rarity:int = 0
 	match item.stats.summon_type:
@@ -230,7 +230,7 @@ func get_item_score(item: SummonedItem) -> float:
 			cur_rarity = 0 if _current_weapon == null else _current_weapon.level
 	if item.stats.level <= cur_rarity:
 		return -1
-	
+
 	var dist:float = absf(global_position.distance_to(item.global_position))
 	var dist_percent:float = 1.0 - dist/_range
 	var rarity_mult:float = 1.0 + 0.2 * item.stats.level
@@ -272,7 +272,7 @@ func attack_enemy(enemy):
 			time_mult = 1.0
 			attack_animation_player.play("shoot", -1, time_mult)
 			knockback = 0
-	
+
 	if (_current_weapon_type == SummonResource.WEAPON_TYPE.BOW):
 		# Animations fires after 0.7 seconds
 		#var target: Vector2 = enemy.global_position + Vector2(randf() * -10, randf() * -10)
@@ -300,6 +300,7 @@ func attack_enemy(enemy):
 		_can_attack=true
 	)
 	_in_attack_anim = true
+	look_at_closest_enemy()
 	get_tree().create_timer(1).timeout.connect(func():
 		_in_attack_anim = false
 		_firing_ranged = false
@@ -343,7 +344,7 @@ func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2, knockbac
 		tween.tween_property(sprite_holder, "rotation", sprite_holder.rotation + 2*PI, 0.5)
 		tween.set_parallel(false)
 		tween.tween_property(sprite_holder, "scale", Vector2.ONE, 0.25)
-		tween.tween_callback(func(): 
+		tween.tween_callback(func():
 			_taking_damage = false
 			_locked_animation_count -= 1
 		)
@@ -355,7 +356,7 @@ func rest():
 
 func pickup_items() -> bool:
 	var picked_up_something: bool = false
-	
+
 	#only pickup if we are not currently attacking
 	if _can_attack:
 		for w in _weapons_in_range:
@@ -392,12 +393,17 @@ func done_movement() -> bool:
 
 func update_sprites(next_posn: Vector2):
 	if _in_attack_anim:
-		return 
+		return
 	var enemy_posn:Vector2 = _blackboard.get("closest_enemy_posn", Vector2.ZERO)
 	if _is_fleeing || enemy_posn == Vector2.ZERO:
 		sprite_holder.look_at(next_posn)
 		return
 	sprite_holder.look_at(enemy_posn)
+
+func look_at_closest_enemy():
+	var enemy_posn:Vector2 = _blackboard.get("closest_enemy_posn", Vector2.ZERO)
+	if enemy_posn != Vector2.ZERO:
+		sprite_holder.look_at(enemy_posn)
 
 func get_priority(goal:String) -> float:
 	match goal:
