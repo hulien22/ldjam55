@@ -21,7 +21,7 @@
 [node name="NpcAi" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_n0n7x")
 blackboard = NodePath("@Node@29818")
-actor = NodePath("")
+actor = NodePath("..")
 
 [node name="Root" type="Node" parent="."]
 script = ExtResource("2_numm5")
