@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://dcg5q7p21m3pd"]
+[gd_scene load_steps=43 format=3 uid="uid://dcg5q7p21m3pd"]
 
 [ext_resource type="Script" path="res://scripts/npc_bt.gd" id="1_1fpsg"]
 [ext_resource type="PackedScene" uid="uid://bu4761byp6ssw" path="res://scenes/Arrow.tscn" id="2_bqnf1"]
@@ -25,6 +25,13 @@
 [ext_resource type="Texture2D" uid="uid://bs2f6yv2xdfox" path="res://art/items/weapon_spear.png" id="22_2wtf5"]
 [ext_resource type="Texture2D" uid="uid://biw4qv1lxxb7t" path="res://art/items/weapon_staff.png" id="23_dedi6"]
 [ext_resource type="Texture2D" uid="uid://dmiss4mu4v2qb" path="res://art/items/weapon_sword.png" id="24_gqvs1"]
+[ext_resource type="Script" path="res://scripts/npc_audio.gd" id="26_h2mta"]
+[ext_resource type="AudioStream" uid="uid://d1p0ybbttst0j" path="res://audio/attack/attack_1.ogg" id="27_humjx"]
+[ext_resource type="AudioStream" uid="uid://dhnipi1f3s3hq" path="res://audio/attack/attack_2.ogg" id="28_wrjjj"]
+[ext_resource type="AudioStream" uid="uid://y165sonhir70" path="res://audio/take_dmg/hurt_1.ogg" id="29_p3175"]
+[ext_resource type="AudioStream" uid="uid://cogkxic4832e6" path="res://audio/take_dmg/hurt_2.ogg" id="30_nr7mx"]
+[ext_resource type="AudioStream" uid="uid://jxhqww61ixt6" path="res://audio/death/death_1.ogg" id="31_7txrx"]
+[ext_resource type="AudioStream" uid="uid://b3sbhgkowouhd" path="res://audio/death/death_2.ogg" id="32_i2j54"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xiknj"]
 animations = [{
@@ -265,7 +272,7 @@ arrow_scene = ExtResource("2_bqnf1")
 
 [node name="NpcAi" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_nin16")]
 tick_rate = 2
-blackboard = NodePath("@Node@221659")
+blackboard = NodePath("@Node@17484")
 actor = NodePath("..")
 
 [node name="NavAgentComponent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("actor")]
@@ -366,6 +373,12 @@ offset_bottom = -33.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "name"
+
+[node name="npc_audio" type="AudioStreamPlayer2D" parent="."]
+script = ExtResource("26_h2mta")
+attack_streams = Array[AudioStream]([ExtResource("27_humjx"), ExtResource("28_wrjjj")])
+hurt_streams = Array[AudioStream]([ExtResource("29_p3175"), ExtResource("30_nr7mx")])
+death_streams = Array[AudioStream]([ExtResource("31_7txrx"), ExtResource("32_i2j54")])
 
 [connection signal="area_shape_entered" from="ScanRegion" to="." method="_on_scan_region_area_shape_entered"]
 [connection signal="area_shape_exited" from="ScanRegion" to="." method="_on_scan_region_area_shape_exited"]

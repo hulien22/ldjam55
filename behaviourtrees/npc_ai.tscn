@@ -13,9 +13,10 @@
 [ext_resource type="Script" path="res://behaviourtrees/actions/flee.gd" id="12_8djiw"]
 [ext_resource type="Script" path="res://behaviourtrees/actions/rest.gd" id="13_xnb2x"]
 
-[node name="NpcAi" type="Node" node_paths=PackedStringArray("blackboard")]
+[node name="NpcAi" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_n0n7x")
-blackboard = NodePath("@Node@32219")
+blackboard = NodePath("@Node@17486")
+actor = NodePath("")
 
 [node name="Root" type="Node" parent="."]
 script = ExtResource("2_numm5")

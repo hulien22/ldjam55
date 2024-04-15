@@ -11,6 +11,7 @@ class_name NPCBT
 @onready var name_label = $name_label
 @onready var arrow_spawn_marker = $SpriteHolder/ArrowSpawnMarker
 @onready var npc_ai = $NpcAi as BeehaveTree
+@onready var npc_audio = $npc_audio
 
 
 #TODO remove
@@ -53,6 +54,8 @@ func test(a):
 
 func _ready():
 	$name_label.text = base_stats.first_name + " '" + str(base_stats.number) + "' " + base_stats.last_name
+	npc_audio.set_name("audio " + str(base_stats.number))
+	npc_audio.pitch_scale = base_stats.voice
 	my_line = Line2D.new()
 	my_line.default_color = Color.RED
 	add_child(my_line)
@@ -183,6 +186,7 @@ func attack_enemy(enemy):
 	#enemy.damage(1, base_stats, global_position)
 	if enemy == null:
 		return
+	npc_audio.play_attack()
 	_can_attack = false
 	var knockback:float = 100
 	var time_mult = 1.0
@@ -246,6 +250,7 @@ func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2, knockbac
 	if (_health <= 0):
 		died.emit(attacker, base_stats)
 		print(base_stats.first_name + " " + base_stats.last_name + " has died :(")
+		npc_audio.play_death()
 		queue_free()
 		return
 	if (dmg > 0 && !_taking_damage):
@@ -264,6 +269,7 @@ func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2, knockbac
 			_taking_damage = false
 			_locked_animation_count -= 1
 		)
+		npc_audio.play_hurt()
 
 
 func rest():
