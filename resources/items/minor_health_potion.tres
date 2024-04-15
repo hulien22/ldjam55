@@ -8,6 +8,7 @@ script = ExtResource("2_qfkto")
 level = 1
 image = ExtResource("1_4fxi2")
 name = "health potion"
+cost = 15
 health_mod = 10.0
 damage_mod = 0.0
 defense_mod = 0.0

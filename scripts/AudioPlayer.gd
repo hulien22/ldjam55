@@ -9,7 +9,7 @@ extends Node
 @export var countdown_final_beep: AudioStream
 
 @onready var sound_effects = $SoundEffects
-@onready var background_sound = $background
+#@onready var background_sound = $background
 
 var music_state
 

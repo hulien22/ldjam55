@@ -1,11 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://3h86u45dh76w"]
+[gd_scene load_steps=5 format=3 uid="uid://3h86u45dh76w"]
 
 [ext_resource type="Texture2D" uid="uid://b5dqst2wprggr" path="res://art/summon bar/summon bar.png" id="1_oarfc"]
+[ext_resource type="Script" path="res://scripts/summon_bar.gd" id="1_y8wcf"]
 [ext_resource type="Texture2D" uid="uid://d3ggbpqw3f2kl" path="res://art/summon bar/tiles_center.png" id="2_rn1i1"]
 [ext_resource type="Script" path="res://scripts/slot.gd" id="3_yu626"]
 
 [node name="SummonBar" type="Node2D"]
 scale = Vector2(0.5, 0.5)
+script = ExtResource("1_y8wcf")
 
 [node name="bar" type="TextureRect" parent="."]
 offset_right = 656.0
