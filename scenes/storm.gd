@@ -7,6 +7,8 @@ var radius
 var target
 var storm_attacker
 
+@onready var item_spawns = $"../ItemSpawns"
+
 func _draw():
 	draw_arc(Vector2.ZERO, radius, 0, TAU, 1000, Color.BLACK, 25)
 
@@ -27,6 +29,10 @@ func _start_storm():
 func _on_storm_timer():
 	if radius < 1000:
 		stormTimer.stop()
+	if radius < 2000 and radius > 1501:
+		item_spawns.on_spawn_final()
+	if radius < 4000 and radius > 3501:
+		item_spawns.on_spawn_mid()
 	target = radius-500
 	stormShrinkTimer.start()
 	
