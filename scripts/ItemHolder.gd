@@ -2,6 +2,7 @@ extends Node2D
 
 
 @export var summon_anim_scene: PackedScene
+@export var storm_scene: storm_class
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -12,6 +13,7 @@ func add_item(map_rid,stats):
 		
 	var new_item = summon_anim_scene.instantiate()
 	new_item.stats = stats
+	new_item.storm_scene = storm_scene
 	new_item.item_holder = self
 	add_child(new_item)
 	new_item.global_position = closest_v
@@ -19,6 +21,7 @@ func add_item(map_rid,stats):
 func add_item_from_map(position, stats):
 	var new_item = summon_anim_scene.instantiate()
 	new_item.stats = stats
+	new_item.storm_scene = storm_scene
 	new_item.item_holder = self
 	add_child(new_item)
 	new_item.global_position = position

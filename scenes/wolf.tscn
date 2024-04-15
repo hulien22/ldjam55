@@ -174,7 +174,7 @@ script = ExtResource("1_1e26o")
 size = 3500
 
 [node name="WolfAi" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_vdwjr")]
-blackboard = NodePath("@Node@61389")
+blackboard = NodePath("@Node@93739")
 actor = NodePath("..")
 
 [node name="NavAgentComponent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("actor")]

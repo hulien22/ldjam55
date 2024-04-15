@@ -174,9 +174,10 @@ camera_controller = NodePath("../Area2D/Camera2D")
 game_over_scene = NodePath("../CanvasLayer/GameOver")
 storm_node = NodePath("../storm")
 
-[node name="ItemHolder" type="Node2D" parent="."]
+[node name="ItemHolder" type="Node2D" parent="." node_paths=PackedStringArray("storm_scene")]
 script = ExtResource("5_flyss")
 summon_anim_scene = ExtResource("19_3484j")
+storm_scene = NodePath("../storm")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

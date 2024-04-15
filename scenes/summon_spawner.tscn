@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://cgpk45exse67i"]
+[gd_scene load_steps=12 format=3 uid="uid://cgpk45exse67i"]
 
 [ext_resource type="Script" path="res://scripts/summon_spawner.gd" id="1_5qvj6"]
 [ext_resource type="Texture2D" uid="uid://chyln8q5mhb1p" path="res://art/particles/inner_circle3.png" id="1_ot4g5"]
 [ext_resource type="PackedScene" uid="uid://cmpbb7rnbxlvp" path="res://scenes/summoned_item.tscn" id="2_n4v0d"]
 [ext_resource type="Texture2D" uid="uid://dmvclvhncx1k8" path="res://art/particles/outer_circle2.png" id="2_qqtag"]
 [ext_resource type="Texture2D" uid="uid://cpg7rwqkd58jh" path="res://art/particles/inner_balls.png" id="3_2bvu0"]
+[ext_resource type="PackedScene" uid="uid://dr84qbq6mxiev" path="res://scenes/wolf.tscn" id="3_5wvj1"]
 [ext_resource type="Texture2D" uid="uid://dfutkpuxokbn6" path="res://art/particles/cloud.png" id="4_4ivax"]
 
 [sub_resource type="Animation" id="Animation_yylk7"]
@@ -88,6 +89,7 @@ point_count = 3
 [node name="SummoningEffect" type="Node2D"]
 script = ExtResource("1_5qvj6")
 summon_item_scene = ExtResource("2_n4v0d")
+summon_monster_scene = ExtResource("3_5wvj1")
 color = Color(0.32549, 1, 1, 1)
 
 [node name="SpriteHolder" type="Node2D" parent="."]

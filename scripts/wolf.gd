@@ -4,11 +4,13 @@ class_name Wolf
 @onready var nav_agent_component = $NavAgentComponent
 @onready var sprite_holder = $SpriteHolder
 @onready var attack_animation_player = %AttackAnimationPlayer
+@onready var sprite = $SpriteHolder/Sprite2D
 
 @onready var npc_ai = $WolfAi as BeehaveTree
 @onready var npc_audio = $npc_audio
 @onready var scan_circle = $ScanRegion/CollisionShape2D
 
+@export var stats: SummonResource
 
 #TODO remove
 @export var size: int = 500
@@ -16,7 +18,6 @@ class_name Wolf
 # Needs to be > NavAgent's Target desired distance ^ 2
 @export var attack_range_sq: int = 4000
 
-@export var arrow_scene:PackedScene
 
 var _action_planner: GoapActionPlanner = GoapActionPlanner.new()
 var enemies_in_range: Array[NPCBT] = []
@@ -24,8 +25,6 @@ var _blackboard: Dictionary = {}
 var _can_attack: bool = true
 var _can_dash: bool = true
 var _taking_damage: bool = false
-var _is_fleeing: bool = false
-var _firing_ranged: bool = false
 var _in_attack_anim: bool = false
 
 var _range: float = 1000
@@ -44,13 +43,18 @@ func on_start():
 	npc_ai.enable()
 
 func _ready():
+	# convert from resource stats to npc stats
 	base_stats = npc_base_stats.new()
-	base_stats.first_name = "Wolf"
+	base_stats.first_name = stats.name
 	base_stats.last_name = ""
 	base_stats.number = -1
 	base_stats.voice = 1.0
 	base_stats.player = false
-	base_stats.max_health = 10
+	
+	base_stats.max_health = stats.health_mod
+	base_stats.max_speed = stats.movement_speed_mod
+	
+	sprite.modulate = stats.get_color()
 	
 	npc_audio.set_name("audio " + str(base_stats.number))
 	npc_audio.pitch_scale = base_stats.voice
@@ -68,6 +72,7 @@ func get_blackboard() -> Dictionary:
 
 func _physics_process(delta):
 	time_since_hurt_noise += delta
+	
 	if global_position.length() > storm_node.radius:
 		tick_damage(0.01, storm_node.storm_attacker)
 	#calculate_state()
@@ -172,7 +177,6 @@ func attack_enemy(enemy):
 	look_at_closest_enemy()
 	get_tree().create_timer(1).timeout.connect(func():
 		_in_attack_anim = false
-		_firing_ranged = false
 	)
 
 func tick_damage(dmg: float, attacker: npc_base_stats):
@@ -222,21 +226,14 @@ func explore():
 
 func move_towards(posn: Vector2, is_fleeing:bool = false):
 	nav_agent_component.update_target_position(posn)
-	_is_fleeing = is_fleeing
 	#modulate = Color.GREEN
 
 func get_speed_mod() -> float:
 	var speed_mod: float = 1.0
-	if _firing_ranged:
-		speed_mod *= 0.2
-	if _is_fleeing:
-		#TODO check if too high?
-		speed_mod *= 1.2
 	return speed_mod
 
 func cancel_movement():
 	nav_agent_component.cancel_movement()
-	_is_fleeing = false
 
 func done_movement() -> bool:
 	return nav_agent_component.done_movement()
@@ -245,7 +242,7 @@ func update_sprites(next_posn: Vector2):
 	if _in_attack_anim:
 		return
 	var enemy_posn:Vector2 = _blackboard.get("closest_enemy_posn", Vector2.ZERO)
-	if _is_fleeing || enemy_posn == Vector2.ZERO:
+	if enemy_posn == Vector2.ZERO:
 		sprite_holder.look_at(next_posn)
 		return
 	sprite_holder.look_at(enemy_posn)
