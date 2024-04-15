@@ -61,7 +61,6 @@ game_over_scene = NodePath("../CanvasLayer/GameOver")
 [node name="ItemHolder" type="Node2D" parent="."]
 script = ExtResource("5_flyss")
 summon_anim_scene = ExtResource("19_3484j")
-summon_scene = ExtResource("8_rxapj")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

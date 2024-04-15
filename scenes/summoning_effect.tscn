@@ -103,7 +103,7 @@ summon_scene = ExtResource("2_atl1e")
 color = Color(0.32549, 1, 1, 1)
 
 [node name="SpriteHolder" type="Node2D" parent="."]
-modulate = Color(1, 1, 1, 0.998357)
+modulate = Color(1, 1, 1, 0.87498)
 
 [node name="InnerCircle3" type="Sprite2D" parent="SpriteHolder"]
 rotation = 3.14159
@@ -115,7 +115,7 @@ texture = ExtResource("2_qqtag")
 
 [node name="InnerBalls" type="Sprite2D" parent="SpriteHolder"]
 position = Vector2(0, -1.77636e-15)
-rotation = 4.57963
+rotation = 1.10811
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_2bvu0")
 offset = Vector2(-3.14388, 3.79534)

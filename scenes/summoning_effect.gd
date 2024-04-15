@@ -26,6 +26,8 @@ func summon_item():
 	new_item.stats = stats
 	item_holder.add_child(new_item)
 	new_item.global_position = global_position
+	var tween = create_tween()
+	tween.tween_property(sprite_holder, "scale", Vector2.ONE * 0.2, 1).set_trans(Tween.TRANS_SPRING)
 
 func _on_smoke_finished():
 	queue_free()

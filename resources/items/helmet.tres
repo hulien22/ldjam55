@@ -8,7 +8,6 @@ script = ExtResource("1_vrc6e")
 level = 1
 image = ExtResource("1_i5xvb")
 name = "leather helmet"
-cost = 20
 health_mod = 0.0
 damage_mod = 0.0
 defense_mod = 10.0
