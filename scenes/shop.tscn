@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://16ofmeppmbda"]
+[gd_scene load_steps=6 format=3 uid="uid://bmta10xo0k8he"]
 
 [ext_resource type="Script" path="res://scenes/shop.gd" id="1_cvlep"]
 [ext_resource type="Texture2D" uid="uid://bdct4b83ylcrw" path="res://art/ui/LongPanel.png" id="1_ge5n5"]
 [ext_resource type="Texture2D" uid="uid://dpd53txoqrtjy" path="res://art/ui/lighterPanel.png" id="2_w6aeq"]
 [ext_resource type="Texture2D" uid="uid://cdcnmba6fxwfw" path="res://art/ui/greyPanel.png" id="4_ns6n0"]
+[ext_resource type="FontFile" uid="uid://djhfqg84rk38a" path="res://font/PipersPlayroom-2OP1K.ttf" id="4_xus24"]
 
 [node name="Shop" type="Control" node_paths=PackedStringArray("slotOneIcon", "slotTwoIcon", "slotThreeIcon")]
 layout_mode = 3
@@ -37,8 +38,10 @@ offset_left = 30.0
 offset_top = 17.0
 offset_right = 113.0
 offset_bottom = 73.0
+scale = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 30
+theme_override_fonts/font = ExtResource("4_xus24")
+theme_override_font_sizes/font_size = 100
 text = "SHOP"
 
 [node name="ItemThreePanel" type="TextureRect" parent="ShopPanel"]
@@ -95,6 +98,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ItemTwoPrice" type="TextureRect" parent="ShopPanel/ItemTwoPanel"]
+layout_mode = 0
 offset_left = 26.0
 offset_top = 88.0
 offset_right = 80.0
@@ -125,6 +129,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ItemOnePrice" type="TextureRect" parent="ShopPanel/ItemOnePanel"]
+layout_mode = 0
 offset_left = 26.0
 offset_top = 88.0
 offset_right = 80.0

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cq5ckpi640ed0"]
+[gd_scene load_steps=4 format=3 uid="uid://cq5ckpi640ed0"]
 
 [ext_resource type="Texture2D" uid="uid://bfmarjk2pi7tr" path="res://art/ui/Asset 12.png" id="1_85gk7"]
 [ext_resource type="Script" path="res://scripts/kill_feed_item.gd" id="1_cbwc0"]
+[ext_resource type="FontFile" uid="uid://djhfqg84rk38a" path="res://font/PipersPlayroom-2OP1K.ttf" id="2_d0p4m"]
 
 [node name="KillFeedItem" type="Panel"]
 self_modulate = Color(1, 0, 0, 0)
@@ -22,6 +23,8 @@ offset_left = -75.0
 offset_top = 20.0
 offset_right = 125.0
 offset_bottom = 45.0
+theme_override_fonts/normal_font = ExtResource("2_d0p4m")
+theme_override_font_sizes/normal_font_size = 21
 bbcode_enabled = true
 text = "[right]Mike '5' Wazowski"
 scroll_active = false
@@ -40,6 +43,8 @@ offset_left = 175.0
 offset_top = 20.0
 offset_right = 375.0
 offset_bottom = 45.0
+theme_override_fonts/normal_font = ExtResource("2_d0p4m")
+theme_override_font_sizes/normal_font_size = 21
 text = "Mike '34' Wazowski"
 scroll_active = false
 autowrap_mode = 0

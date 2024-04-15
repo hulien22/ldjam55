@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://dcg5q7p21m3pd"]
+[gd_scene load_steps=44 format=3 uid="uid://dcg5q7p21m3pd"]
 
 [ext_resource type="Script" path="res://scripts/npc_bt.gd" id="1_1fpsg"]
 [ext_resource type="PackedScene" uid="uid://bu4761byp6ssw" path="res://scenes/Arrow.tscn" id="2_bqnf1"]
@@ -25,6 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://bs2f6yv2xdfox" path="res://art/items/weapon_spear.png" id="22_2wtf5"]
 [ext_resource type="Texture2D" uid="uid://biw4qv1lxxb7t" path="res://art/items/weapon_staff.png" id="23_dedi6"]
 [ext_resource type="Texture2D" uid="uid://dmiss4mu4v2qb" path="res://art/items/weapon_sword.png" id="24_gqvs1"]
+[ext_resource type="FontFile" uid="uid://djhfqg84rk38a" path="res://font/PipersPlayroom-2OP1K.ttf" id="26_7rijv"]
 [ext_resource type="Script" path="res://scripts/npc_audio.gd" id="26_h2mta"]
 [ext_resource type="AudioStream" uid="uid://d1p0ybbttst0j" path="res://audio/attack/attack_1.ogg" id="27_humjx"]
 [ext_resource type="AudioStream" uid="uid://dhnipi1f3s3hq" path="res://audio/attack/attack_2.ogg" id="28_wrjjj"]
@@ -272,7 +273,7 @@ arrow_scene = ExtResource("2_bqnf1")
 
 [node name="NpcAi" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_nin16")]
 tick_rate = 2
-blackboard = NodePath("@Node@17484")
+blackboard = NodePath("@Node@32687")
 actor = NodePath("..")
 
 [node name="NavAgentComponent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("actor")]
@@ -366,13 +367,17 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -22.0
-offset_top = -56.0
-offset_right = 22.0
-offset_bottom = -33.0
+offset_left = -160.0
+offset_top = -62.0
+offset_right = 480.0
+offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 0
+scale = Vector2(0.5, 0.5)
+theme_override_fonts/font = ExtResource("26_7rijv")
+theme_override_font_sizes/font_size = 60
 text = "name"
+horizontal_alignment = 1
 
 [node name="npc_audio" type="AudioStreamPlayer2D" parent="."]
 script = ExtResource("26_h2mta")

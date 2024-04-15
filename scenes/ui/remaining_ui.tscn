@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cweqdsexqyff5"]
+[gd_scene load_steps=6 format=3 uid="uid://cweqdsexqyff5"]
 
 [ext_resource type="Script" path="res://scripts/remaining_ui.gd" id="1_3own7"]
 [ext_resource type="Texture2D" uid="uid://63wf86sjyubb" path="res://art/ui/buttonLong_brown_pressed.png" id="2_1u46r"]
 [ext_resource type="Texture2D" uid="uid://dt2aa6mp7lek8" path="res://art/ui/group.png" id="2_jve4a"]
 [ext_resource type="Texture2D" uid="uid://d2einjt88w4co" path="res://art/ui/goldPNG.png" id="4_n72rk"]
+[ext_resource type="FontFile" uid="uid://djhfqg84rk38a" path="res://font/PipersPlayroom-2OP1K.ttf" id="4_yeb6u"]
 
 [node name="RemainingUi" type="Control" node_paths=PackedStringArray("count_text", "count_gold", "timer")]
 layout_mode = 3
@@ -38,10 +39,12 @@ texture = ExtResource("2_jve4a")
 [node name="count_text" type="Label" parent="TextureRect2"]
 layout_mode = 0
 offset_left = 78.0
-offset_top = 30.0
-offset_right = 118.0
-offset_bottom = 53.0
-scale = Vector2(1.5, 1.5)
+offset_top = 21.7
+offset_right = 172.0
+offset_bottom = 134.7
+scale = Vector2(0.445, 0.445)
+theme_override_fonts/font = ExtResource("4_yeb6u")
+theme_override_font_sizes/font_size = 96
 text = "100"
 
 [node name="TextureRect2" type="TextureRect" parent="TextureRect2"]
@@ -56,9 +59,12 @@ expand_mode = 1
 [node name="count_gold" type="Label" parent="TextureRect2"]
 layout_mode = 0
 offset_left = 250.0
-offset_top = 34.0
+offset_top = 21.7
 offset_right = 310.0
-offset_bottom = 64.0
+offset_bottom = 134.7
+scale = Vector2(0.445, 0.445)
+theme_override_fonts/font = ExtResource("4_yeb6u")
+theme_override_font_sizes/font_size = 96
 text = "0"
 
 [node name="Timer" type="Timer" parent="."]

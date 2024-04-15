@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://b81e110yif41p"]
+[gd_scene load_steps=4 format=3 uid="uid://dj10cboxeim86"]
 
 [ext_resource type="Script" path="res://scripts/game_over.gd" id="1_y2ium"]
 [ext_resource type="Texture2D" uid="uid://63wf86sjyubb" path="res://art/ui/buttonLong_brown_pressed.png" id="2_rm6q3"]
+[ext_resource type="FontFile" uid="uid://djhfqg84rk38a" path="res://font/PipersPlayroom-2OP1K.ttf" id="2_yt81k"]
 
 [node name="GameOver" type="Control"]
 layout_mode = 3
@@ -20,6 +21,10 @@ offset_left = 374.0
 offset_top = 187.0
 offset_right = 897.0
 offset_bottom = 407.0
+theme_override_fonts/font = ExtResource("2_yt81k")
+theme_override_font_sizes/font_size = 80
+text = "GAME OVER"
+horizontal_alignment = 1
 
 [node name="Button" type="TextureButton" parent="."]
 layout_mode = 0
@@ -31,10 +36,13 @@ texture_normal = ExtResource("2_rm6q3")
 
 [node name="Label" type="Label" parent="Button"]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 11.0
-offset_right = 181.0
-offset_bottom = 34.0
+offset_left = 24.0
+offset_top = 6.0
+offset_right = 415.0
+offset_bottom = 96.0
+scale = Vector2(0.36, 0.36)
+theme_override_fonts/font = ExtResource("2_yt81k")
+theme_override_font_sizes/font_size = 76
 text = "Return to Menu"
 horizontal_alignment = 1
 
