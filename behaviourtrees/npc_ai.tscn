@@ -21,7 +21,7 @@
 [node name="NpcAi" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_n0n7x")
 blackboard = NodePath("@Node@29818")
-actor = NodePath("..")
+actor = NodePath("")
 
 [node name="Root" type="Node" parent="."]
 script = ExtResource("2_numm5")
@@ -73,45 +73,61 @@ property = "is_moving"
 script = ExtResource("10_kb8vd")
 
 [node name="Survive" type="Node" parent="Root/PrioritySelectorComposite"]
+script = ExtResource("6_2a027")
+
+[node name="SeekHealthPot" type="Node" parent="Root/PrioritySelectorComposite/Survive"]
 script = ExtResource("2_numm5")
 
-[node name="StormHealthThreshold" type="Node" parent="Root/PrioritySelectorComposite/Survive"]
+[node name="HealthPotThreshold" type="Node" parent="Root/PrioritySelectorComposite/Survive/SeekHealthPot"]
+script = ExtResource("11_o20nd")
+property1 = "health_percentage"
+operator = 5
+property2 = "health_threshold_seek_hpot"
+
+[node name="HasHealthPotInSight" type="Node" parent="Root/PrioritySelectorComposite/Survive/SeekHealthPot"]
+script = ExtResource("8_pb7ph")
+property = "best_consumable"
+
+[node name="MoveToHealthPot" type="Node" parent="Root/PrioritySelectorComposite/Survive/SeekHealthPot"]
+script = ExtResource("13_ibsq0")
+bboard_field = "best_consumable"
+
+[node name="LeaveStorm" type="Node" parent="Root/PrioritySelectorComposite/Survive"]
+script = ExtResource("2_numm5")
+
+[node name="StormHealthThreshold" type="Node" parent="Root/PrioritySelectorComposite/Survive/LeaveStorm"]
 script = ExtResource("11_o20nd")
 property1 = "health_percentage"
 operator = 5
 property2 = "health_threshold_leave_storm"
 
-[node name="GetOutOfStorm" type="Node" parent="Root/PrioritySelectorComposite/Survive"]
+[node name="GetOutOfStorm" type="Node" parent="Root/PrioritySelectorComposite/Survive/LeaveStorm"]
 script = ExtResource("2_numm5")
 
-[node name="InOrWithinRangeOfStorm" type="Node" parent="Root/PrioritySelectorComposite/Survive/GetOutOfStorm"]
+[node name="InOrWithinRangeOfStorm" type="Node" parent="Root/PrioritySelectorComposite/Survive/LeaveStorm/GetOutOfStorm"]
 script = ExtResource("12_6lx6i")
 property = "distance_from_storm"
 operator = 3
 target = 100.0
 
-[node name="GoToCenterAction" type="Node" parent="Root/PrioritySelectorComposite/Survive/GetOutOfStorm"]
+[node name="GoToCenterAction" type="Node" parent="Root/PrioritySelectorComposite/Survive/LeaveStorm/GetOutOfStorm"]
 script = ExtResource("15_67yxr")
 
-[node name="FleeHealthThreshold" type="Node" parent="Root/PrioritySelectorComposite/Survive"]
+[node name="Flee" type="Node" parent="Root/PrioritySelectorComposite/Survive"]
+script = ExtResource("2_numm5")
+
+[node name="FleeHealthThreshold" type="Node" parent="Root/PrioritySelectorComposite/Survive/Flee"]
 script = ExtResource("11_o20nd")
 property1 = "health_percentage"
 operator = 5
 property2 = "health_threshold_flee"
 
-[node name="Flee" type="Node" parent="Root/PrioritySelectorComposite/Survive"]
-script = ExtResource("6_2a027")
-
-[node name="NoClosestEnemy" type="Node" parent="Root/PrioritySelectorComposite/Survive/Flee"]
+[node name="HasClosestEnemy" type="Node" parent="Root/PrioritySelectorComposite/Survive/Flee"]
 script = ExtResource("8_pb7ph")
 property = "closest_enemy"
-operator = 0
 
 [node name="Fleeing2Action" type="Node" parent="Root/PrioritySelectorComposite/Survive/Flee"]
 script = ExtResource("11_i4a2i")
-
-[node name="RestingAction" type="Node" parent="Root/PrioritySelectorComposite/Survive"]
-script = ExtResource("13_xnb2x")
 
 [node name="GetWeapon" type="Node" parent="Root/PrioritySelectorComposite"]
 script = ExtResource("2_numm5")
@@ -164,3 +180,15 @@ property = "in_storm"
 
 [node name="GoToCenterAction" type="Node" parent="Root/PrioritySelectorComposite/GetOutOfStorm"]
 script = ExtResource("15_67yxr")
+
+[node name="Rest" type="Node" parent="Root/PrioritySelectorComposite"]
+script = ExtResource("2_numm5")
+
+[node name="Damaged" type="Node" parent="Root/PrioritySelectorComposite/Rest"]
+script = ExtResource("12_6lx6i")
+property = "health_percentage"
+operator = 3
+target = 1.0
+
+[node name="RestingAction" type="Node" parent="Root/PrioritySelectorComposite/Rest"]
+script = ExtResource("13_xnb2x")

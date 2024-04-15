@@ -34,6 +34,7 @@ var _firing_ranged: bool = false
 var _in_attack_anim: bool = false
 
 var _health_threshold_leave_storm:float = 0.8
+var _health_threshold_seek_hpot:float = 0.6
 var _health_threshold_flee:float = 0.3
 
 var _range: float = 1000
@@ -164,7 +165,8 @@ func calculate_state():
 		"safe_distance_sq": _safe_distance_sq,
 		"health_threshold_flee": _health_threshold_flee,
 		"health_threshold_leave_storm": _health_threshold_leave_storm,
-		"health_percentage": _health / base_stats.max_health
+		"health_threshold_seek_hpot": _health_threshold_seek_hpot,
+		"health_percentage": _health / base_stats.max_health,
 	}
 	if closest_enemy != null:
 		_blackboard["closest_enemy_posn"] = closest_enemy.global_position
@@ -253,6 +255,8 @@ func get_closest_consumable() -> SummonedItem:
 	var closest:SummonedItem = null
 	var closest_dist: float = 0
 	for c in _consumables_in_range:
+		if (invalid_target_position(c.global_position)):
+			continue
 		var dist: float = global_position.distance_squared_to(c.global_position)
 		if (closest == null||dist < closest_dist):
 			closest = c
@@ -414,6 +418,13 @@ func pickup_items() -> bool:
 				if w.pick_up():
 					_current_weapon = w.stats.duplicate()
 					picked_up_something = true
+		
+		for c in _consumables_in_range:
+			if global_position.distance_squared_to(c.global_position) < _pickup_range_sq:
+				if c.pick_up():
+					#_health += c.stats.health_mod
+					damage(-base_stats.max_health, base_stats, global_position, 0)
+					picked_up_something = true
 	return picked_up_something
 
 func explore():
@@ -478,8 +489,11 @@ func get_priority(goal:String) -> float:
 			# always try to do this
 			return 999.0
 		"GetOutOfStorm":
-			# just more important than exploring
-			return 1 
+			# just more important than rest
+			return 0.2 
 		"GetWeapon":
 			return _blackboard.get("best_weapon_score")
+		"Rest":
+			# just more important than explore
+			return 0.1
 	return 0.0
