@@ -36,13 +36,38 @@ var _in_attack_anim: bool = false
 var _range: float = 1000
 var _pickup_range_sq: float = pow(30, 2)
 var _weapons_in_range: Array[SummonedItem] = []
-var _current_weapon: SummonResource
+var _current_weapon_type: SummonResource.WEAPON_TYPE = SummonResource.WEAPON_TYPE.NONE
+var _current_weapon: SummonResource = null:
+	set(w):
+		_current_weapon = w
+		if (w == null || w.weapon_type == SummonResource.WEAPON_TYPE.NONE):
+			weapon_sprite.hide()
+			_cooldown = 1.0
+			_current_weapon_type = SummonResource.WEAPON_TYPE.NONE
+			return
+		match w.weapon_type:
+			SummonResource.WEAPON_TYPE.DAGGER:
+				weapon_sprite.show()
+				weapon_sprite.frame = 0
+			SummonResource.WEAPON_TYPE.SWORD:
+				weapon_sprite.show()
+				weapon_sprite.frame = 11
+			SummonResource.WEAPON_TYPE.HAMMER:
+				weapon_sprite.show()
+				weapon_sprite.frame = 10
+			SummonResource.WEAPON_TYPE.BOW:
+				weapon_sprite.show()
+				weapon_sprite.frame = 9
+		_cooldown = w.cooldown_mod
+		attack_range_sq = w.range_mod
+		weapon_sprite.modulate = w.get_color()
+		_current_weapon_type = w.weapon_type
 
 var _locked_animation_count: int = 0
 
 # TODO move elsewhere (component)
 var _health: float = 10
-var _cooldown: float = 0.5
+var _cooldown: float = 1.0
 
 var base_stats: npc_base_stats
 var my_line
@@ -50,10 +75,10 @@ var storm_node: storm_class
 var time_since_hurt_noise: float = 100
 
 #TODO move elsewhere
-enum WEAPON_TYPE {
-	PUNCH, DAGGER, SWORD, HAMMER, BOW
-}
-var weapon: WEAPON_TYPE = WEAPON_TYPE.PUNCH
+#enum WEAPON_TYPE {
+	#PUNCH, DAGGER, SWORD, HAMMER, BOW
+#}
+#var weapon: WEAPON_TYPE = WEAPON_TYPE.PUNCH
 
 signal died
 
@@ -69,30 +94,11 @@ func _ready():
 	add_child(my_line)
 
 	_health = base_stats.max_health
-	_cooldown = randf() * 0.5 + 1.1
+	#_cooldown = randf() * 0.5 + 1.1
 	
 	_range = scan_circle.shape.radius
+	_current_weapon = null
 	
-	weapon = WEAPON_TYPE.values()[ randi() % WEAPON_TYPE.size() ]
-	#weapon = WEAPON_TYPE.BOW
-	match weapon:
-		WEAPON_TYPE.PUNCH:
-			weapon_sprite.hide()
-		WEAPON_TYPE.DAGGER:
-			weapon_sprite.show()
-			weapon_sprite.frame = 0
-		WEAPON_TYPE.SWORD:
-			weapon_sprite.show()
-			weapon_sprite.frame = 11
-		WEAPON_TYPE.HAMMER:
-			weapon_sprite.show()
-			weapon_sprite.frame = 10
-			_cooldown += 1.0
-		WEAPON_TYPE.BOW:
-			weapon_sprite.show()
-			weapon_sprite.frame = 9
-			_cooldown += 2.0
-			attack_range_sq = 250000 #500^2
 	
 	character_inside.set_self_modulate(base_stats.color)
 	left_hand.set_self_modulate(base_stats.color)
@@ -248,26 +254,26 @@ func attack_enemy(enemy):
 	_can_attack = false
 	var knockback:float = 100
 	var time_mult = 1.0
-	match weapon:
-		WEAPON_TYPE.PUNCH:
+	match _current_weapon_type:
+		SummonResource.WEAPON_TYPE.NONE:
 			attack_animation_player.play("punch")
 			knockback = 100
-		WEAPON_TYPE.DAGGER:
+		SummonResource.WEAPON_TYPE.DAGGER:
 			attack_animation_player.play("punch")
 			knockback = 100
-		WEAPON_TYPE.SWORD:
+		SummonResource.WEAPON_TYPE.SWORD:
 			attack_animation_player.play("swing")
 			knockback = 100
-		WEAPON_TYPE.HAMMER:
+		SummonResource.WEAPON_TYPE.HAMMER:
 			time_mult = 1.0
 			attack_animation_player.play("swing", -1, time_mult)
 			knockback = 200
-		WEAPON_TYPE.BOW:
+		SummonResource.WEAPON_TYPE.BOW:
 			time_mult = 1.0
 			attack_animation_player.play("shoot", -1, time_mult)
 			knockback = 0
 	
-	if (weapon == WEAPON_TYPE.BOW):
+	if (_current_weapon_type == SummonResource.WEAPON_TYPE.BOW):
 		# Animations fires after 0.7 seconds
 		#var target: Vector2 = enemy.global_position + Vector2(randf() * -10, randf() * -10)
 		get_tree().create_timer(0.6 * (1.0 / time_mult)).timeout.connect(func():
@@ -349,11 +355,14 @@ func rest():
 
 func pickup_items() -> bool:
 	var picked_up_something: bool = false
-	for w in _weapons_in_range:
-		if is_item_better(w) && global_position.distance_squared_to(w.global_position) < _pickup_range_sq:
-			if w.pick_up():
-				_current_weapon = w.stats.duplicate()
-				picked_up_something = true
+	
+	#only pickup if we are not currently attacking
+	if _can_attack:
+		for w in _weapons_in_range:
+			if is_item_better(w) && global_position.distance_squared_to(w.global_position) < _pickup_range_sq:
+				if w.pick_up():
+					_current_weapon = w.stats.duplicate()
+					picked_up_something = true
 	return picked_up_something
 
 func explore():

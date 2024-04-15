@@ -6,13 +6,14 @@
 [resource]
 script = ExtResource("2_c1pj5")
 summon_type = 0
-level = 3
+weapon_type = 1
+level = 4
 image = ExtResource("1_k5dvf")
 name = "dagger"
 cost = 0
 health_mod = 0.0
 damage_mod = 5.0
 defense_mod = 1.0
-attack_per_minute_mod = 10.0
+cooldown_mod = 1.0
 range_mod = 1.0
 movement_speed_mod = 0.0

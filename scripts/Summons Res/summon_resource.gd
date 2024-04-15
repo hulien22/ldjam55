@@ -9,8 +9,18 @@ enum SUMMON_TYPE {
 	MONSTER
 }
 
+# this should really be put in a class but im lazy rn
+enum WEAPON_TYPE {
+	NONE,
+	DAGGER,
+	SWORD,
+	HAMMER,
+	BOW
+}
+
 #level
 @export var summon_type: SUMMON_TYPE
+@export var weapon_type: WEAPON_TYPE
 @export var level: int
 @export var image: Texture2D
 @export var name: String
@@ -19,7 +29,7 @@ enum SUMMON_TYPE {
 @export var health_mod: float
 @export var damage_mod: float
 @export var defense_mod: float
-@export var attack_per_minute_mod: float
+@export var cooldown_mod: float
 @export var range_mod: float
 
 #movement
