@@ -26,7 +26,7 @@ var type_filter = [
 ]
 
 var level_filter = [1]
-var level_thresholds = [60, 35, 20, 5, -1]
+var level_thresholds = [60, 35, 20, 5, -10]
 var cur_level = 0
 
 # Called when the node enters the scene tree for the first time.
