@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://q8jttyob4isq"]
+[gd_scene load_steps=25 format=3 uid="uid://q8jttyob4isq"]
 
 [ext_resource type="Script" path="res://scripts/moveCamera.gd" id="1_btitd"]
 [ext_resource type="Script" path="res://scripts/npcs_spawner.gd" id="2_ivw7p"]
@@ -10,10 +10,13 @@
 [ext_resource type="PackedScene" uid="uid://cq5ckpi640ed0" path="res://scenes/ui/kill_feed_item.tscn" id="6_yv64i"]
 [ext_resource type="PackedScene" uid="uid://3h86u45dh76w" path="res://scenes/summon_bar.tscn" id="7_t5fnm"]
 [ext_resource type="PackedScene" uid="uid://cweqdsexqyff5" path="res://scenes/ui/remaining_ui.tscn" id="7_volvn"]
-[ext_resource type="PackedScene" uid="uid://cwvl31pnego5i" path="res://scenes/block_camera_mouse.tscn" id="14_llsrb"]
+[ext_resource type="PackedScene" path="res://scenes/block_camera_mouse.tscn" id="14_llsrb"]
 [ext_resource type="PackedScene" uid="uid://bmta10xo0k8he" path="res://scenes/shop.tscn" id="15_xvkgf"]
 [ext_resource type="Script" path="res://scenes/storm.gd" id="16_4e2ma"]
+[ext_resource type="FontFile" uid="uid://djhfqg84rk38a" path="res://font/PipersPlayroom-2OP1K.ttf" id="16_63yqs"]
 [ext_resource type="PackedScene" uid="uid://dj10cboxeim86" path="res://scenes/ui/game_over.tscn" id="16_gdefu"]
+[ext_resource type="Shader" path="res://scripts/circle_fade.gdshader" id="17_ojdw8"]
+[ext_resource type="Script" path="res://scripts/start_animation.gd" id="19_3qy5u"]
 [ext_resource type="PackedScene" uid="uid://cgpk45exse67i" path="res://scenes/summon_spawner.tscn" id="19_3484j"]
 [ext_resource type="Script" path="res://scripts/ItemSpawns.gd" id="20_cqdku"]
 
@@ -23,6 +26,113 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Arr
 outlines = Array[PackedVector2Array]([PackedVector2Array(-3025.2, -3855.41, 3278.8, -3846.41, 3978.8, -3145.41, 3974.8, 3152.59, 3278.8, 3848.59, -3017.2, 3849.59, -3722.2, 3150.59, -3722.2, -3150.41)])
 source_geometry_group_name = &"navigation_polygon_source_group"
 agent_radius = 19.56
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3ul0p"]
+shader = ExtResource("17_ojdw8")
+shader_parameter/size = 0.0
+
+[sub_resource type="Animation" id="Animation_7totc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/start_anim/ColorRect:material:shader_parameter/size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_jldfq"]
+resource_name = "circle_fade_in"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/start_anim/ColorRect:material:shader_parameter/size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.5, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/start_anim/Label:text")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": ["5
+", "4", "3", "2", "1"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasLayer/start_anim/Label:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CanvasLayer/start_anim/ColorRect:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("start_animation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"on_play_low"
+}, {
+"args": [],
+"method": &"on_play_low"
+}, {
+"args": [],
+"method": &"on_play_low"
+}, {
+"args": [],
+"method": &"on_play_low"
+}, {
+"args": [],
+"method": &"on_play_low"
+}, {
+"args": [],
+"method": &"on_play_high"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sur7s"]
+_data = {
+"RESET": SubResource("Animation_7totc"),
+"circle_fade_in": SubResource("Animation_jldfq")
+}
 
 [node name="MainMap" type="Node2D"]
 
@@ -41,7 +151,7 @@ editor_draw_limits = true
 script = ExtResource("1_btitd")
 ignore_mouse_regions = [NodePath("../../CanvasLayer/BlockCameraMouse"), NodePath("../../CanvasLayer/BlockCameraMouse2")]
 
-[node name="AudioListener2D" type="AudioListener2D" parent="Area2D"]
+[node name="AudioListener2D" type="AudioListener2D" parent="Area2D/Camera2D"]
 current = true
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
@@ -114,6 +224,47 @@ offset_left = 482.0
 offset_top = 656.0
 offset_right = 482.0
 offset_bottom = 656.0
+
+[node name="start_anim" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/start_anim"]
+material = SubResource("ShaderMaterial_3ul0p")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/start_anim"]
+self_modulate = Color(0.682353, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -181.5
+offset_top = -235.0
+offset_right = 181.5
+offset_bottom = 235.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("16_63yqs")
+theme_override_font_sizes/font_size = 400
+text = "5
+"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="storm" type="Node2D" parent="."]
 script = ExtResource("16_4e2ma")
@@ -268,3 +419,9 @@ position = Vector2(-286, -154)
 
 [node name="corn12" type="Marker2D" parent="ItemSpawns/supercorn"]
 position = Vector2(-169, -288)
+
+[node name="start_animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_sur7s")
+}
+script = ExtResource("19_3qy5u")

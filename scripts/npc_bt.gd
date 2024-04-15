@@ -85,6 +85,9 @@ signal died
 func test(a):
 	return a
 
+func on_start():
+	npc_ai.enable()
+
 func _ready():
 	$name_label.text = base_stats.first_name + " '" + str(base_stats.number) + "' " + base_stats.last_name
 	npc_audio.set_name("audio " + str(base_stats.number))
