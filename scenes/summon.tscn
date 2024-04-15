@@ -10,14 +10,7 @@ radius = 24.0
 script = ExtResource("1_bhery")
 stats = ExtResource("2_55tf6")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
+[node name="hitbox" type="Area2D" parent="."]
 
-[node name="hitbox" type="Area2D" parent="TextureRect"]
-position = Vector2(32, 32)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TextureRect/hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
 shape = SubResource("CircleShape2D_diskf")
