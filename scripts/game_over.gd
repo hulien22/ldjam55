@@ -12,11 +12,11 @@ func _ready():
 	button.disabled = true
 	
 func on_champion_died(x, y):
-	label.text = "Your candidate has fallen, and you are now bankrupt. ff go next."
+	label.text = "Your Chosen One has fallen... Maybe the next one you choose will do better?"
 	fade_in()
 
 func on_champion_won():
-	label.text = "Your candidate has won, and you are now the richest person in the land."
+	label.text = "Your Chosen One is the champion!!"
 	fade_in()
 
 func fade_in():

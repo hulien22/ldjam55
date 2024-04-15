@@ -17,21 +17,23 @@ script = ExtResource("1_y2ium")
 [node name="Label" type="Label" parent="."]
 modulate = Color(0, 0.580392, 0.439216, 1)
 layout_mode = 0
-offset_left = 374.0
+offset_left = 266.0
 offset_top = 187.0
-offset_right = 897.0
-offset_bottom = 407.0
+offset_right = 1174.0
+offset_bottom = 478.0
 theme_override_fonts/font = ExtResource("2_yt81k")
 theme_override_font_sizes/font_size = 80
-text = "GAME OVER"
+text = "Your Chosen One has fallen... Maybe the next one you choose will do better?"
 horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="Button" type="TextureButton" parent="."]
 layout_mode = 0
-offset_left = 536.0
-offset_top = 441.0
-offset_right = 726.0
-offset_bottom = 486.0
+offset_left = 614.0
+offset_top = 502.0
+offset_right = 804.0
+offset_bottom = 547.0
 texture_normal = ExtResource("2_rm6q3")
 
 [node name="Label" type="Label" parent="Button"]
