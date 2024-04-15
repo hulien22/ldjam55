@@ -19,7 +19,7 @@ func set_data(npc_data: npc_base_stats):
 	hand_left.modulate = npc_data.color
 	hand_right.modulate = npc_data.color
 	name_label.text = "Candidate " + str(npc_data.number) +"\n" + npc_data.first_name + " " + npc_data.last_name
-	stats.text = "Health: " + str(npc_data.max_health) + "\nSpeed: " + str(npc_data.max_speed)
+	stats.text = "Health: " + str(npc_data.max_health) + "\nSpeed: " + str(round(npc_data.speed))
 	
 func on_selected():
 	var tween = get_tree().create_tween()

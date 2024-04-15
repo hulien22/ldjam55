@@ -10,7 +10,7 @@ func _ready():
 
 func on_spawn_mid():
 	for child in $mid.get_children():
-		item_holder.add_item_from_map(child.global_position, item_holder.add_item_from_map(child.global_position, ItemRegistry.getRandomItemFiltered([2,3,4], [SummonResource.SUMMON_TYPE.WEAPON, SummonResource.SUMMON_TYPE.CONSUMABLE, SummonResource.SUMMON_TYPE.ARMOR])))
+		item_holder.add_item_from_map(child.global_position, ItemRegistry.getRandomItemFiltered([3,4], [SummonResource.SUMMON_TYPE.WEAPON, SummonResource.SUMMON_TYPE.CONSUMABLE, SummonResource.SUMMON_TYPE.ARMOR, SummonResource.SUMMON_TYPE.MONSTER]))
 		
 func on_spawn_final():
 	for child in $supercorn.get_children():

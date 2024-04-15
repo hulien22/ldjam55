@@ -33,8 +33,15 @@ var _is_fleeing: bool = false
 var _firing_ranged: bool = false
 var _in_attack_anim: bool = false
 
+var _health_threshold_leave_storm:float = 0.8
+var _health_threshold_flee:float = 0.3
+
 var _range: float = 1000
 var _pickup_range_sq: float = pow(30, 2)
+
+var _safe_distance_sq: float = pow(600, 2)
+var _consumables_in_range: Array[SummonedItem] = []
+
 var _weapons_in_range: Array[SummonedItem] = []
 var _current_weapon_type: SummonResource.WEAPON_TYPE = SummonResource.WEAPON_TYPE.NONE
 var _current_weapon: SummonResource = null:
@@ -116,8 +123,8 @@ func get_blackboard() -> Dictionary:
 
 func _physics_process(delta):
 	time_since_hurt_noise += delta
-	if global_position.length() > storm_node.radius:
-		tick_damage(0.01, storm_node.storm_attacker)
+	if in_the_storm():
+		tick_damage(0.001, storm_node.storm_attacker)
 	#calculate_state()
 	##TODO do we want to do stuff with calling npc_ai.tick()?
 	#npc_ai.tick()
@@ -130,6 +137,8 @@ func calculate_state():
 	var best_weapon_dict: Dictionary = get_nearest_better_weapon()
 	var best_weapon: SummonedItem = best_weapon_dict.get("best_weapon")
 	var best_weapon_score: float = best_weapon_dict.get("best_score")
+	
+	var best_consumable: SummonedItem = get_closest_consumable()
 	#var closest_enemy_dist:float = closest_enemy.global_position.distance_squared_to(global_position)
 
 	_blackboard = {
@@ -147,7 +156,15 @@ func calculate_state():
 		"is_moving": nav_agent_component.is_moving(),
 		"is_fleeing": _is_fleeing,
 		"best_weapon": best_weapon,
-		"best_weapon_score": best_weapon_score
+		"best_weapon_score": best_weapon_score,
+		"storm_radius": storm_node.radius,
+		"in_storm": in_the_storm(),
+		"distance_from_storm": storm_node.radius - global_position.length(),
+		"best_consumable": best_consumable,
+		"safe_distance_sq": _safe_distance_sq,
+		"health_threshold_flee": _health_threshold_flee,
+		"health_threshold_leave_storm": _health_threshold_leave_storm,
+		"health_percentage": _health / base_stats.max_health
 	}
 	if closest_enemy != null:
 		_blackboard["closest_enemy_posn"] = closest_enemy.global_position
@@ -167,6 +184,12 @@ func skip_processing() -> bool:
 func skip_planning() -> bool:
 	return false
 
+func in_the_storm(p :Vector2 = global_position) -> bool:
+	return p.length() > storm_node.radius
+
+func invalid_target_position(p: Vector2) -> bool:
+	return !in_the_storm() && in_the_storm(p)
+
 func _on_scan_region_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int):
 	if (area == $HitBox || area == null):
 		return
@@ -178,6 +201,8 @@ func _on_scan_region_area_shape_entered(area_rid: RID, area: Area2D, area_shape_
 		match area.stats.summon_type:
 			SummonResource.SUMMON_TYPE.WEAPON:
 				_weapons_in_range.push_back(area)
+			SummonResource.SUMMON_TYPE.CONSUMABLE:
+				_consumables_in_range.push_back(area)
 
 func _on_scan_region_area_shape_exited(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int):
 	if (area == $HitBox || area == null):
@@ -190,11 +215,15 @@ func _on_scan_region_area_shape_exited(area_rid: RID, area: Area2D, area_shape_i
 		match area.stats.summon_type:
 			SummonResource.SUMMON_TYPE.WEAPON:
 				_weapons_in_range.erase(area)
+			SummonResource.SUMMON_TYPE.CONSUMABLE:
+				_consumables_in_range.erase(area)
 
 func get_nearest_enemy():
 	var closest = null
 	var closest_dist: float = 0
 	for e in enemies_in_range:
+		if (invalid_target_position(e.global_position)):
+			continue
 		var dist: float = global_position.distance_squared_to(e.global_position)
 		if (closest == null||dist < closest_dist):
 			closest = e
@@ -220,10 +249,24 @@ func get_visible_enemies():
 		my_line.clear_points()
 	return visible
 
+func get_closest_consumable() -> SummonedItem:
+	var closest:SummonedItem = null
+	var closest_dist: float = 0
+	for c in _consumables_in_range:
+		var dist: float = global_position.distance_squared_to(c.global_position)
+		if (closest == null||dist < closest_dist):
+			closest = c
+			closest_dist = dist
+	return closest
+
 func get_nearest_better_weapon() -> Dictionary:
 	var item:SummonedItem = null
 	var best_score:float = -1
 	for i in _weapons_in_range:
+		# If in the storm, then can chase after (survive will kick us out early)
+		# If not in the storm, then ignore stuff in the storm
+		if (invalid_target_position(i.global_position)):
+			continue
 		var s = get_item_score(i)
 		if s > best_score:
 			best_score = s
@@ -383,7 +426,7 @@ func move_towards(posn: Vector2, is_fleeing:bool = false):
 	#modulate = Color.GREEN
 
 func get_speed_mod() -> float:
-	var speed_mod: float = 1.0
+	var speed_mod: float = base_stats.speed
 	if _firing_ranged:
 		speed_mod *= 0.2
 	if _is_fleeing:
@@ -419,20 +462,24 @@ func get_priority(goal:String) -> float:
 		"Explore":
 			return 0.0
 		"Survive":
-			var mh:float = base_stats.max_health
-			var ch:float = _health
-			if (ch >= mh):
-				return -10.0
-			if (mh <= 0 || ch <= 0):
-				return 0.0
-			# TODO different formula
-			return (1.0 - ch / mh) * 10.0
+			#var mh:float = base_stats.max_health
+			#var ch:float = _health
+			#if (ch >= mh):
+				#return -10.0
+			#if (mh <= 0 || ch <= 0):
+				#return 0.0
+			## TODO different formula
+			#return (1.0 - ch / mh) * 10.0
+			return 998.0
 		"PickupItems":
 			# always try to do this
 			return 1000.0
 		"Attack":
 			# always try to do this
 			return 999.0
+		"GetOutOfStorm":
+			# just more important than exploring
+			return 1 
 		"GetWeapon":
 			return _blackboard.get("best_weapon_score")
 	return 0.0

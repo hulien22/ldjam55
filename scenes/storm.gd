@@ -17,6 +17,7 @@ func _ready():
 	storm_attacker = npc_base_stats.new()
 	storm_attacker.first_name = "The storm"
 	radius = 5000
+	#radius = 3000
 	stormTimer = $StormTimer
 	stormTimer.connect("timeout", self._on_storm_timer)
 	stormShrinkTimer = $StormShrinkTimer
