@@ -10,5 +10,6 @@ extends Area2D
 
 func _ready():
 	item_sprite.texture = stats.image
+	item_sprite.modulate = stats.get_color()
 	
 

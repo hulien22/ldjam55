@@ -24,3 +24,19 @@ enum SUMMON_TYPE {
 
 #movement
 @export var movement_speed_mod: float
+
+func get_color() -> Color:
+	# don't color consumables
+	if summon_type == SUMMON_TYPE.CONSUMABLE:
+		return Color.WHITE
+	match level:
+		1:
+			return Color.GRAY
+		2:
+			return Color.LIME_GREEN
+		3:
+			return Color.CORNFLOWER_BLUE
+		4:
+			return Color.DARK_ORCHID
+		_:
+			return Color.GOLD

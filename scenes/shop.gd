@@ -28,8 +28,11 @@ func _ready():
 	slotThree = ItemRegistry.getRandomItem()
 		
 	slotOneIcon.texture = slotOne.image
+	slotOneIcon.modulate = slotOne.get_color()
 	slotTwoIcon.texture = slotTwo.image
+	slotTwoIcon.modulate = slotTwo.get_color()
 	slotThreeIcon.texture = slotThree.image
+	slotThreeIcon.modulate = slotThree.get_color()
 	
 	slotOneLabel.text = str(slotOne.cost)
 	slotTwoLabel.text = str(slotTwo.cost)
@@ -44,8 +47,11 @@ func _refreshShopTimer():
 	slotThree = ItemRegistry.getRandomItem()
 		
 	slotOneIcon.texture = slotOne.image
+	slotOneIcon.modulate = slotOne.get_color()
 	slotTwoIcon.texture = slotTwo.image
+	slotTwoIcon.modulate = slotTwo.get_color()
 	slotThreeIcon.texture = slotThree.image
+	slotThreeIcon.modulate = slotThree.get_color()
 	slotOneLabel.text = str(slotOne.cost)
 	slotTwoLabel.text = str(slotTwo.cost)
 	slotThreeLabel.text = str(slotThree.cost)

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ItemSummon" load_steps=3 format=3 uid="uid://ryqt0w7i5fot"]
+
+[ext_resource type="Texture2D" uid="uid://cypv5cjj4ekxv" path="res://art/items/weapon_dagger.png" id="1_k5dvf"]
+[ext_resource type="Script" path="res://scripts/Summons Res/item_summon.gd" id="2_c1pj5"]
+
+[resource]
+script = ExtResource("2_c1pj5")
+summon_type = 0
+level = 3
+image = ExtResource("1_k5dvf")
+name = "dagger"
+cost = 0
+health_mod = 0.0
+damage_mod = 5.0
+defense_mod = 1.0
+attack_per_minute_mod = 10.0
+range_mod = 1.0
+movement_speed_mod = 0.0

@@ -7,6 +7,7 @@ var stats: SummonResource
 func _ready():
 	var collision_shape = CollisionShape2D.new()
 	texture = stats.image
+	modulate = stats.get_color()
 
 func _get_drag_data(at_position):
 	print()
@@ -16,6 +17,7 @@ func _get_drag_data(at_position):
 	
 	var drag_texture = TextureRect.new()
 	drag_texture.texture = texture
+	drag_texture.modulate = stats.get_color()
 	drag_texture.size = texture.get_size()
 	
 	var control = Control.new()
