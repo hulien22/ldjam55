@@ -7,7 +7,10 @@
 [node name="Test" type="Node2D"]
 
 [node name="SummonBar" parent="." instance=ExtResource("1_xulpx")]
-position = Vector2(475, 655)
+offset_left = 475.0
+offset_top = 655.0
+offset_right = 475.0
+offset_bottom = 655.0
 
 [node name="Dagger" parent="." instance=ExtResource("2_ttjch")]
 position = Vector2(374, 416)
