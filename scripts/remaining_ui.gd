@@ -15,14 +15,11 @@ signal signal_storm_start
 func _ready():
 	count_text.text = str(count)
 	timer.connect("timeout", self._on_timer_timeout)
-	self.connect("signal_storm_start", storm._start_storm)
 
 func _process(delta):
 	count_gold.text = str(gold)
 
-	if count < 50 && stormActive==false:
-			stormActive = true
-			signal_storm_start.emit()
+	
 
 func on_death(x, y):
 	count -= 1

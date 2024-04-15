@@ -8,24 +8,20 @@ var target
 var storm_attacker
 
 @onready var item_spawns = $"../ItemSpawns"
-
-func _draw():
-	draw_arc(Vector2.ZERO, radius, 0, TAU, 1000, Color.BLACK, 25)
+@onready var fog = $"../fog"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	storm_attacker = npc_base_stats.new()
 	storm_attacker.first_name = "The storm"
 	radius = 5000
-	#radius = 3000
+	fog.material.set_shader_parameter("radius", radius)
 	stormTimer = $StormTimer
 	stormTimer.connect("timeout", self._on_storm_timer)
 	stormShrinkTimer = $StormShrinkTimer
 	stormShrinkTimer.connect("timeout", self._on_storm_shrink_timer)
-
-
-func _start_storm():
 	stormTimer.start()
+
 
 func _on_storm_timer():
 	if radius < 1000:
@@ -39,7 +35,7 @@ func _on_storm_timer():
 	
 
 func _on_storm_shrink_timer():
-	radius -= 5
+	radius -= 8
 	if radius < target:
 		stormShrinkTimer.stop()
-	queue_redraw()
+	fog.material.set_shader_parameter("radius", radius)

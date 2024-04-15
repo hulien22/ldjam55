@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://q8jttyob4isq"]
+[gd_scene load_steps=28 format=3 uid="uid://q8jttyob4isq"]
 
 [ext_resource type="Script" path="res://scripts/moveCamera.gd" id="1_btitd"]
 [ext_resource type="Script" path="res://scripts/npcs_spawner.gd" id="2_ivw7p"]
@@ -10,12 +10,14 @@
 [ext_resource type="PackedScene" uid="uid://cq5ckpi640ed0" path="res://scenes/ui/kill_feed_item.tscn" id="6_yv64i"]
 [ext_resource type="PackedScene" uid="uid://3h86u45dh76w" path="res://scenes/summon_bar.tscn" id="7_t5fnm"]
 [ext_resource type="PackedScene" uid="uid://cweqdsexqyff5" path="res://scenes/ui/remaining_ui.tscn" id="7_volvn"]
-[ext_resource type="PackedScene" uid="uid://cwvl31pnego5i" path="res://scenes/block_camera_mouse.tscn" id="14_llsrb"]
+[ext_resource type="PackedScene" path="res://scenes/block_camera_mouse.tscn" id="14_llsrb"]
 [ext_resource type="PackedScene" uid="uid://bmta10xo0k8he" path="res://scenes/shop.tscn" id="15_xvkgf"]
 [ext_resource type="Script" path="res://scenes/storm.gd" id="16_4e2ma"]
 [ext_resource type="FontFile" uid="uid://djhfqg84rk38a" path="res://font/PipersPlayroom-2OP1K.ttf" id="16_63yqs"]
 [ext_resource type="PackedScene" uid="uid://dj10cboxeim86" path="res://scenes/ui/game_over.tscn" id="16_gdefu"]
+[ext_resource type="Shader" path="res://scripts/fog_shader-attempt_2_i_cry.gdshader" id="17_mu37b"]
 [ext_resource type="Shader" path="res://scripts/circle_fade.gdshader" id="17_ojdw8"]
+[ext_resource type="Texture2D" uid="uid://us5ib6113uti" path="res://art/perlin 6 - 256x256.png" id="18_27fw0"]
 [ext_resource type="Script" path="res://scripts/start_animation.gd" id="19_3qy5u"]
 [ext_resource type="PackedScene" uid="uid://cgpk45exse67i" path="res://scenes/summon_spawner.tscn" id="19_3484j"]
 [ext_resource type="Script" path="res://scripts/ItemSpawns.gd" id="20_cqdku"]
@@ -133,6 +135,15 @@ _data = {
 "RESET": SubResource("Animation_7totc"),
 "circle_fade_in": SubResource("Animation_jldfq")
 }
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6sl8s"]
+shader = ExtResource("17_mu37b")
+shader_parameter/speed = Vector2(0.02, 0.01)
+shader_parameter/uv_scale = 10.0
+shader_parameter/radius = 5000.0
+shader_parameter/gradient = 200.0
+shader_parameter/world_transform = null
+shader_parameter/noise_texture = ExtResource("18_27fw0")
 
 [node name="MainMap" type="Node2D"]
 
@@ -426,3 +437,12 @@ libraries = {
 "": SubResource("AnimationLibrary_sur7s")
 }
 script = ExtResource("19_3qy5u")
+
+[node name="fog" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_6sl8s")
+offset_left = -5000.0
+offset_top = -5000.0
+offset_right = 5000.0
+offset_bottom = 5000.0
+mouse_filter = 2
+color = Color(0, 0.32549, 1, 1)
