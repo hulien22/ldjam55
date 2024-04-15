@@ -39,6 +39,12 @@ func get_summon(parent_node):
 		if parent_node is SlotTexture and child_node is SummonTexture:
 			return child_node
 	return null	
+
+func has_item():
+	for child_node in get_children():
+		if child_node is SummonTexture:
+			return true
+	return false
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass

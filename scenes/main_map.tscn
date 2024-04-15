@@ -69,8 +69,9 @@ fade_speed = 1.0
 move_speed = 0.5
 translation = 60
 
-[node name="RemainingUi" parent="CanvasLayer" node_paths=PackedStringArray("storm") instance=ExtResource("7_volvn")]
+[node name="RemainingUi" parent="CanvasLayer" node_paths=PackedStringArray("storm", "game_over_scene") instance=ExtResource("7_volvn")]
 storm = NodePath("../../storm")
+game_over_scene = NodePath("../GameOver")
 
 [node name="DropArea" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -82,7 +83,9 @@ script = ExtResource("5_v2y2c")
 [node name="GameOver" parent="CanvasLayer" instance=ExtResource("16_gdefu")]
 fade_speed = 1.0
 
-[node name="Shop" parent="CanvasLayer" instance=ExtResource("15_xvkgf")]
+[node name="Shop" parent="CanvasLayer" node_paths=PackedStringArray("remaining", "summon") instance=ExtResource("15_xvkgf")]
+remaining = NodePath("../RemainingUi")
+summon = NodePath("../SummonBar")
 
 [node name="SummonBar" parent="CanvasLayer" instance=ExtResource("7_t5fnm")]
 position = Vector2(482, 656)

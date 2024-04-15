@@ -163,3 +163,7 @@ vertical_alignment = 1
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0
+
+[connection signal="gui_input" from="ShopPanel/ItemThreePanel/ItemThreeIcon" to="." method="_on_gui_input" binds= [1]]
+[connection signal="gui_input" from="ShopPanel/ItemTwoPanel/ItemTwoIcon" to="." method="_on_gui_input" binds= [2]]
+[connection signal="gui_input" from="ShopPanel/ItemOnePanel/ItemOneIcon" to="." method="_on_gui_input" binds= [3]]
