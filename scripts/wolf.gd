@@ -52,7 +52,7 @@ func _ready():
 	base_stats.player = false
 	
 	base_stats.max_health = stats.health_mod
-	base_stats.max_speed = stats.movement_speed_mod
+	base_stats.speed = stats.movement_speed_mod
 	
 	sprite.modulate = stats.get_color()
 	
@@ -230,7 +230,7 @@ func move_towards(posn: Vector2, is_fleeing:bool = false):
 	#modulate = Color.GREEN
 
 func get_speed_mod() -> float:
-	var speed_mod: float = 1.0
+	var speed_mod: float = base_stats.speed
 	return speed_mod
 
 func cancel_movement():

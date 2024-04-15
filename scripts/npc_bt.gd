@@ -426,7 +426,7 @@ func move_towards(posn: Vector2, is_fleeing:bool = false):
 	#modulate = Color.GREEN
 
 func get_speed_mod() -> float:
-	var speed_mod: float = 1.0
+	var speed_mod: float = base_stats.speed
 	if _firing_ranged:
 		speed_mod *= 0.2
 	if _is_fleeing:

@@ -31,3 +31,9 @@ func getItem(n):
 func getRandomItem():
 	return items[randi_range(0, len(items)-1)].duplicate()
 	
+func getRandomItemFiltered(levels, types):
+	var matches = []
+	for item in items:
+		if item.summon_type in types and (item.level in levels or item.summon_type == SummonResource.SUMMON_TYPE.MONSTER):
+			matches.append(item)
+	return matches[randi_range(0, len(matches)-1)]

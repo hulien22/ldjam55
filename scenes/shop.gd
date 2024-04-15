@@ -17,15 +17,25 @@ var slotThree
 
 var timer
 
+var type_filter = [
+	SummonResource.SUMMON_TYPE.ARMOR,
+	SummonResource.SUMMON_TYPE.CONSUMABLE,
+	SummonResource.SUMMON_TYPE.WEAPON,
+	SummonResource.SUMMON_TYPE.MONSTER,
+	SummonResource.SUMMON_TYPE.SHIELD
+]
 
+var level_filter = [1]
+var level_thresholds = [60, 35, 20, 5, -10]
+var cur_level = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	timer = $Timer
 	#populate inital shop
-	slotOne = ItemRegistry.getRandomItem()
-	slotTwo = ItemRegistry.getRandomItem()
-	slotThree = ItemRegistry.getRandomItem()
+	slotOne = ItemRegistry.getRandomItemFiltered(level_filter, type_filter)
+	slotTwo = ItemRegistry.getRandomItemFiltered(level_filter, type_filter)
+	slotThree = ItemRegistry.getRandomItemFiltered(level_filter, type_filter)
 		
 	slotOneIcon.texture = slotOne.image
 	slotOneIcon.modulate = slotOne.get_color()
@@ -42,9 +52,12 @@ func _ready():
 	timer.start()
 
 func _refreshShopTimer():
-	slotOne = ItemRegistry.getRandomItem()
-	slotTwo = ItemRegistry.getRandomItem()
-	slotThree = ItemRegistry.getRandomItem()
+	if remaining.count <= level_thresholds[cur_level]:
+		cur_level += 1
+		level_filter.append(cur_level+1)
+	slotOne = ItemRegistry.getRandomItemFiltered(level_filter, type_filter)
+	slotTwo = ItemRegistry.getRandomItemFiltered(level_filter, type_filter)
+	slotThree = ItemRegistry.getRandomItemFiltered(level_filter, type_filter)
 		
 	slotOneIcon.texture = slotOne.image
 	slotOneIcon.modulate = slotOne.get_color()

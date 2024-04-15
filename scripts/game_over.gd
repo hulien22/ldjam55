@@ -6,6 +6,7 @@ extends Control
 var label: Label
 var button: TextureButton
 func _ready():
+	visible = false
 	modulate.a = 0.0
 	label = $Label
 	button = $Button
@@ -20,6 +21,7 @@ func on_champion_won():
 	fade_in()
 
 func fade_in():
+	visible = true
 	var tween = get_tree().create_tween()
 	tween.tween_property(self, "modulate:a", 1.0, fade_speed)
 	tween.tween_callback(finished_fade)
