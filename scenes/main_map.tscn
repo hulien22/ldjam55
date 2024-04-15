@@ -3,7 +3,8 @@
 [ext_resource type="Script" path="res://scripts/moveCamera.gd" id="1_btitd"]
 [ext_resource type="Script" path="res://scripts/npcs_spawner.gd" id="2_ivw7p"]
 [ext_resource type="TileSet" uid="uid://bxxwvdlpdlm04" path="res://art/tileset/background_art.tres" id="2_jww75"]
-[ext_resource type="PackedScene" uid="uid://cbn73ymox5yuo" path="res://scenes/npc.tscn" id="3_4j1yb"]
+
+[ext_resource type="PackedScene" uid="uid://dcg5q7p21m3pd" path="res://scenes/npc_bt.tscn" id="4_ldqu2"]
 [ext_resource type="Script" path="res://scripts/ItemHolder.gd" id="5_flyss"]
 [ext_resource type="Script" path="res://scripts/DropArea.gd" id="5_v2y2c"]
 [ext_resource type="PackedScene" uid="uid://cg3ni1hryupja" path="res://scenes/ui/kill_feed.tscn" id="5_y58te"]
@@ -51,7 +52,7 @@ layer_0/tile_data = PackedInt32Array(-65535, 0, 0, -65534, 0, 0, 1, 0, 0, 2, 0, 
 [node name="NPCSpawner" type="Node2D" parent="." node_paths=PackedStringArray("kill_feed_scene", "remaining_ui_scene", "camera_controller", "game_over_scene")]
 scale = Vector2(1, 1.05206)
 script = ExtResource("2_ivw7p")
-npc_scene = ExtResource("3_4j1yb")
+npc_scene = ExtResource("4_ldqu2")
 kill_feed_scene = NodePath("../CanvasLayer/KillFeed")
 remaining_ui_scene = NodePath("../CanvasLayer/RemainingUi")
 camera_controller = NodePath("../Area2D")

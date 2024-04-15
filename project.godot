@@ -18,8 +18,11 @@ config/icon="res://art/icon.svg"
 [autoload]
 
 NpcRegistry="*res://scenes/npc_registry.tscn"
+BeehaveGlobalMetrics="res://addons/beehave/metrics/beehave_global_metrics.gd"
+BeehaveGlobalDebugger="res://addons/beehave/debug/global_debugger.gd"
 ItemRegistry="*res://scenes/item_registry.tscn"
 AudioPlayer="*res://scenes/AudioPlayer.tscn"
+
 
 [display]
 
@@ -29,6 +32,10 @@ window/size/viewport_height=720
 [dotnet]
 
 project/assembly_name="ldjam55"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/beehave/plugin.cfg")
 
 [input]
 

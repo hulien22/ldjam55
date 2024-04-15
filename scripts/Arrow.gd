@@ -8,11 +8,11 @@ var _lifetime:float
 
 @onready var arrow_hitbox = $ArrowHitbox
 
-func init(stats: npc_base_stats, speed: float, target: Vector2, lifetime: float, dmg: float):
+func init(stats: npc_base_stats, speed: float, dir: Vector2, lifetime: float, dmg: float):
 	_base_stats = stats
 	_lifetime = lifetime
 	_dmg = dmg
-	_velocity = (target - global_position).normalized() * speed
+	_velocity = dir.normalized() * speed
 	rotate(_velocity.angle())
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -27,8 +27,14 @@ func _physics_process(delta):
 func _on_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int):
 	if (area == arrow_hitbox):
 		return
-	if (area != null && area.get_parent() is NPC):
+
+	if (area == null):
+		pass
+	elif (area.get_parent() is NPC || area.get_parent() is NPCBT):
 		area.get_parent().damage(_dmg, _base_stats, global_position, 0)
+	elif (area.get_parent() is Arrow):
+		if (area.get_parent()._base_stats.number == _base_stats.number):
+			return
 	queue_free()
 
 # Walls
