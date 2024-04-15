@@ -8,6 +8,7 @@ script = ExtResource("1_a0ero")
 level = 1
 image = ExtResource("1_qc3gu")
 name = "dagger"
+cost = 25
 health_mod = 0.0
 damage_mod = 5.0
 defense_mod = 1.0

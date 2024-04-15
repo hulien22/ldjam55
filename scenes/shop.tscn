@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cdcnmba6fxwfw" path="res://art/ui/greyPanel.png" id="4_ns6n0"]
 [ext_resource type="FontFile" uid="uid://djhfqg84rk38a" path="res://font/PipersPlayroom-2OP1K.ttf" id="4_xus24"]
 
-[node name="Shop" type="Control" node_paths=PackedStringArray("slotOneIcon", "slotTwoIcon", "slotThreeIcon")]
+[node name="Shop" type="Control" node_paths=PackedStringArray("slotOneIcon", "slotTwoIcon", "slotThreeIcon", "slotOneLabel", "slotTwoLabel", "slotThreeLabel")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -15,6 +15,9 @@ script = ExtResource("1_cvlep")
 slotOneIcon = NodePath("ShopPanel/ItemThreePanel/ItemThreeIcon")
 slotTwoIcon = NodePath("ShopPanel/ItemTwoPanel/ItemTwoIcon")
 slotThreeIcon = NodePath("ShopPanel/ItemOnePanel/ItemOneIcon")
+slotOneLabel = NodePath("ShopPanel/ItemThreePanel/ItemThreePrice/ItemThreeLabel")
+slotTwoLabel = NodePath("ShopPanel/ItemTwoPanel/ItemTwoPrice/ItemTwoLabel")
+slotThreeLabel = NodePath("ShopPanel/ItemOnePanel/ItemOnePrice/ItemOneLabel")
 
 [node name="ShopPanel" type="TextureRect" parent="."]
 layout_mode = 0
@@ -75,6 +78,13 @@ offset_bottom = 119.0
 texture = ExtResource("2_w6aeq")
 expand_mode = 1
 
+[node name="ItemThreeLabel" type="Label" parent="ShopPanel/ItemThreePanel/ItemThreePrice"]
+layout_mode = 0
+offset_right = 54.0
+offset_bottom = 31.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="ItemTwoPanel" type="TextureRect" parent="ShopPanel"]
 layout_mode = 0
 offset_left = 36.0
@@ -106,6 +116,13 @@ offset_bottom = 119.0
 texture = ExtResource("2_w6aeq")
 expand_mode = 1
 
+[node name="ItemTwoLabel" type="Label" parent="ShopPanel/ItemTwoPanel/ItemTwoPrice"]
+layout_mode = 0
+offset_right = 54.0
+offset_bottom = 31.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="ItemOnePanel" type="TextureRect" parent="ShopPanel"]
 layout_mode = 0
 offset_left = 34.0
@@ -136,6 +153,13 @@ offset_right = 80.0
 offset_bottom = 119.0
 texture = ExtResource("2_w6aeq")
 expand_mode = 1
+
+[node name="ItemOneLabel" type="Label" parent="ShopPanel/ItemOnePanel/ItemOnePrice"]
+layout_mode = 0
+offset_right = 54.0
+offset_bottom = 30.0
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0

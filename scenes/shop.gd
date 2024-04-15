@@ -8,6 +8,10 @@ var slotThree
 @export var slotTwoIcon: TextureRect
 @export var slotThreeIcon: TextureRect
 
+@export var slotOneLabel: Label
+@export var slotTwoLabel: Label
+@export var slotThreeLabel: Label
+
 var timer
 
 
@@ -23,16 +27,13 @@ func _ready():
 	slotOneIcon.texture = slotOne.image
 	slotTwoIcon.texture = slotTwo.image
 	slotThreeIcon.texture = slotThree.image
+	
+	slotOneLabel.text = str(slotOne.cost)
+	slotTwoLabel.text = str(slotTwo.cost)
+	slotThreeLabel.text = str(slotThree.cost)
 
 	timer.connect("timeout", self._refreshShopTimer)
 	timer.start()
-
-
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
 func _refreshShopTimer():
 	slotOne = ItemRegistry.getRandomItem()
@@ -42,3 +43,6 @@ func _refreshShopTimer():
 	slotOneIcon.texture = slotOne.image
 	slotTwoIcon.texture = slotTwo.image
 	slotThreeIcon.texture = slotThree.image
+	slotOneLabel.text = str(slotOne.cost)
+	slotTwoLabel.text = str(slotTwo.cost)
+	slotThreeLabel.text = str(slotThree.cost)

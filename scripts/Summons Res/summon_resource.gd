@@ -5,7 +5,7 @@ extends Resource
 @export var level: int
 @export var image: Texture2D
 @export var name: String
-
+@export var cost: int
 #fighting modifiers
 @export var health_mod: float
 @export var damage_mod: float
