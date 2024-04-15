@@ -15,6 +15,13 @@ func add_item(map_rid,stats):
 	new_item.item_holder = self
 	add_child(new_item)
 	new_item.global_position = closest_v
+
+func add_item_from_map(position, stats):
+	var new_item = summon_anim_scene.instantiate()
+	new_item.stats = stats
+	new_item.item_holder = self
+	add_child(new_item)
+	new_item.global_position = position
 	
 func remove_item(item_node):
 	remove_child(item_node)
