@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://q8jttyob4isq"]
+[gd_scene load_steps=18 format=3 uid="uid://q8jttyob4isq"]
 
 [ext_resource type="Script" path="res://scripts/moveCamera.gd" id="1_btitd"]
 [ext_resource type="Script" path="res://scripts/npcs_spawner.gd" id="2_ivw7p"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cq5ckpi640ed0" path="res://scenes/ui/kill_feed_item.tscn" id="6_yv64i"]
 [ext_resource type="PackedScene" uid="uid://3h86u45dh76w" path="res://scenes/summon_bar.tscn" id="7_t5fnm"]
 [ext_resource type="PackedScene" uid="uid://cweqdsexqyff5" path="res://scenes/ui/remaining_ui.tscn" id="7_volvn"]
+[ext_resource type="PackedScene" uid="uid://cwvl31pnego5i" path="res://scenes/block_camera_mouse.tscn" id="14_llsrb"]
 [ext_resource type="PackedScene" uid="uid://bmta10xo0k8he" path="res://scenes/shop.tscn" id="15_xvkgf"]
 [ext_resource type="Script" path="res://scenes/storm.gd" id="16_4e2ma"]
 [ext_resource type="PackedScene" uid="uid://dj10cboxeim86" path="res://scenes/ui/game_over.tscn" id="16_gdefu"]
@@ -27,7 +28,7 @@ agent_radius = 19.56
 
 [node name="Area2D" type="Node2D" parent="."]
 
-[node name="Camera2D" type="Camera2D" parent="Area2D"]
+[node name="Camera2D" type="Camera2D" parent="Area2D" node_paths=PackedStringArray("ignore_mouse_regions")]
 position = Vector2(1, 0)
 zoom = Vector2(0.685, 0.685)
 limit_left = -3905
@@ -37,6 +38,7 @@ limit_bottom = 3905
 limit_smoothed = true
 position_smoothing_enabled = true
 script = ExtResource("1_btitd")
+ignore_mouse_regions = [NodePath("../../CanvasLayer/BlockCameraMouse"), NodePath("../../CanvasLayer/BlockCameraMouse2")]
 
 [node name="AudioListener2D" type="AudioListener2D" parent="Area2D"]
 current = true
@@ -67,13 +69,27 @@ summon_anim_scene = ExtResource("19_3484j")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
+[node name="BlockCameraMouse2" parent="CanvasLayer" instance=ExtResource("14_llsrb")]
+offset_left = 25.0
+offset_top = 227.0
+offset_right = 216.0
+offset_bottom = 708.0
+
+[node name="BlockCameraMouse" parent="CanvasLayer" instance=ExtResource("14_llsrb")]
+offset_left = 455.0
+offset_top = 599.0
+offset_right = 841.0
+offset_bottom = 731.0
+
 [node name="KillFeed" parent="CanvasLayer" instance=ExtResource("5_y58te")]
+mouse_filter = 2
 kill_feed_item_scene = ExtResource("6_yv64i")
 fade_speed = 1.0
 move_speed = 0.5
 translation = 60
 
 [node name="RemainingUi" parent="CanvasLayer" node_paths=PackedStringArray("storm", "game_over_scene") instance=ExtResource("7_volvn")]
+mouse_filter = 2
 storm = NodePath("../../storm")
 game_over_scene = NodePath("../GameOver")
 
@@ -82,6 +98,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 1280.0
 offset_bottom = 720.0
+mouse_filter = 1
 script = ExtResource("5_v2y2c")
 
 [node name="GameOver" parent="CanvasLayer" instance=ExtResource("16_gdefu")]
@@ -92,7 +109,10 @@ remaining = NodePath("../RemainingUi")
 summon = NodePath("../SummonBar")
 
 [node name="SummonBar" parent="CanvasLayer" instance=ExtResource("7_t5fnm")]
-position = Vector2(482, 656)
+offset_left = 482.0
+offset_top = 656.0
+offset_right = 482.0
+offset_bottom = 656.0
 
 [node name="storm" type="Node2D" parent="."]
 script = ExtResource("16_4e2ma")

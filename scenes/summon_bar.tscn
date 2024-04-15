@@ -5,7 +5,9 @@
 [ext_resource type="Texture2D" uid="uid://d3ggbpqw3f2kl" path="res://art/summon bar/tiles_center.png" id="2_rn1i1"]
 [ext_resource type="Script" path="res://scripts/slot.gd" id="3_yu626"]
 
-[node name="SummonBar" type="Node2D"]
+[node name="SummonBar" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_y8wcf")
 

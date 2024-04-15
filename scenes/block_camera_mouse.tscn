@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwvl31pnego5i"]
+
+[ext_resource type="Script" path="res://scripts/block_camera_mouse.gd" id="1_oat50"]
+
+[node name="BlockCameraMouse" type="ColorRect"]
+modulate = Color(1, 1, 1, 0)
+offset_right = 10.0
+offset_bottom = 10.0
+mouse_filter = 1
+script = ExtResource("1_oat50")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

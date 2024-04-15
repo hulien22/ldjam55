@@ -1,5 +1,5 @@
 class_name summon_bar_class
-extends Node2D
+extends Control
 @onready var slot_1 = $"bar/HBoxContainer/slot 1"
 @onready var slot_2 = $"bar/HBoxContainer/slot 2"
 @onready var slot_3 = $"bar/HBoxContainer/slot 3"

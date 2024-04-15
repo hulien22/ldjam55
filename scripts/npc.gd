@@ -176,7 +176,8 @@ func get_visible_enemies():
 			my_line.add_point(Vector2.ZERO)
 			my_line.add_point(enemy.global_position-global_position)
 	if len(enemies_in_range) != len(visible):
-		print("of " + str(len(enemies_in_range)) + " enemies " + str(len(visible)) + " are visible.")
+		#print("of " + str(len(enemies_in_range)) + " enemies " + str(len(visible)) + " are visible.")
+		pass
 	else:
 		my_line.clear_points()
 	return visible
@@ -232,7 +233,7 @@ func attack_enemy(enemy):
 				if e.global_position.distance_squared_to(global_position) <= attack_range_sq * 1.1:
 					var angle = global_position.angle_to_point(e.global_position)
 					if angle_difference(angle, sprite_holder.rotation) < 0.785398: #45 degrees diff so 90 degrees total
-						print(self, " -> ", e)
+						#print(self, " -> ", e)
 						e.damage(1, base_stats, global_position, knockback)
 		)
 	get_tree().create_timer(_cooldown).timeout.connect(func():

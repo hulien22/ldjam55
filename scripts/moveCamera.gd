@@ -8,12 +8,15 @@ var camera_speed_mouse = 500
 var radius_required_to_move = 75
 var follow_player = true
 var target
+
 #var camera: Camera2D
 
 @export var hold_zoom_speed: Vector2 = Vector2(3, 3)
 @export var scroll_zoom_speed: Vector2 = Vector2(0.5, 0.5)
 @export var zoom_min: Vector2 = Vector2(0.4, 0.4)
 @export var zoom_max: Vector2 = Vector2(3.0, 3.0)
+
+@export var ignore_mouse_regions: Array[BlockCameraMouseRect]
 
 
 func _ready():
@@ -58,21 +61,22 @@ func _process(delta):
 
 
 	#Mouse on edge of screen control
-	var mouse_position = get_viewport().get_mouse_position()
-	var mouseVelocity = Vector2.ZERO
-	if screen.has_point(mouse_position) && mouse_position.x < radius_required_to_move:
-		mouseVelocity +=  Vector2.LEFT 
+	if is_mouse_movement_enabled():
+		var mouse_position = get_viewport().get_mouse_position()
+		var mouseVelocity = Vector2.ZERO
+		if screen.has_point(mouse_position) && mouse_position.x < radius_required_to_move:
+			mouseVelocity +=  Vector2.LEFT 
 
-	if screen.has_point(mouse_position) && abs(mouse_position.x-screen_size.x) < radius_required_to_move:
-		mouseVelocity +=  Vector2.RIGHT 
+		if screen.has_point(mouse_position) && abs(mouse_position.x-screen_size.x) < radius_required_to_move:
+			mouseVelocity +=  Vector2.RIGHT 
 
-	if screen.has_point(mouse_position) && mouse_position.y < radius_required_to_move:
-		mouseVelocity +=  Vector2.UP 
+		if screen.has_point(mouse_position) && mouse_position.y < radius_required_to_move:
+			mouseVelocity +=  Vector2.UP 
 
-	if screen.has_point(mouse_position) && abs(mouse_position.y-screen_size.y) < radius_required_to_move && mouse_position.y < screen_size.y:
-		mouseVelocity +=  Vector2.DOWN 
+		if screen.has_point(mouse_position) && abs(mouse_position.y-screen_size.y) < radius_required_to_move && mouse_position.y < screen_size.y:
+			mouseVelocity +=  Vector2.DOWN 
 
-	position += mouseVelocity.normalized() * camera_speed_mouse * delta / zoom.x
+		position += mouseVelocity.normalized() * camera_speed_mouse * delta / zoom.x
 	clamp_to_limits()
 
 func clamp_to_limits():
@@ -85,3 +89,9 @@ func clamp_to_limits():
 func _on_viewport_resize():
 	screen = get_viewport_rect()
 	screen_size = screen.size
+
+func is_mouse_movement_enabled() -> bool:
+	for r in ignore_mouse_regions:
+		if r.is_mouse_inside():
+			return false
+	return true
