@@ -273,7 +273,7 @@ arrow_scene = ExtResource("2_bqnf1")
 
 [node name="NpcAi" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_nin16")]
 tick_rate = 2
-blackboard = NodePath("@Node@17490")
+blackboard = NodePath("@Node@34694")
 actor = NodePath("..")
 
 [node name="NavAgentComponent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("actor")]
@@ -338,6 +338,7 @@ zoom = Vector2(4, 4)
 [node name="ScanRegion" type="Area2D" parent="."]
 visible = false
 collision_layer = 0
+collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ScanRegion"]
 shape = SubResource("CircleShape2D_shg6q")

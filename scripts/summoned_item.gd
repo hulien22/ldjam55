@@ -1,4 +1,4 @@
-class_name summoned_item
+class_name SummonedItem
 extends Area2D
 
 @onready var item_sprite = $SpriteHolder/ItemSprite

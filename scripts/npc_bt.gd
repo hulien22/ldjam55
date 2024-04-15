@@ -12,6 +12,7 @@ class_name NPCBT
 @onready var arrow_spawn_marker = $SpriteHolder/ArrowSpawnMarker
 @onready var npc_ai = $NpcAi as BeehaveTree
 @onready var npc_audio = $npc_audio
+@onready var scan_circle = $ScanRegion/CollisionShape2D
 
 
 #TODO remove
@@ -31,6 +32,10 @@ var _taking_damage: bool = false
 var _is_fleeing: bool = false
 var _firing_ranged: bool = false
 var _in_attack_anim: bool = false
+
+var _range: float = 1000
+var _weapons_in_range: Array[SummonedItem] = []
+var _current_weapon: SummonResource
 
 var _locked_animation_count: int = 0
 
@@ -64,6 +69,8 @@ func _ready():
 
 	_health = base_stats.max_health
 	_cooldown = randf() * 0.5 + 1.1
+	
+	_range = scan_circle.shape.radius
 	
 	weapon = WEAPON_TYPE.values()[ randi() % WEAPON_TYPE.size() ]
 	#weapon = WEAPON_TYPE.BOW
@@ -109,6 +116,11 @@ func _physics_process(delta):
 func calculate_state():
 	var closest_enemy: NPCBT = get_nearest_enemy()
 	var visible_enemies = get_visible_enemies()
+	
+	var best_weapon_dict: Dictionary = get_nearest_better_weapon()
+	var best_weapon: SummonedItem = best_weapon_dict.get("best_weapon")
+	var best_weapon_score: float = best_weapon_dict.get("best_score")
+	print(".", base_stats.number, " | best weapon ", best_weapon_dict)
 	#var closest_enemy_dist:float = closest_enemy.global_position.distance_squared_to(global_position)
 	
 	_blackboard = {
@@ -124,7 +136,9 @@ func calculate_state():
 		"max_health": base_stats.max_health,
 		"cur_health": _health,
 		"is_moving": nav_agent_component.is_moving(),
-		"is_fleeing": _is_fleeing
+		"is_fleeing": _is_fleeing,
+		"best_weapon": best_weapon,
+		"best_weapon_score": best_weapon_score
 	}
 	if closest_enemy != null:
 		_blackboard["closest_enemy_posn"] = closest_enemy.global_position
@@ -145,16 +159,24 @@ func skip_planning() -> bool:
 	return false
 
 func _on_scan_region_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int):
-	if (area == $HitBox):
+	if (area == $HitBox || area == null):
 		return
-	if (area != null&&area.get_parent() is NPCBT):
+	if (area.get_parent() is NPCBT):
 		enemies_in_range.push_back(area.get_parent())
+	elif (area is SummonedItem):
+		match area.stats.summon_type:
+			SummonResource.SUMMON_TYPE.WEAPON:
+				_weapons_in_range.push_back(area)
 
 func _on_scan_region_area_shape_exited(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int):
-	if (area == $HitBox):
+	if (area == $HitBox || area == null):
 		return
-	if (area != null&&area.get_parent() is NPCBT):
+	if (area.get_parent() is NPCBT):
 		enemies_in_range.erase(area.get_parent())
+	elif (area is SummonedItem):
+		match area.stats.summon_type:
+			SummonResource.SUMMON_TYPE.WEAPON:
+				_weapons_in_range.erase(area)
 
 func get_nearest_enemy() -> NPCBT:
 	var closest: NPCBT = null
@@ -184,7 +206,29 @@ func get_visible_enemies():
 	else:
 		my_line.clear_points()
 	return visible
-		
+
+func get_nearest_better_weapon() -> Dictionary:
+	var item:SummonedItem = null
+	var best_score:float = -1
+	for i in _weapons_in_range:
+		var s = get_item_score(i)
+		if s > best_score:
+			best_score = s
+			item = i
+	return {"best_item": item, "best_score": best_score}
+	
+func get_item_score(item: SummonedItem) -> float:
+	var cur_rarity:int = 0
+	match item.stats.summon_type:
+		SummonResource.SUMMON_TYPE.WEAPON:
+			cur_rarity = 0 if _current_weapon == null else _current_weapon.level
+	if item.stats.level < cur_rarity:
+		return -1
+	
+	var dist:float = global_position.distance_to(item.global_position)
+	var dist_percent:float = 1.0 - dist/_range
+	var rarity_mult:float = 1.0 + 0.2 * item.stats.level
+	return dist_percent * 10.0 * rarity_mult
 
 func attack_enemy(enemy):
 	#modulate = Color.RED
