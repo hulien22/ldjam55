@@ -273,7 +273,7 @@ arrow_scene = ExtResource("2_bqnf1")
 
 [node name="NpcAi" parent="." node_paths=PackedStringArray("actor") instance=ExtResource("2_nin16")]
 enabled = false
-tick_rate = 2
+tick_rate = 4
 actor = NodePath("..")
 
 [node name="NavAgentComponent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("actor")]
