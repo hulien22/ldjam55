@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="SummonResource" load_steps=3 format=3 uid="uid://pm4ru6jvybew"]
+
+[ext_resource type="Script" path="res://scripts/Summons Res/summon_resource.gd" id="1_7ug1k"]
+[ext_resource type="Texture2D" uid="uid://b17kbyaxmn7" path="res://art/items/wolf.png" id="1_mi05b"]
+
+[resource]
+script = ExtResource("1_7ug1k")
+summon_type = 4
+weapon_type = 0
+level = 4
+image = ExtResource("1_mi05b")
+name = "wolf"
+cost = 0
+health_mod = 8.0
+damage_mod = 4.0
+defense_mod = 0.0
+cooldown_mod = 1.5
+range_mod = 4000.0
+movement_speed_mod = 50.0
