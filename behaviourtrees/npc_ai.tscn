@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bw2v62wudoeux"]
+[gd_scene load_steps=15 format=3 uid="uid://bw2v62wudoeux"]
 
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_n0n7x"]
 [ext_resource type="Script" path="res://behaviourtrees/PrioritySelectorComposite.gd" id="2_lnkos"]
@@ -11,7 +11,9 @@
 [ext_resource type="Script" path="res://behaviourtrees/conditions/bboard_compare_null.gd" id="8_pb7ph"]
 [ext_resource type="Script" path="res://behaviourtrees/actions/roam.gd" id="10_kb8vd"]
 [ext_resource type="Script" path="res://behaviourtrees/actions/flee.gd" id="12_8djiw"]
+[ext_resource type="Script" path="res://behaviourtrees/actions/move_to_item.gd" id="13_ibsq0"]
 [ext_resource type="Script" path="res://behaviourtrees/actions/rest.gd" id="13_xnb2x"]
+[ext_resource type="Script" path="res://behaviourtrees/actions/pickup_items.gd" id="14_pha78"]
 
 [node name="NpcAi" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_n0n7x")
@@ -84,6 +86,17 @@ script = ExtResource("12_8djiw")
 [node name="RestingAction" type="Node" parent="Root/PrioritySelectorComposite/Survive"]
 script = ExtResource("13_xnb2x")
 
+[node name="GetWeapon" type="Node" parent="Root/PrioritySelectorComposite"]
+script = ExtResource("2_numm5")
+
+[node name="BetterWeaponInRange" type="Node" parent="Root/PrioritySelectorComposite/GetWeapon"]
+script = ExtResource("8_pb7ph")
+property = "best_weapon"
+
+[node name="MoveToItemAction" type="Node" parent="Root/PrioritySelectorComposite/GetWeapon"]
+script = ExtResource("13_ibsq0")
+bboard_field = "best_weapon"
+
 [node name="Explore" type="Node" parent="Root/PrioritySelectorComposite"]
 script = ExtResource("6_2a027")
 
@@ -93,3 +106,6 @@ property = "is_moving"
 
 [node name="Roam" type="Node" parent="Root/PrioritySelectorComposite/Explore"]
 script = ExtResource("10_kb8vd")
+
+[node name="PickupItems" type="Node" parent="Root/PrioritySelectorComposite"]
+script = ExtResource("14_pha78")

@@ -34,6 +34,7 @@ var _firing_ranged: bool = false
 var _in_attack_anim: bool = false
 
 var _range: float = 1000
+var _pickup_range_sq: float = pow(30, 2)
 var _weapons_in_range: Array[SummonedItem] = []
 var _current_weapon: SummonResource
 
@@ -120,7 +121,6 @@ func calculate_state():
 	var best_weapon_dict: Dictionary = get_nearest_better_weapon()
 	var best_weapon: SummonedItem = best_weapon_dict.get("best_weapon")
 	var best_weapon_score: float = best_weapon_dict.get("best_score")
-	print(".", base_stats.number, " | best weapon ", best_weapon_dict)
 	#var closest_enemy_dist:float = closest_enemy.global_position.distance_squared_to(global_position)
 	
 	_blackboard = {
@@ -215,20 +215,28 @@ func get_nearest_better_weapon() -> Dictionary:
 		if s > best_score:
 			best_score = s
 			item = i
-	return {"best_item": item, "best_score": best_score}
+	return {"best_weapon": item, "best_score": best_score}
 	
 func get_item_score(item: SummonedItem) -> float:
 	var cur_rarity:int = 0
 	match item.stats.summon_type:
 		SummonResource.SUMMON_TYPE.WEAPON:
 			cur_rarity = 0 if _current_weapon == null else _current_weapon.level
-	if item.stats.level < cur_rarity:
+	if item.stats.level <= cur_rarity:
 		return -1
 	
-	var dist:float = global_position.distance_to(item.global_position)
+	var dist:float = absf(global_position.distance_to(item.global_position))
 	var dist_percent:float = 1.0 - dist/_range
 	var rarity_mult:float = 1.0 + 0.2 * item.stats.level
 	return dist_percent * 10.0 * rarity_mult
+
+func is_item_better(item: SummonedItem) -> bool:
+	var cur_rarity:int = 0
+	match item.stats.summon_type:
+		SummonResource.SUMMON_TYPE.WEAPON:
+			cur_rarity = 0 if _current_weapon == null else _current_weapon.level
+	return item.stats.level > cur_rarity
+
 
 func attack_enemy(enemy):
 	#modulate = Color.RED
@@ -336,9 +344,17 @@ func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2, knockbac
 		npc_audio.play_hurt()
 		time_since_hurt_noise = 0
 
-
 func rest():
 	damage(-0.01, base_stats, global_position, 0)
+
+func pickup_items() -> bool:
+	var picked_up_something: bool = false
+	for w in _weapons_in_range:
+		if is_item_better(w) && global_position.distance_squared_to(w.global_position) < _pickup_range_sq:
+			if w.pick_up():
+				_current_weapon = w.stats.duplicate()
+				picked_up_something = true
+	return picked_up_something
 
 func explore():
 	move_towards(Vector2(randi() %size - size / 2, randi() %size - size / 2))
@@ -389,4 +405,9 @@ func get_priority(goal:String) -> float:
 				return 0.0
 			# TODO different formula
 			return (1.0 - ch / mh) * 10.0
+		"PickupItems":
+			# always try to do this
+			return 100.0
+		"GetWeapon":
+			return _blackboard.get("best_weapon_score")
 	return 0.0
