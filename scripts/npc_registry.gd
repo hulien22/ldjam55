@@ -19,6 +19,7 @@ func create_npc_stats(number):
 	npc.max_health = randi() % 7 + 3
 	npc.max_speed = 3
 	npc.color = (npc.first_name + npc.last_name).sha256_text().hash() | 0x000000ff
+	npc.voice = randf_range(0.8, 2.0)
 	
 	return npc
 

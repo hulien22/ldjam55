@@ -38,6 +38,7 @@ var _cooldown: float = 0.5
 
 var base_stats: npc_base_stats
 var my_line
+var _audio: npc_audio
 
 #TODO move elsewhere
 enum WEAPON_TYPE {
@@ -49,6 +50,9 @@ signal died
 
 func _ready():
 	$name_label.text = base_stats.first_name + " '" + str(base_stats.number) + "' " + base_stats.last_name
+	_audio = $npc_audio
+	_audio.set_name("audio " + str(base_stats.number))
+	_audio.pitch_scale = base_stats.voice
 	my_line = Line2D.new()
 	my_line.default_color = Color.RED
 	add_child(my_line)
@@ -184,7 +188,7 @@ func attack_enemy(enemy):
 	#enemy.damage(1, base_stats, global_position)
 	if enemy == null:
 		return
-	
+	_audio.play_attack()
 	_can_attack = false
 	var knockback:float = 100
 	var time_mult = 1.0
@@ -246,6 +250,7 @@ func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2, knockbac
 	if (_health <= 0):
 		died.emit(attacker, base_stats)
 		print(base_stats.first_name + " " + base_stats.last_name + " has died :(")
+		_audio.play_death()
 		queue_free()
 		return
 	if (dmg > 0 && !_taking_damage):
@@ -264,6 +269,7 @@ func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2, knockbac
 			_taking_damage = false
 			_locked_animation_count -= 1
 		)
+		_audio.play_hurt()
 
 
 func rest():

@@ -35,6 +35,9 @@ script = ExtResource("1_btitd")
 zoom = Vector2(0.685, 0.685)
 position_smoothing_enabled = true
 
+[node name="AudioListener2D" type="AudioListener2D" parent="Area2D"]
+current = true
+
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 position = Vector2(-131.804, -10.5861)
 navigation_polygon = SubResource("NavigationPolygon_byp7h")
@@ -69,15 +72,15 @@ translation = 60
 [node name="RemainingUi" parent="CanvasLayer" node_paths=PackedStringArray("storm") instance=ExtResource("7_volvn")]
 storm = NodePath("../../storm")
 
-[node name="GameOver" parent="CanvasLayer" instance=ExtResource("16_gdefu")]
-fade_speed = 1.0
-
 [node name="DropArea" type="Control" parent="CanvasLayer"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1280.0
 offset_bottom = 720.0
 script = ExtResource("5_v2y2c")
+
+[node name="GameOver" parent="CanvasLayer" instance=ExtResource("16_gdefu")]
+fade_speed = 1.0
 
 [node name="Shop" parent="CanvasLayer" instance=ExtResource("15_xvkgf")]
 

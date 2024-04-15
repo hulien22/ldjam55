@@ -19,6 +19,7 @@ config/icon="res://art/icon.svg"
 
 NpcRegistry="*res://scenes/npc_registry.tscn"
 ItemRegistry="*res://scenes/item_registry.tscn"
+AudioPlayer="*res://scenes/AudioPlayer.tscn"
 
 [display]
 
