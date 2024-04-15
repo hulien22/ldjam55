@@ -97,6 +97,7 @@ func calculate_state():
 		"max_health": base_stats.max_health,
 		"cur_health": _health,
 		"is_moving": nav_agent_component.is_moving(),
+		"storm_radius": storm_node.radius
 	}
 	if closest_enemy != null:
 		_blackboard["closest_enemy_posn"] = closest_enemy.global_position

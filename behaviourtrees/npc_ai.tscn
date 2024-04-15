@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bw2v62wudoeux"]
+[gd_scene load_steps=18 format=3 uid="uid://bw2v62wudoeux"]
 
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_n0n7x"]
 [ext_resource type="Script" path="res://behaviourtrees/PrioritySelectorComposite.gd" id="2_lnkos"]
@@ -10,15 +10,18 @@
 [ext_resource type="Script" path="res://behaviourtrees/actions/attack_target.gd" id="7_nmxeo"]
 [ext_resource type="Script" path="res://behaviourtrees/conditions/bboard_compare_null.gd" id="8_pb7ph"]
 [ext_resource type="Script" path="res://behaviourtrees/actions/roam.gd" id="10_kb8vd"]
-[ext_resource type="Script" path="res://behaviourtrees/actions/flee.gd" id="12_8djiw"]
+[ext_resource type="Script" path="res://behaviourtrees/actions/flee2.gd" id="11_i4a2i"]
+[ext_resource type="Script" path="res://behaviourtrees/conditions/bboard_compare_bboard.gd" id="11_o20nd"]
+[ext_resource type="Script" path="res://behaviourtrees/conditions/bboard_compare_float.gd" id="12_6lx6i"]
 [ext_resource type="Script" path="res://behaviourtrees/actions/move_to_item.gd" id="13_ibsq0"]
 [ext_resource type="Script" path="res://behaviourtrees/actions/rest.gd" id="13_xnb2x"]
 [ext_resource type="Script" path="res://behaviourtrees/actions/pickup_items.gd" id="14_pha78"]
+[ext_resource type="Script" path="res://behaviourtrees/actions/go_to_center.gd" id="15_67yxr"]
 
 [node name="NpcAi" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_n0n7x")
 blackboard = NodePath("@Node@29818")
-actor = NodePath("")
+actor = NodePath("..")
 
 [node name="Root" type="Node" parent="."]
 script = ExtResource("2_numm5")
@@ -72,6 +75,30 @@ script = ExtResource("10_kb8vd")
 [node name="Survive" type="Node" parent="Root/PrioritySelectorComposite"]
 script = ExtResource("2_numm5")
 
+[node name="StormHealthThreshold" type="Node" parent="Root/PrioritySelectorComposite/Survive"]
+script = ExtResource("11_o20nd")
+property1 = "health_percentage"
+operator = 5
+property2 = "health_threshold_leave_storm"
+
+[node name="GetOutOfStorm" type="Node" parent="Root/PrioritySelectorComposite/Survive"]
+script = ExtResource("2_numm5")
+
+[node name="InOrWithinRangeOfStorm" type="Node" parent="Root/PrioritySelectorComposite/Survive/GetOutOfStorm"]
+script = ExtResource("12_6lx6i")
+property = "distance_from_storm"
+operator = 3
+target = 100.0
+
+[node name="GoToCenterAction" type="Node" parent="Root/PrioritySelectorComposite/Survive/GetOutOfStorm"]
+script = ExtResource("15_67yxr")
+
+[node name="FleeHealthThreshold" type="Node" parent="Root/PrioritySelectorComposite/Survive"]
+script = ExtResource("11_o20nd")
+property1 = "health_percentage"
+operator = 5
+property2 = "health_threshold_flee"
+
 [node name="Flee" type="Node" parent="Root/PrioritySelectorComposite/Survive"]
 script = ExtResource("6_2a027")
 
@@ -80,8 +107,8 @@ script = ExtResource("8_pb7ph")
 property = "closest_enemy"
 operator = 0
 
-[node name="FleeAction" type="Node" parent="Root/PrioritySelectorComposite/Survive/Flee"]
-script = ExtResource("12_8djiw")
+[node name="Fleeing2Action" type="Node" parent="Root/PrioritySelectorComposite/Survive/Flee"]
+script = ExtResource("11_i4a2i")
 
 [node name="RestingAction" type="Node" parent="Root/PrioritySelectorComposite/Survive"]
 script = ExtResource("13_xnb2x")
@@ -127,3 +154,13 @@ property = "can_attack"
 
 [node name="AttackTargetAction" type="Node" parent="Root/PrioritySelectorComposite/Attack"]
 script = ExtResource("7_nmxeo")
+
+[node name="GetOutOfStorm" type="Node" parent="Root/PrioritySelectorComposite"]
+script = ExtResource("2_numm5")
+
+[node name="InStorm" type="Node" parent="Root/PrioritySelectorComposite/GetOutOfStorm"]
+script = ExtResource("6_30iwi")
+property = "in_storm"
+
+[node name="GoToCenterAction" type="Node" parent="Root/PrioritySelectorComposite/GetOutOfStorm"]
+script = ExtResource("15_67yxr")
