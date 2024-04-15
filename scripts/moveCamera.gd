@@ -24,7 +24,7 @@ func _ready():
 
 
 func _process(delta):
-	print("camera", camera.get_zoom())
+	#print("camera", camera.get_zoom())
 	if Input.is_action_pressed("zoom_in") and camera.get_zoom() < zoom_max:
 		camera.set_zoom(camera.get_zoom() * (Vector2.ONE + hold_zoom_speed * delta))
 	elif Input.is_action_pressed("zoom_out") and camera.get_zoom() > zoom_min:

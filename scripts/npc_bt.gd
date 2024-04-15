@@ -1,5 +1,5 @@
 extends Node2D
-class_name NPC
+class_name NPCBT
 
 @onready var nav_agent_component = $NavAgentComponent
 @onready var sprite_holder = $SpriteHolder
@@ -10,6 +10,7 @@ class_name NPC
 @onready var right_hand = %RightHand
 @onready var name_label = $name_label
 @onready var arrow_spawn_marker = $SpriteHolder/ArrowSpawnMarker
+@onready var npc_ai = $NpcAi as BeehaveTree
 
 
 #TODO remove
@@ -21,7 +22,7 @@ class_name NPC
 @export var arrow_scene:PackedScene
 
 var _action_planner: GoapActionPlanner = GoapActionPlanner.new()
-var enemies_in_range: Array[NPC] = []
+var enemies_in_range: Array[NPCBT] = []
 var _blackboard: Dictionary = {}
 var _can_attack: bool = true
 var _can_dash: bool = true
@@ -47,33 +48,20 @@ var weapon: WEAPON_TYPE = WEAPON_TYPE.PUNCH
 
 signal died
 
+func test(a):
+	return a
+
 func _ready():
 	$name_label.text = base_stats.first_name + " '" + str(base_stats.number) + "' " + base_stats.last_name
 	my_line = Line2D.new()
 	my_line.default_color = Color.RED
 	add_child(my_line)
-	var agent = GoapAgent.new()
-	agent.init(self, [
-		ExplorationGoal.new(),
-		FightEnemiesGoal.new(),
-		SurviveGoal.new(),
-	])
-
-	add_child(agent)
-
-	_action_planner.set_actions([
-		ExploreAction.new(),
-		AttackEnemyAction.new(),
-		StrafeAction.new(),
-		MoveTowardsEnemyAction.new(),
-		FleeAction.new(),
-		RestAction.new()
-	])
 
 	_health = base_stats.max_health
 	_cooldown = randf() * 0.5 + 1.1
 	
 	weapon = WEAPON_TYPE.values()[ randi() % WEAPON_TYPE.size() ]
+	#weapon = WEAPON_TYPE.BOW
 	match weapon:
 		WEAPON_TYPE.PUNCH:
 			weapon_sprite.hide()
@@ -104,12 +92,17 @@ func get_action_planner() -> GoapActionPlanner:
 func get_blackboard() -> Dictionary:
 	return _blackboard
 
+#func _physics_process(delta):
+	#calculate_state()
+	##TODO do we want to do stuff with calling npc_ai.tick()?
+	#npc_ai.tick()
+
 # Calculate at the start of finding a goal
 func calculate_state():
-	var closest_enemy: NPC = get_nearest_enemy()
+	var closest_enemy: NPCBT = get_nearest_enemy()
 	var visible_enemies = get_visible_enemies()
 	#var closest_enemy_dist:float = closest_enemy.global_position.distance_squared_to(global_position)
-
+	
 	_blackboard = {
 		"global_posn": global_position,
 		"enemies_in_range": enemies_in_range,
@@ -121,11 +114,17 @@ func calculate_state():
 		"can_attack": _can_attack,
 		"can_dash": _can_dash,
 		"max_health": base_stats.max_health,
-		"cur_health": _health
+		"cur_health": _health,
+		"is_moving": nav_agent_component.is_moving(),
+		"is_fleeing": _is_fleeing
 	}
 	if closest_enemy != null:
 		_blackboard["closest_enemy_posn"] = closest_enemy.global_position
+		
+		if (global_position.distance_squared_to(closest_enemy.global_position) < attack_range_sq):
+			_blackboard["in_range_of_target"] = true
 	
+	npc_ai.blackboard.overwrite_dict(_blackboard)
 	#if _can_attack:
 		#modulate = Color.GREEN
 	#else:
@@ -140,17 +139,17 @@ func skip_planning() -> bool:
 func _on_scan_region_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int):
 	if (area == $HitBox):
 		return
-	if (area != null&&area.get_parent() is NPC):
+	if (area != null&&area.get_parent() is NPCBT):
 		enemies_in_range.push_back(area.get_parent())
 
 func _on_scan_region_area_shape_exited(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int):
 	if (area == $HitBox):
 		return
-	if (area != null&&area.get_parent() is NPC):
+	if (area != null&&area.get_parent() is NPCBT):
 		enemies_in_range.erase(area.get_parent())
 
-func get_nearest_enemy() -> NPC:
-	var closest: NPC = null
+func get_nearest_enemy() -> NPCBT:
+	var closest: NPCBT = null
 	var closest_dist: float = 0
 	for e in enemies_in_range:
 		var dist: float = global_position.distance_squared_to(e.global_position)
@@ -214,8 +213,6 @@ func attack_enemy(enemy):
 			var arrow:Arrow = arrow_scene.instantiate()
 			get_parent().add_child(arrow)
 			arrow.global_position = arrow_spawn_marker.global_position
-			#arrow.init(base_stats, 100, target, 10, 1.0)
-			
 			arrow.init(base_stats, 100, Vector2.RIGHT.rotated(sprite_holder.rotation), 10, 1.0)
 		)
 		# slow down movement while firing
@@ -279,7 +276,7 @@ func move_towards(posn: Vector2, is_fleeing:bool = false):
 	nav_agent_component.update_target_position(posn)
 	_is_fleeing = is_fleeing
 	#modulate = Color.GREEN
-	
+
 func get_speed_mod() -> float:
 	var speed_mod: float = 1.0
 	if _firing_ranged:
@@ -288,16 +285,13 @@ func get_speed_mod() -> float:
 		#TODO check if too high?
 		speed_mod *= 1.2
 	return speed_mod
-	
+
 func cancel_movement():
 	nav_agent_component.cancel_movement()
 	_is_fleeing = false
 
 func done_movement() -> bool:
 	return nav_agent_component.done_movement()
-
-func set_fleeing():
-	_is_fleeing = true
 
 func update_sprites(next_posn: Vector2):
 	if _in_attack_anim:
@@ -308,3 +302,17 @@ func update_sprites(next_posn: Vector2):
 		return
 	sprite_holder.look_at(enemy_posn)
 
+func get_priority(goal:String):
+	match goal:
+		"FightEnemy":
+			return 8
+		"Explore":
+			return 2
+		"Survive":
+			var mh:float = base_stats.max_health
+			var ch:float = _health
+			if (mh <= 0 || ch <= 0):
+				return 0
+			# TODO different formula
+			return (1.0 - ch / mh) * 10
+	return 0

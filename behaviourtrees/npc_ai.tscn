@@ -1,0 +1,86 @@
+[gd_scene load_steps=15 format=3 uid="uid://bw2v62wudoeux"]
+
+[ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_n0n7x"]
+[ext_resource type="Script" path="res://behaviourtrees/PrioritySelectorComposite.gd" id="2_lnkos"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence_reactive.gd" id="2_numm5"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="3_0ocro"]
+[ext_resource type="Script" path="res://behaviourtrees/actions/calculate_state.gd" id="3_fu1eh"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence.gd" id="4_ph6v0"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector_reactive.gd" id="6_2a027"]
+[ext_resource type="Script" path="res://behaviourtrees/conditions/bboard_compare_bool.gd" id="6_30iwi"]
+[ext_resource type="Script" path="res://behaviourtrees/actions/move_into_range.gd" id="7_minmv"]
+[ext_resource type="Script" path="res://behaviourtrees/actions/attack_target.gd" id="7_nmxeo"]
+[ext_resource type="Script" path="res://behaviourtrees/conditions/bboard_compare_null.gd" id="8_pb7ph"]
+[ext_resource type="Script" path="res://behaviourtrees/actions/roam.gd" id="10_kb8vd"]
+[ext_resource type="Script" path="res://behaviourtrees/actions/flee.gd" id="12_8djiw"]
+[ext_resource type="Script" path="res://behaviourtrees/actions/rest.gd" id="13_xnb2x"]
+
+[node name="NpcAi" type="Node" node_paths=PackedStringArray("blackboard")]
+script = ExtResource("1_n0n7x")
+blackboard = NodePath("@Node@32219")
+
+[node name="Root" type="Node" parent="."]
+script = ExtResource("2_numm5")
+
+[node name="CalculateState" type="Node" parent="Root"]
+script = ExtResource("3_fu1eh")
+
+[node name="PrioritySelectorComposite" type="Node" parent="Root"]
+script = ExtResource("2_lnkos")
+
+[node name="FightEnemy" type="Node" parent="Root/PrioritySelectorComposite"]
+script = ExtResource("2_numm5")
+
+[node name="HasClosestEnemy" type="Node" parent="Root/PrioritySelectorComposite/FightEnemy"]
+script = ExtResource("8_pb7ph")
+property = "closest_enemy"
+
+[node name="GetIntoRange" type="Node" parent="Root/PrioritySelectorComposite/FightEnemy"]
+script = ExtResource("6_2a027")
+
+[node name="InRange" type="Node" parent="Root/PrioritySelectorComposite/FightEnemy/GetIntoRange"]
+script = ExtResource("6_30iwi")
+property = "in_range_of_target"
+
+[node name="MoveIntoRangeAction" type="Node" parent="Root/PrioritySelectorComposite/FightEnemy/GetIntoRange"]
+script = ExtResource("7_minmv")
+
+[node name="InRangeAction" type="Node" parent="Root/PrioritySelectorComposite/FightEnemy"]
+script = ExtResource("3_0ocro")
+
+[node name="Attack" type="Node" parent="Root/PrioritySelectorComposite/FightEnemy/InRangeAction"]
+script = ExtResource("4_ph6v0")
+
+[node name="CanAttack" type="Node" parent="Root/PrioritySelectorComposite/FightEnemy/InRangeAction/Attack"]
+script = ExtResource("6_30iwi")
+property = "can_attack"
+
+[node name="AttackTargetAction" type="Node" parent="Root/PrioritySelectorComposite/FightEnemy/InRangeAction/Attack"]
+script = ExtResource("7_nmxeo")
+
+[node name="Survive" type="Node" parent="Root/PrioritySelectorComposite"]
+script = ExtResource("2_numm5")
+
+[node name="Flee" type="Node" parent="Root/PrioritySelectorComposite/Survive"]
+script = ExtResource("6_2a027")
+
+[node name="NoClosestEnemy" type="Node" parent="Root/PrioritySelectorComposite/Survive/Flee"]
+script = ExtResource("8_pb7ph")
+property = "closest_enemy"
+operator = 0
+
+[node name="FleeAction" type="Node" parent="Root/PrioritySelectorComposite/Survive/Flee"]
+script = ExtResource("12_8djiw")
+
+[node name="RestingAction" type="Node" parent="Root/PrioritySelectorComposite/Survive"]
+script = ExtResource("13_xnb2x")
+
+[node name="Explore" type="Node" parent="Root/PrioritySelectorComposite"]
+script = ExtResource("3_0ocro")
+
+[node name="IsMoving" type="Node" parent="Root/PrioritySelectorComposite/Explore"]
+script = ExtResource("6_30iwi")
+property = "is_moving"
+
+[node name="Roam" type="Node" parent="Root/PrioritySelectorComposite/Explore"]
+script = ExtResource("10_kb8vd")
