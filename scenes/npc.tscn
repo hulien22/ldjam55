@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://cbn73ymox5yuo"]
+[gd_scene load_steps=42 format=3 uid="uid://cbn73ymox5yuo"]
 
 [ext_resource type="Script" path="res://scripts/npc.gd" id="1_5rgut"]
 [ext_resource type="Script" path="res://scripts/NavAgentComponent.gd" id="1_j3nkj"]
@@ -24,6 +24,13 @@
 [ext_resource type="Texture2D" uid="uid://bs2f6yv2xdfox" path="res://art/items/weapon_spear.png" id="19_jkgsd"]
 [ext_resource type="Texture2D" uid="uid://biw4qv1lxxb7t" path="res://art/items/weapon_staff.png" id="20_6y8vw"]
 [ext_resource type="Texture2D" uid="uid://dmiss4mu4v2qb" path="res://art/items/weapon_sword.png" id="21_rc8hq"]
+[ext_resource type="Script" path="res://scripts/npc_audio.gd" id="25_yep67"]
+[ext_resource type="AudioStream" uid="uid://d1p0ybbttst0j" path="res://audio/attack/attack_1.ogg" id="26_vn1nt"]
+[ext_resource type="AudioStream" uid="uid://dhnipi1f3s3hq" path="res://audio/attack/attack_2.ogg" id="27_iryt7"]
+[ext_resource type="AudioStream" uid="uid://y165sonhir70" path="res://audio/take_dmg/hurt_1.ogg" id="28_w28wq"]
+[ext_resource type="AudioStream" uid="uid://cogkxic4832e6" path="res://audio/take_dmg/hurt_2.ogg" id="29_6o0cg"]
+[ext_resource type="AudioStream" uid="uid://jxhqww61ixt6" path="res://audio/death/death_1.ogg" id="30_xy3r0"]
+[ext_resource type="AudioStream" uid="uid://b3sbhgkowouhd" path="res://audio/death/death_2.ogg" id="31_dip2x"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xiknj"]
 animations = [{
@@ -360,6 +367,12 @@ offset_bottom = -33.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "name"
+
+[node name="npc_audio" type="AudioStreamPlayer2D" parent="."]
+script = ExtResource("25_yep67")
+attack_streams = Array[AudioStream]([ExtResource("26_vn1nt"), ExtResource("27_iryt7")])
+hurt_streams = Array[AudioStream]([ExtResource("28_w28wq"), ExtResource("29_6o0cg")])
+death_streams = Array[AudioStream]([ExtResource("30_xy3r0"), ExtResource("31_dip2x")])
 
 [connection signal="area_shape_entered" from="ScanRegion" to="." method="_on_scan_region_area_shape_entered"]
 [connection signal="area_shape_exited" from="ScanRegion" to="." method="_on_scan_region_area_shape_exited"]

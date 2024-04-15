@@ -1,4 +1,4 @@
-class_name npc_base_stats
+class_name item_model
 extends RefCounted
 
 var max_health
@@ -8,4 +8,3 @@ var last_name
 var number: int
 var color: Color
 var player: bool
-var voice: float

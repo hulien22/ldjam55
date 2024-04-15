@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://b81e110yif41p"]
+
+[ext_resource type="Script" path="res://scripts/game_over.gd" id="1_y2ium"]
+[ext_resource type="Texture2D" uid="uid://63wf86sjyubb" path="res://art/ui/buttonLong_brown_pressed.png" id="2_rm6q3"]
+
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_y2ium")
+
+[node name="Label" type="Label" parent="."]
+modulate = Color(0, 0.580392, 0.439216, 1)
+layout_mode = 0
+offset_left = 374.0
+offset_top = 187.0
+offset_right = 897.0
+offset_bottom = 407.0
+
+[node name="Button" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 536.0
+offset_top = 441.0
+offset_right = 726.0
+offset_bottom = 486.0
+texture_normal = ExtResource("2_rm6q3")
+
+[node name="Label" type="Label" parent="Button"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 11.0
+offset_right = 181.0
+offset_bottom = 34.0
+text = "Return to Menu"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="Button" to="." method="on_return_to_menu"]
