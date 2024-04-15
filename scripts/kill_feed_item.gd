@@ -13,5 +13,7 @@ func set_data(killer: npc_base_stats, killed: npc_base_stats):
 	killed_text = get_text(killed)
 
 func get_text(contestant: npc_base_stats):
-	return contestant.first_name + " '" + str(contestant.number)  + "' " + contestant.last_name
+	if contestant.number:
+		return contestant.first_name + " '" + str(contestant.number)  + "' " + contestant.last_name
+	return contestant.first_name
 	#return "Contestant " + str(contestant.number) + "\n" + contestant.first_name + " " + contestant.last_name

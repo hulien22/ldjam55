@@ -1,15 +1,19 @@
+class_name storm_class
 extends Node2D
 
 var stormTimer: Timer
 var stormShrinkTimer: Timer
 var radius
 var target
+var storm_attacker
 
 func _draw():
 	draw_arc(Vector2.ZERO, radius, 0, TAU, 1000, Color.BLACK, 25)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	storm_attacker = npc_base_stats.new()
+	storm_attacker.first_name = "The storm"
 	radius = 5000
 	stormTimer = $StormTimer
 	stormTimer.connect("timeout", self._on_storm_timer)
