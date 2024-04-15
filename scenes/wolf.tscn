@@ -1,0 +1,252 @@
+[gd_scene load_steps=23 format=3 uid="uid://dr84qbq6mxiev"]
+
+[ext_resource type="Script" path="res://scripts/wolf.gd" id="1_1e26o"]
+[ext_resource type="PackedScene" uid="uid://bm70mc105pc5v" path="res://behaviourtrees/wolf_ai.tscn" id="2_vdwjr"]
+[ext_resource type="Script" path="res://scripts/NavAgentComponent.gd" id="4_pheln"]
+[ext_resource type="Texture2D" uid="uid://b17kbyaxmn7" path="res://art/items/wolf.png" id="5_3mqg5"]
+[ext_resource type="Texture2D" uid="uid://djw8dftjq54nu" path="res://art/particles/chomp.png" id="5_nlri4"]
+[ext_resource type="Script" path="res://scripts/npc_audio.gd" id="27_8supi"]
+[ext_resource type="AudioStream" uid="uid://d1p0ybbttst0j" path="res://audio/attack/attack_1.ogg" id="28_ard4d"]
+[ext_resource type="AudioStream" uid="uid://dhnipi1f3s3hq" path="res://audio/attack/attack_2.ogg" id="29_y0vp7"]
+[ext_resource type="AudioStream" uid="uid://y165sonhir70" path="res://audio/take_dmg/hurt_1.ogg" id="30_sabwi"]
+[ext_resource type="AudioStream" uid="uid://cogkxic4832e6" path="res://audio/take_dmg/hurt_2.ogg" id="31_nbym1"]
+[ext_resource type="AudioStream" uid="uid://jxhqww61ixt6" path="res://audio/death/death_1.ogg" id="32_ey835"]
+[ext_resource type="AudioStream" uid="uid://b3sbhgkowouhd" path="res://audio/death/death_2.ogg" id="33_c0kve"]
+
+[sub_resource type="Animation" id="Animation_6ehp3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Chomp2:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.803447, 0.762019)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Chomp:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.5, 0.5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Chomp2:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Chomp:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_ak6fj"]
+resource_name = "punch"
+
+[sub_resource type="Animation" id="Animation_f01fe"]
+resource_name = "shoot"
+
+[sub_resource type="Animation" id="Animation_h4qwy"]
+resource_name = "swing"
+
+[sub_resource type="Animation" id="Animation_igcwd"]
+resource_name = "attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Chomp:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(2.63902, 1),
+"update": 0,
+"values": [Vector2(20, -1), Vector2(36.184, 0.184008)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Chomp2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(2.63902, 1),
+"update": 0,
+"values": [Vector2(47, 0), Vector2(37.184, -0.815992)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Chomp2:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(2.63, 1.62451, 1),
+"update": 0,
+"values": [Vector2(0.2, 0.19), Vector2(0.803447, 0.762019), Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Chomp:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(2.63, 1.62451, 1),
+"update": 0,
+"values": [Vector2(0.5, 0.5), Vector2(1, 1), Vector2(0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Chomp:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Chomp2:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_x7488"]
+_data = {
+"RESET": SubResource("Animation_6ehp3"),
+"attack": SubResource("Animation_igcwd"),
+"punch": SubResource("Animation_ak6fj"),
+"shoot": SubResource("Animation_f01fe"),
+"swing": SubResource("Animation_h4qwy")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_shg6q"]
+radius = 1000.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_llk2g"]
+radius = 20.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qmg17"]
+bg_color = Color(0.121569, 0.121569, 0.121569, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d86oh"]
+bg_color = Color(0.360784, 0.682353, 0.443137, 1)
+
+[node name="wolf" type="Node2D"]
+script = ExtResource("1_1e26o")
+size = 3500
+
+[node name="WolfAi" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_vdwjr")]
+blackboard = NodePath("@Node@61389")
+actor = NodePath("..")
+
+[node name="NavAgentComponent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("actor")]
+path_desired_distance = 10.0
+debug_enabled = true
+script = ExtResource("4_pheln")
+actor = NodePath("..")
+
+[node name="SpriteHolder" type="Node2D" parent="."]
+
+[node name="AttackAnimationPlayer" type="AnimationPlayer" parent="SpriteHolder"]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_x7488")
+}
+
+[node name="Sprite2D" type="Sprite2D" parent="SpriteHolder"]
+rotation = -1.5708
+texture = ExtResource("5_3mqg5")
+
+[node name="Chomp2" type="Sprite2D" parent="SpriteHolder"]
+visible = false
+modulate = Color(1, 1, 1, 0.6)
+position = Vector2(37.184, -0.815992)
+rotation = 1.54516
+scale = Vector2(0.803447, 0.762019)
+texture = ExtResource("5_nlri4")
+
+[node name="Chomp" type="Sprite2D" parent="SpriteHolder"]
+visible = false
+modulate = Color(1, 1, 1, 0.6)
+position = Vector2(36.184, 0.184008)
+rotation = -1.57818
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_nlri4")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
+
+[node name="ScanRegion" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+collision_mask = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScanRegion"]
+shape = SubResource("CircleShape2D_shg6q")
+debug_color = Color(0.619608, 0.478431, 0.643137, 0.419608)
+
+[node name="HitBox" type="Area2D" parent="."]
+visible = false
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("CircleShape2D_llk2g")
+debug_color = Color(0.368627, 0.521569, 0.858824, 0.419608)
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -18.0
+offset_top = 25.0
+offset_right = 371.0
+offset_bottom = 52.0
+scale = Vector2(0.095, 0.095)
+theme_override_styles/background = SubResource("StyleBoxFlat_qmg17")
+theme_override_styles/fill = SubResource("StyleBoxFlat_d86oh")
+value = 100.0
+show_percentage = false
+
+[node name="npc_audio" type="AudioStreamPlayer2D" parent="."]
+script = ExtResource("27_8supi")
+attack_streams = Array[AudioStream]([ExtResource("28_ard4d"), ExtResource("29_y0vp7")])
+hurt_streams = Array[AudioStream]([ExtResource("30_sabwi"), ExtResource("31_nbym1")])
+death_streams = Array[AudioStream]([ExtResource("32_ey835"), ExtResource("33_c0kve")])
+
+[connection signal="area_shape_entered" from="ScanRegion" to="." method="_on_scan_region_area_shape_entered"]
+[connection signal="area_shape_exited" from="ScanRegion" to="." method="_on_scan_region_area_shape_exited"]

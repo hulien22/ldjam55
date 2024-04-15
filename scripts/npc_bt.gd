@@ -24,7 +24,7 @@ class_name NPCBT
 @export var arrow_scene:PackedScene
 
 var _action_planner: GoapActionPlanner = GoapActionPlanner.new()
-var enemies_in_range: Array[NPCBT] = []
+var enemies_in_range: Array = []
 var _blackboard: Dictionary = {}
 var _can_attack: bool = true
 var _can_dash: bool = true
@@ -124,7 +124,7 @@ func _physics_process(delta):
 
 # Calculate at the start of finding a goal
 func calculate_state():
-	var closest_enemy: NPCBT = get_nearest_enemy()
+	var closest_enemy = get_nearest_enemy()
 	var visible_enemies = get_visible_enemies()
 
 	var best_weapon_dict: Dictionary = get_nearest_better_weapon()
@@ -172,6 +172,8 @@ func _on_scan_region_area_shape_entered(area_rid: RID, area: Area2D, area_shape_
 		return
 	if (area.get_parent() is NPCBT):
 		enemies_in_range.push_back(area.get_parent())
+	elif (area.get_parent() is Wolf):
+		enemies_in_range.push_back(area.get_parent())
 	elif (area is SummonedItem):
 		match area.stats.summon_type:
 			SummonResource.SUMMON_TYPE.WEAPON:
@@ -182,13 +184,15 @@ func _on_scan_region_area_shape_exited(area_rid: RID, area: Area2D, area_shape_i
 		return
 	if (area.get_parent() is NPCBT):
 		enemies_in_range.erase(area.get_parent())
+	elif (area.get_parent() is Wolf):
+		enemies_in_range.erase(area.get_parent())
 	elif (area is SummonedItem):
 		match area.stats.summon_type:
 			SummonResource.SUMMON_TYPE.WEAPON:
 				_weapons_in_range.erase(area)
 
-func get_nearest_enemy() -> NPCBT:
-	var closest: NPCBT = null
+func get_nearest_enemy():
+	var closest = null
 	var closest_dist: float = 0
 	for e in enemies_in_range:
 		var dist: float = global_position.distance_squared_to(e.global_position)

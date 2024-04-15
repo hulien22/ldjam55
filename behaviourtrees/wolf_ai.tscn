@@ -1,0 +1,75 @@
+[gd_scene load_steps=10 format=3 uid="uid://bm70mc105pc5v"]
+
+[ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_5k5du"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence_reactive.gd" id="2_yfrar"]
+[ext_resource type="Script" path="res://behaviourtrees/actions/calculate_state.gd" id="3_a1tnd"]
+[ext_resource type="Script" path="res://behaviourtrees/conditions/bboard_compare_null.gd" id="5_0qr7s"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector_reactive.gd" id="6_o5hxu"]
+[ext_resource type="Script" path="res://behaviourtrees/conditions/bboard_compare_bool.gd" id="7_flu2n"]
+[ext_resource type="Script" path="res://behaviourtrees/actions/move_into_range.gd" id="8_26t38"]
+[ext_resource type="Script" path="res://behaviourtrees/actions/attack_target.gd" id="9_0gamv"]
+[ext_resource type="Script" path="res://behaviourtrees/actions/roam.gd" id="10_804pk"]
+
+[node name="NpcAi" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
+script = ExtResource("1_5k5du")
+blackboard = NodePath("@Node@39693")
+actor = NodePath("")
+
+[node name="Root" type="Node" parent="."]
+script = ExtResource("2_yfrar")
+
+[node name="CalculateState" type="Node" parent="Root"]
+script = ExtResource("3_a1tnd")
+
+[node name="SelectorReactiveComposite" type="Node" parent="Root"]
+script = ExtResource("6_o5hxu")
+
+[node name="FightEnemy" type="Node" parent="Root/SelectorReactiveComposite"]
+script = ExtResource("2_yfrar")
+
+[node name="HasClosestEnemy" type="Node" parent="Root/SelectorReactiveComposite/FightEnemy"]
+script = ExtResource("5_0qr7s")
+property = "closest_enemy"
+
+[node name="GetIntoRange" type="Node" parent="Root/SelectorReactiveComposite/FightEnemy"]
+script = ExtResource("6_o5hxu")
+
+[node name="InRange" type="Node" parent="Root/SelectorReactiveComposite/FightEnemy/GetIntoRange"]
+script = ExtResource("7_flu2n")
+property = "in_range_of_target"
+
+[node name="MoveIntoRangeAction" type="Node" parent="Root/SelectorReactiveComposite/FightEnemy/GetIntoRange"]
+script = ExtResource("8_26t38")
+
+[node name="InRange" type="Node" parent="Root/SelectorReactiveComposite/FightEnemy"]
+script = ExtResource("6_o5hxu")
+
+[node name="Attack" type="Node" parent="Root/SelectorReactiveComposite/FightEnemy/InRange"]
+script = ExtResource("2_yfrar")
+
+[node name="CanAttack" type="Node" parent="Root/SelectorReactiveComposite/FightEnemy/InRange/Attack"]
+script = ExtResource("7_flu2n")
+property = "can_attack"
+
+[node name="AttackTargetAction" type="Node" parent="Root/SelectorReactiveComposite/FightEnemy/InRange/Attack"]
+script = ExtResource("9_0gamv")
+
+[node name="Strafe" type="Node" parent="Root/SelectorReactiveComposite/FightEnemy/InRange"]
+script = ExtResource("6_o5hxu")
+
+[node name="IsMoving" type="Node" parent="Root/SelectorReactiveComposite/FightEnemy/InRange/Strafe"]
+script = ExtResource("7_flu2n")
+property = "is_moving"
+
+[node name="Roam" type="Node" parent="Root/SelectorReactiveComposite/FightEnemy/InRange/Strafe"]
+script = ExtResource("10_804pk")
+
+[node name="Explore" type="Node" parent="Root/SelectorReactiveComposite"]
+script = ExtResource("6_o5hxu")
+
+[node name="IsMoving" type="Node" parent="Root/SelectorReactiveComposite/Explore"]
+script = ExtResource("7_flu2n")
+property = "is_moving"
+
+[node name="Roam" type="Node" parent="Root/SelectorReactiveComposite/Explore"]
+script = ExtResource("10_804pk")
