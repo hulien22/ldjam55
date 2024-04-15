@@ -183,7 +183,6 @@ func attack_enemy(enemy):
 	#enemy.damage(1, base_stats, global_position)
 	if enemy == null:
 		return
-	
 	_can_attack = false
 	var knockback:float = 100
 	var time_mult = 1.0
@@ -213,7 +212,8 @@ func attack_enemy(enemy):
 			var arrow:Arrow = arrow_scene.instantiate()
 			get_parent().add_child(arrow)
 			arrow.global_position = arrow_spawn_marker.global_position
-			arrow.init(base_stats, 100, Vector2.RIGHT.rotated(sprite_holder.rotation), 10, 1.0)
+			var rand_angle = randf() * 0.5 - 0.25 # roughly 30 degrees
+			arrow.init(base_stats, 100, Vector2.RIGHT.rotated(sprite_holder.rotation + rand_angle), 10, 1.0)
 		)
 		# slow down movement while firing
 		cancel_movement()
@@ -241,6 +241,7 @@ func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2, knockbac
 	if (dmg > 0 && _taking_damage):
 		return
 	_health -= dmg
+	_health = clampf(_health, 0, base_stats.max_health)
 	$ProgressBar.value = _health * 100.0 / float(base_stats.max_health)
 	if (_health <= 0):
 		died.emit(attacker, base_stats)
@@ -302,17 +303,19 @@ func update_sprites(next_posn: Vector2):
 		return
 	sprite_holder.look_at(enemy_posn)
 
-func get_priority(goal:String):
+func get_priority(goal:String) -> float:
 	match goal:
 		"FightEnemy":
-			return 8
+			return 8.0
 		"Explore":
-			return 2
+			return 0.0
 		"Survive":
 			var mh:float = base_stats.max_health
 			var ch:float = _health
+			if (ch >= mh):
+				return -10.0
 			if (mh <= 0 || ch <= 0):
-				return 0
+				return 0.0
 			# TODO different formula
-			return (1.0 - ch / mh) * 10
-	return 0
+			return (1.0 - ch / mh) * 10.0
+	return 0.0

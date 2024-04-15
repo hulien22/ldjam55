@@ -1,5 +1,5 @@
 @tool
-class_name PrioritySelectorComposite extends SelectorComposite
+class_name PrioritySelectorComposite extends SelectorReactiveComposite
 
 func _ready() -> void:
 	pass
@@ -17,10 +17,7 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	
 	for p in priority_list:
 		var c:Node = p[1]
-		# SelectorComposite's tick below:
-		if c.get_index() < last_execution_index:
-			continue
-
+		# SelectorReactiveComposite's tick below:
 		if c != running_child:
 			c.before_run(actor, blackboard)
 
@@ -34,15 +31,17 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 
 		match response:
 			SUCCESS:
-				_cleanup_running_task(c, actor, blackboard)
+				# Interrupt any child that was RUNNING before.
+				if c != running_child:
+					interrupt(actor, blackboard)
 				c.after_run(actor, blackboard)
 				return SUCCESS
 			FAILURE:
-				_cleanup_running_task(c, actor, blackboard)
-				last_execution_index += 1
 				c.after_run(actor, blackboard)
 			RUNNING:
-				running_child = c
+				if c != running_child:
+					interrupt(actor, blackboard)
+					running_child = c
 				if c is ActionLeaf:
 					blackboard.set_value("running_action", c, str(actor.get_instance_id()))
 				return RUNNING

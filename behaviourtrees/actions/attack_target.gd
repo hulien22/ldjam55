@@ -7,5 +7,5 @@ func tick(actor, blackboard):
 	if (enemy):
 		#actor.cancel_movement()
 		actor.attack_enemy(enemy)
-		return SUCCESS
+		return RUNNING
 	return FAILURE
