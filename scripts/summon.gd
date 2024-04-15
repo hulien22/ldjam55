@@ -10,7 +10,6 @@ func _ready():
 	add_child(summon_texture)
 	summon_texture.position = -0.5*stats.image.get_size()
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
