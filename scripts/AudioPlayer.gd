@@ -34,6 +34,7 @@ func change_music(combat: bool, boss: bool):
 	#play()
 
 func play_pop():
+	sound_effects.volume_db = 0
 	sound_effects.stream = pop
 	sound_effects.play()
 
@@ -52,9 +53,13 @@ func play_fail():
 	#trumpet_sound_effects.stream = trumpet_fail
 	#trumpet_sound_effects.play()
 
-func play_countdown(num):
-	if num == 1:
-		sound_effects.stream = countdown_final_beep
-	else:
-		sound_effects.stream = countdown_beep
+func play_countdown_high():
+	sound_effects.volume_db = -7
+	sound_effects.stream = countdown_final_beep
+	sound_effects.play()
+	
+func play_countdown_low():
+	print("yep playing")
+	sound_effects.volume_db = -7
+	sound_effects.stream = countdown_beep
 	sound_effects.play()

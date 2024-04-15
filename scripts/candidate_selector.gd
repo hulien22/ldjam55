@@ -6,6 +6,7 @@ var candidate_list: ItemList
 @onready var option_1 = $option1
 @onready var option_3 = $option3
 @onready var option_2 = $option2
+@onready var animation_player = $AnimationPlayer
 
 func _ready():
 	var rand_1 = randi_range(0, 33)
@@ -20,6 +21,9 @@ func _ready():
 	option_1.on_selected()
 
 func on_confirm():
+	animation_player.play("fade_to_black")
+
+func on_fade_finished(anim):
 	get_tree().change_scene_to_packed(confirm_scene)
 
 func on_candidate_selected(position):

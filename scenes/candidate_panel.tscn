@@ -56,6 +56,7 @@ offset_bottom = 163.0
 texture = ExtResource("5_sedye")
 
 [node name="hand_right" type="TextureRect" parent="background/char_out"]
+layout_mode = 0
 offset_left = 29.0
 offset_top = 34.0
 offset_right = 157.0
