@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dq6a7b78s8tii"]
+[gd_scene load_steps=6 format=3 uid="uid://dq6a7b78s8tii"]
 
 [ext_resource type="Script" path="res://scripts/AudioPlayer.gd" id="1_47u6i"]
 [ext_resource type="AudioStream" uid="uid://dq7a6skmhnul" path="res://audio/pop.ogg" id="2_hd6l8"]
 [ext_resource type="AudioStream" uid="uid://cla4b3buue0np" path="res://audio/start_beeps/low_beep.ogg" id="3_pcord"]
 [ext_resource type="AudioStream" uid="uid://cla6sk1u0cib8" path="res://audio/start_beeps/high_beep.ogg" id="4_7xk0h"]
+[ext_resource type="AudioStream" uid="uid://tlw2e45yfsqk" path="res://audio/Heroic Intrusion.ogg" id="6_ycqc7"]
 
 [node name="AudioPlayer" type="Node"]
 script = ExtResource("1_47u6i")
@@ -12,3 +13,8 @@ countdown_beep = ExtResource("3_pcord")
 countdown_final_beep = ExtResource("4_7xk0h")
 
 [node name="SoundEffects" type="AudioStreamPlayer" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_ycqc7")
+volume_db = -16.0
+autoplay = true
