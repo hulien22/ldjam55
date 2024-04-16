@@ -16,5 +16,5 @@ countdown_final_beep = ExtResource("4_7xk0h")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_ycqc7")
-volume_db = -16.0
+volume_db = -20.0
 autoplay = true
