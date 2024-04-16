@@ -145,10 +145,16 @@ func get_action_planner() -> GoapActionPlanner:
 func get_blackboard() -> Dictionary:
 	return _blackboard
 
+
+var time_since_damage: float = 0
 func _physics_process(delta):
+	time_since_damage += delta
 	time_since_hurt_noise += delta
 	if in_the_storm():
-		tick_damage(0.005, storm_node.storm_attacker)
+		tick_damage(0.05, storm_node.storm_attacker)
+		time_since_damage = 0
+	elif time_since_damage >= 5:
+		rest()
 	#calculate_state()
 	##TODO do we want to do stuff with calling npc_ai.tick()?
 	#npc_ai.tick()
@@ -507,9 +513,10 @@ func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2, knockbac
 		)
 		npc_audio.play_hurt()
 		time_since_hurt_noise = 0
+		time_since_damage = 0
 
 func rest():
-	damage(-0.01, base_stats, global_position, 0)
+	damage(-0.02, base_stats, global_position, 0)
 
 func pickup_items() -> bool:
 	var picked_up_something: bool = false

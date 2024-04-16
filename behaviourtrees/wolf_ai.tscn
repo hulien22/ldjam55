@@ -12,7 +12,7 @@
 
 [node name="NpcAi" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_5k5du")
-blackboard = NodePath("@Node@39693")
+blackboard = NodePath("@Node@17491")
 actor = NodePath("")
 
 [node name="Root" type="Node" parent="."]
