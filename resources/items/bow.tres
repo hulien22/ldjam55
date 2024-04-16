@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ItemSummon" load_steps=3 format=3 uid="uid://cvk5t8pj317pu"]
+[gd_resource type="Resource" script_class="ItemSummon" load_steps=3 format=3 uid="uid://bshclm17fq2nh"]
 
 [ext_resource type="Texture2D" uid="uid://cvll8jvy4aoyo" path="res://art/items/weapon_bow_arrow.png" id="1_mfksd"]
 [ext_resource type="Script" path="res://scripts/Summons Res/item_summon.gd" id="2_54q2w"]
@@ -10,10 +10,10 @@ weapon_type = 4
 level = 1
 image = ExtResource("1_mfksd")
 name = "bow"
-cost = 0
+cost = 10
 health_mod = 0.0
-damage_mod = 5.0
-defense_mod = 1.0
-cooldown_mod = 2.0
+damage_mod = 15.0
+defense_mod = 0.0
+cooldown_mod = 2.5
 range_mod = 250000.0
 movement_speed_mod = 0.0

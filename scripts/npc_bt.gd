@@ -52,6 +52,9 @@ var _current_weapon: SummonResource = null:
 			weapon_sprite.hide()
 			_cooldown = 1.0
 			_current_weapon_type = SummonResource.WEAPON_TYPE.NONE
+			_damage = 5
+			_cooldown = 1.5
+			_speed = base_stats
 			return
 		match w.weapon_type:
 			SummonResource.WEAPON_TYPE.DAGGER:
@@ -70,17 +73,22 @@ var _current_weapon: SummonResource = null:
 		attack_range_sq = w.range_mod
 		weapon_sprite.modulate = w.get_color()
 		_current_weapon_type = w.weapon_type
+		_damage = w.damage_mod
+		_speed = base_stats.speed + w.movement_speed_mod
 
 var _locked_animation_count: int = 0
 
 # TODO move elsewhere (component)
 var _health: float = 10
 var _cooldown: float = 1.5
+var _damage = 0
+var _speed = 0
 
 var base_stats: npc_base_stats
 var my_line
 var storm_node: storm_class
 var time_since_hurt_noise: float = 100
+
 
 #TODO move elsewhere
 #enum WEAPON_TYPE {
@@ -311,7 +319,7 @@ func attack_enemy(enemy):
 	match _current_weapon_type:
 		SummonResource.WEAPON_TYPE.NONE:
 			attack_animation_player.play("punch")
-			knockback = 100
+			knockback = 50
 		SummonResource.WEAPON_TYPE.DAGGER:
 			attack_animation_player.play("punch")
 			knockback = 100
@@ -348,7 +356,7 @@ func attack_enemy(enemy):
 					var angle = global_position.angle_to_point(e.global_position)
 					if angle_difference(angle, sprite_holder.rotation) < 0.785398: #45 degrees diff so 90 degrees total
 						#print(self, " -> ", e)
-						e.damage(1, base_stats, global_position, knockback)
+						e.damage(_damage, base_stats, global_position, knockback)
 		)
 	get_tree().create_timer(_cooldown).timeout.connect(func():
 		_can_attack=true

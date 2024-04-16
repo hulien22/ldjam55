@@ -3,6 +3,8 @@ extends RefCounted
 
 var max_health
 var speed
+var damage
+var cooldown
 var first_name
 var last_name
 var number: int
