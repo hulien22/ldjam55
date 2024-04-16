@@ -39,6 +39,8 @@ enum WEAPON_TYPE {
 
 func get_color() -> Color:
 	# don't color consumables
+	if summon_type == SUMMON_TYPE.BANNER:
+		return Color.LIME_GREEN
 	if summon_type == SUMMON_TYPE.CONSUMABLE:
 		return Color.WHITE
 	match level:

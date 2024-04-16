@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="SummonResource" load_steps=3 format=3 uid="uid://0vcglrrcvk25"]
 
-[ext_resource type="Texture2D" uid="uid://bhpixa1cxman5" path="res://art/items/banner.png" id="1_8ru26"]
+[ext_resource type="Texture2D" uid="uid://d3uqeyvuulch4" path="res://art/items/banner2.png" id="1_kfkfr"]
 [ext_resource type="Script" path="res://scripts/Summons Res/summon_resource.gd" id="2_fqsll"]
 
 [resource]
@@ -8,7 +8,7 @@ script = ExtResource("2_fqsll")
 summon_type = 5
 weapon_type = 0
 level = 1
-image = ExtResource("1_8ru26")
+image = ExtResource("1_kfkfr")
 name = "Banner"
 cost = 20
 health_mod = 0.0
