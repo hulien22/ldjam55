@@ -25,7 +25,7 @@ func _process(delta):
 func on_death(x, y):
 	count -= 1
 	count_text.text = str(count)
-	if y.player:
+	if y.number == NpcRegistry.chosen:
 		has_player_died = true
 	#the player caused the death of this NPC
 	if x.player:

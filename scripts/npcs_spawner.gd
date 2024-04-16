@@ -14,7 +14,7 @@ func _ready():
 	#print(len(NpcRegistry.contestants))
 	if len(NpcRegistry.contestants) == 0: # didnt use main menu for testing
 		NpcRegistry.generate_initial_npcs(100)
-		NpcRegistry.set_chosen_candidate(0)
+		NpcRegistry.set_chosen_candidate(1)
 	var angle_offset = 2*PI / float(len(NpcRegistry.contestants))
 	for npc in NpcRegistry.contestants:
 		var npc_instance = npc_scene.instantiate()

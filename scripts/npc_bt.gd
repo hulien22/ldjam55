@@ -122,6 +122,7 @@ func on_start():
 	npc_ai.enable()
 
 func _ready():
+	already_dead = false
 	$name_label.text = base_stats.first_name + " '" + str(base_stats.number) + "' " + base_stats.last_name
 	npc_audio.set_name("audio " + str(base_stats.number))
 	npc_audio.pitch_scale = base_stats.voice
