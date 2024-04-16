@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ItemSummon" load_steps=3 format=3 uid="uid://bo8hnxes4uils"]
+[gd_resource type="Resource" script_class="ItemSummon" load_steps=3 format=3 uid="uid://d2wig8qy5s0kt"]
 
 [ext_resource type="Texture2D" uid="uid://bh8ketjwmsf7g" path="res://art/items/weapon_longsword.png" id="1_pg4rs"]
 [ext_resource type="Script" path="res://scripts/Summons Res/item_summon.gd" id="2_4yhgt"]
@@ -10,10 +10,10 @@ weapon_type = 2
 level = 1
 image = ExtResource("1_pg4rs")
 name = "sword"
-cost = 0
+cost = 10
 health_mod = 0.0
-damage_mod = 5.0
-defense_mod = 1.0
-cooldown_mod = 1.2
+damage_mod = 15.0
+defense_mod = 0.0
+cooldown_mod = 3.0
 range_mod = 4000.0
 movement_speed_mod = 0.0

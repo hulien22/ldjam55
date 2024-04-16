@@ -16,10 +16,12 @@ func create_npc_stats(number):
 	npc.first_name = first_names[randi_range(0, len(first_names)-1)]
 	npc.last_name = last_names[randi_range(0, len(last_names)-1)]
 	npc.number = number
-	npc.max_health = randi() % 7 + 3
-	npc.speed = randf() * 20 + 30
+	npc.max_health = randi() % 30 + 80
+	npc.speed = randi() % 25 + 35
 	npc.color = (npc.first_name + npc.last_name).sha256_text().hash() | 0x000000ff
 	npc.voice = randf_range(0.8, 2.0)
+	npc.damage = 0
+	npc.cooldown = 0
 	
 	return npc
 
