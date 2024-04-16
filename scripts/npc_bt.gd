@@ -425,7 +425,7 @@ func attack_enemy(enemy):
 			get_parent().add_child(arrow)
 			arrow.global_position = arrow_spawn_marker.global_position
 			var rand_angle = randf() * 0.5 - 0.25 # roughly 30 degrees
-			arrow.init(base_stats, 100, Vector2.RIGHT.rotated(sprite_holder.rotation + rand_angle), 10, 1.0)
+			arrow.init(base_stats, 100, Vector2.RIGHT.rotated(sprite_holder.rotation + rand_angle), 10, _damage)
 		)
 		# slow down movement while firing
 		cancel_movement()

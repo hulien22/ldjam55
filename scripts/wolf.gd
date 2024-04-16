@@ -27,6 +27,8 @@ var _can_dash: bool = true
 var _taking_damage: bool = false
 var _in_attack_anim: bool = false
 
+var _damage: float = 0
+
 var _range: float = 1000
 var _locked_animation_count: int = 0
 
@@ -60,6 +62,7 @@ func _ready():
 	npc_audio.pitch_scale = base_stats.voice
 
 	_health = base_stats.max_health
+	_damage = stats.damage_mod
 	#_cooldown = randf() * 0.5 + 1.1
 
 	_range = scan_circle.shape.radius
@@ -169,7 +172,7 @@ func attack_enemy(enemy):
 				var angle = global_position.angle_to_point(e.global_position)
 				if angle_difference(angle, sprite_holder.rotation) < 0.785398: #45 degrees diff so 90 degrees total
 					#print(self, " -> ", e)
-					e.damage(1, base_stats, global_position, knockback)
+					e.damage(_damage, base_stats, global_position, knockback)
 	)
 	get_tree().create_timer(_cooldown).timeout.connect(func():
 		_can_attack=true
