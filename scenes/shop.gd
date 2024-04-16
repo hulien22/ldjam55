@@ -15,7 +15,12 @@ var slotThree
 @export var remaining: remaining_ui
 @export var summon: summon_bar_class
 
-var timer
+@onready var texture_progress_bar = $ShopPanel/ItemThreePanel/TextureProgressBar
+@onready var texture_progress_bar_2 = $ShopPanel/ItemTwoPanel/TextureProgressBar2
+@onready var texture_progress_bar_3 = $ShopPanel/ItemOnePanel/TextureProgressBar3
+
+
+var timer: Timer
 
 var type_filter = [
 	SummonResource.SUMMON_TYPE.ARMOR,
@@ -49,8 +54,9 @@ func _ready():
 	slotTwoLabel.text = str(slotTwo.cost)
 	slotThreeLabel.text = str(slotThree.cost)
 
-	timer.connect("timeout", self._refreshShopTimer)
-	timer.start()
+	#timer.connect("timeout", self._refreshShopTimer)
+	#timer.start()
+	start_refresh_pbars()
 
 func _refreshShopTimer():
 	if remaining.count <= level_thresholds[cur_level]:
@@ -69,7 +75,21 @@ func _refreshShopTimer():
 	slotOneLabel.text = str(slotOne.cost)
 	slotTwoLabel.text = str(slotTwo.cost)
 	slotThreeLabel.text = str(slotThree.cost)
+	start_refresh_pbars()
 
+func start_refresh_pbars():
+	var tween = create_tween()
+	texture_progress_bar.value = 0
+	texture_progress_bar_2.value = 0
+	texture_progress_bar_3.value = 0
+	tween.set_parallel()
+	tween.tween_property(texture_progress_bar, "value", 100, timer.wait_time)
+	tween.tween_property(texture_progress_bar_2, "value", 100, timer.wait_time)
+	tween.tween_property(texture_progress_bar_3, "value", 100, timer.wait_time)
+	tween.set_parallel(false)
+	tween.tween_callback(func():
+		_refreshShopTimer()
+	)
 
 func _on_gui_input(event, extra_arg_0):
 	if event is InputEventMouseButton and event.is_pressed():
