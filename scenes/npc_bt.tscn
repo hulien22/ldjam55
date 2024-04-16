@@ -276,12 +276,11 @@ arrow_scene = ExtResource("2_bqnf1")
 [node name="NpcAi" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_nin16")]
 enabled = false
 tick_rate = 4
-blackboard = NodePath("@Node@230296")
+blackboard = NodePath("@Node@232856")
 actor = NodePath("..")
 
 [node name="NavAgentComponent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("actor")]
 path_desired_distance = 10.0
-debug_enabled = true
 script = ExtResource("3_ycoso")
 actor = NodePath("..")
 

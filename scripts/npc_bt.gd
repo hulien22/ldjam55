@@ -103,7 +103,6 @@ var _speed = 0
 var _defence = 0
 
 var base_stats: npc_base_stats
-var my_line
 var storm_node: storm_class
 var time_since_hurt_noise: float = 100
 
@@ -126,9 +125,6 @@ func _ready():
 	$name_label.text = base_stats.first_name + " '" + str(base_stats.number) + "' " + base_stats.last_name
 	npc_audio.set_name("audio " + str(base_stats.number))
 	npc_audio.pitch_scale = base_stats.voice
-	my_line = Line2D.new()
-	my_line.default_color = Color.RED
-	add_child(my_line)
 
 	_health = base_stats.max_health
 	#_cooldown = randf() * 0.5 + 1.1
@@ -297,15 +293,7 @@ func get_visible_enemies():
 		var result = space_state.intersect_ray(query)
 		if result.is_empty():
 			visible.append(enemy)
-		else:
-			my_line.clear_points()
-			my_line.add_point(Vector2.ZERO)
-			my_line.add_point(enemy.global_position-global_position)
-	if len(enemies_in_range) != len(visible):
-		#print("of " + str(len(enemies_in_range)) + " enemies " + str(len(visible)) + " are visible.")
-		pass
-	else:
-		my_line.clear_points()
+
 	return visible
 
 func get_closest_consumable() -> SummonedItem:
