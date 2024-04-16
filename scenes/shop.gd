@@ -92,7 +92,7 @@ func start_refresh_pbars():
 	)
 
 func _on_gui_input(event, extra_arg_0):
-	if event is InputEventMouseButton and event.is_pressed():
+	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
 		if extra_arg_0 == 1:
 			if slotOne:
 				if remaining.gold >= slotOne.cost and summon.try_buy_item(slotOne):

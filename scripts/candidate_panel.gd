@@ -32,5 +32,5 @@ func on_deselected(x):
 	tween.tween_property(self, "scale", Vector2.ONE, scale_speed)
 
 func _on_gui_input(event):
-	if event is InputEventMouseButton and event.is_pressed():
+	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
 		on_selected()
