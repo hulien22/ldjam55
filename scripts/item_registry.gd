@@ -1,12 +1,13 @@
 extends Node
 
 var itemCount: int = 0
-var items: Array[SummonResource] = []
+@export var items: Array[SummonResource] = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	loadItems("res://resources/items/")
+	#loadItems("res://resources/items/")
 	#print(getItem(0).name)
+	pass
 
 
 func loadItems(path):
