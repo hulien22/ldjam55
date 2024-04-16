@@ -124,6 +124,8 @@ func on_start():
 func _ready():
 	already_dead = false
 	$name_label.text = base_stats.first_name + " '" + str(base_stats.number) + "' " + base_stats.last_name
+	if base_stats.number == NpcRegistry.chosen:
+		base_stats.player = true
 	npc_audio.set_name("audio " + str(base_stats.number))
 	npc_audio.pitch_scale = base_stats.voice
 

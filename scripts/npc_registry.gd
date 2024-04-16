@@ -22,12 +22,11 @@ func create_npc_stats(number):
 	npc.voice = randf_range(0.8, 2.0)
 	npc.damage = 0
 	npc.cooldown = 0
-	
+	npc.player = false
 	return npc
 
 func set_chosen_candidate(number):
 	chosen = number
-	contestants[chosen-1].player = true
 
 @export var first_names: Array[String] = [
 "Aaron",
