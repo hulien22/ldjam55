@@ -21,7 +21,7 @@
 [node name="NpcAi" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_n0n7x")
 blackboard = NodePath("@Node@29818")
-actor = NodePath("..")
+actor = NodePath("")
 
 [node name="Root" type="Node" parent="."]
 script = ExtResource("2_numm5")
@@ -139,6 +139,22 @@ property = "best_weapon"
 [node name="MoveToItemAction" type="Node" parent="Root/PrioritySelectorComposite/GetWeapon"]
 script = ExtResource("13_ibsq0")
 bboard_field = "best_weapon"
+
+[node name="GetShield" type="Node" parent="Root/PrioritySelectorComposite"]
+script = ExtResource("2_numm5")
+
+[node name="NotHasShield" type="Node" parent="Root/PrioritySelectorComposite/GetShield"]
+script = ExtResource("6_30iwi")
+property = "has_shield"
+target = false
+
+[node name="BetterWeaponInRange" type="Node" parent="Root/PrioritySelectorComposite/GetShield"]
+script = ExtResource("8_pb7ph")
+property = "best_shield"
+
+[node name="MoveToItemAction" type="Node" parent="Root/PrioritySelectorComposite/GetShield"]
+script = ExtResource("13_ibsq0")
+bboard_field = "best_shield"
 
 [node name="Explore" type="Node" parent="Root/PrioritySelectorComposite"]
 script = ExtResource("6_2a027")

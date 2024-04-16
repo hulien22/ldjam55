@@ -13,6 +13,7 @@ class_name NPCBT
 @onready var npc_ai = $NpcAi as BeehaveTree
 @onready var npc_audio = $npc_audio
 @onready var scan_circle = $ScanRegion/CollisionShape2D
+@onready var shield:Shield = %Shield
 
 
 #TODO remove
@@ -43,6 +44,10 @@ var _pickup_range_sq: float = pow(30, 2)
 var _safe_distance_sq: float = pow(600, 2)
 var _consumables_in_range: Array[SummonedItem] = []
 var _banners_in_range: Array[SummonedItem] = []
+var _shields_in_range: Array[SummonedItem] = []
+var _has_shield: bool = false
+var _helmets_in_range: Array[SummonedItem] = []
+var _helmet: SummonResource = null
 
 var _weapons_in_range: Array[SummonedItem] = []
 var _current_weapon_type: SummonResource.WEAPON_TYPE = SummonResource.WEAPON_TYPE.NONE
@@ -165,6 +170,7 @@ func calculate_state():
 		"distance_from_storm": storm_node.radius - global_position.length(),
 		"best_consumable": best_consumable,
 		"best_banner": best_banner,
+		"has_shield": _has_shield,
 		"safe_distance_sq": _safe_distance_sq,
 		"health_threshold_flee": _health_threshold_flee,
 		"health_threshold_leave_storm": _health_threshold_leave_storm,
@@ -176,6 +182,13 @@ func calculate_state():
 
 		if (global_position.distance_squared_to(closest_enemy.global_position) < attack_range_sq):
 			_blackboard["in_range_of_target"] = true
+	
+	if !_has_shield:
+		var best_shield_dict: Dictionary = get_closest_shield()
+		var best_shield: SummonedItem = best_shield_dict.get("best_shield")
+		var best_shield_score: float = best_shield_dict.get("best_score")
+		_blackboard["best_shield"] = best_shield
+		_blackboard["best_shield_score"] = best_shield_score
 
 	npc_ai.blackboard.overwrite_dict(_blackboard)
 	#if _can_attack:
@@ -211,6 +224,8 @@ func _on_scan_region_area_shape_entered(area_rid: RID, area: Area2D, area_shape_
 			SummonResource.SUMMON_TYPE.BANNER:
 				if (base_stats.player):
 					_banners_in_range.push_back(area)
+			SummonResource.SUMMON_TYPE.SHIELD:
+				_shields_in_range.push_back(area)
 
 func _on_scan_region_area_shape_exited(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int):
 	if (area == $HitBox || area == null):
@@ -228,6 +243,8 @@ func _on_scan_region_area_shape_exited(area_rid: RID, area: Area2D, area_shape_i
 			SummonResource.SUMMON_TYPE.BANNER:
 				if (base_stats.player):
 					_banners_in_range.erase(area)
+			SummonResource.SUMMON_TYPE.SHIELD:
+				_shields_in_range.erase(area)
 
 func get_nearest_enemy():
 	var closest = null
@@ -285,6 +302,18 @@ func get_closest_banner() -> SummonedItem:
 			closest_dist = dist
 	return closest
 
+func get_closest_shield() -> Dictionary:
+	var item:SummonedItem = null
+	var best_score:float = -1
+	for s in _shields_in_range:
+		if (invalid_target_position(s.global_position)):
+			continue
+		var sc = get_item_score(s)
+		if sc > best_score:
+			best_score = sc
+			item = s
+	return {"best_shield": item, "best_score": best_score}
+
 func get_nearest_better_weapon() -> Dictionary:
 	var item:SummonedItem = null
 	var best_score:float = -1
@@ -304,6 +333,8 @@ func get_item_score(item: SummonedItem) -> float:
 	match item.stats.summon_type:
 		SummonResource.SUMMON_TYPE.WEAPON:
 			cur_rarity = 0 if _current_weapon == null else _current_weapon.level
+		SummonResource.SUMMON_TYPE.SHIELD:
+			cur_rarity = 0 if !_has_shield else 5 # once you have a shield then no need to search
 	if item.stats.level <= cur_rarity:
 		return -1
 
@@ -452,6 +483,15 @@ func pickup_items() -> bool:
 			if global_position.distance_squared_to(b.global_position) < _pickup_range_sq:
 				if b.pick_up():
 					picked_up_something = true
+		
+		if !_has_shield:
+			for s in _shields_in_range:
+				if global_position.distance_squared_to(s.global_position) < _pickup_range_sq:
+					if s.pick_up():
+						_has_shield = true
+						shield.enable()
+						picked_up_something = true
+				
 			
 	return picked_up_something
 
@@ -519,6 +559,8 @@ func get_priority(goal:String) -> float:
 			return 997.0
 		"GetWeapon":
 			return _blackboard.get("best_weapon_score")
+		"GetShield":
+			return _blackboard.get("best_shield_score", -1)
 		"FightEnemy":
 			return 8.0
 		"GetOutOfStorm":
