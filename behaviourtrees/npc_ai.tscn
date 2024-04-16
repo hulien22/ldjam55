@@ -140,6 +140,17 @@ property = "best_weapon"
 script = ExtResource("13_ibsq0")
 bboard_field = "best_weapon"
 
+[node name="GetHelmet" type="Node" parent="Root/PrioritySelectorComposite"]
+script = ExtResource("2_numm5")
+
+[node name="BetterWeaponInRange" type="Node" parent="Root/PrioritySelectorComposite/GetHelmet"]
+script = ExtResource("8_pb7ph")
+property = "best_helmet"
+
+[node name="MoveToItemAction" type="Node" parent="Root/PrioritySelectorComposite/GetHelmet"]
+script = ExtResource("13_ibsq0")
+bboard_field = "best_helmet"
+
 [node name="GetShield" type="Node" parent="Root/PrioritySelectorComposite"]
 script = ExtResource("2_numm5")
 

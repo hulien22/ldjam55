@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://dcg5q7p21m3pd"]
+[gd_scene load_steps=46 format=3 uid="uid://dcg5q7p21m3pd"]
 
 [ext_resource type="Script" path="res://scripts/npc_bt.gd" id="1_1fpsg"]
 [ext_resource type="PackedScene" uid="uid://bu4761byp6ssw" path="res://scenes/Arrow.tscn" id="2_bqnf1"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cft4h1ehdqqy" path="res://art/Units/character_outside.png" id="6_kjk2m"]
 [ext_resource type="Texture2D" uid="uid://dyhwshhr60jao" path="res://art/Units/character_inside.png" id="7_5deju"]
 [ext_resource type="Texture2D" uid="uid://dhtxcck2y2xn6" path="res://art/Units/hand.png" id="8_ex71x"]
+[ext_resource type="Texture2D" uid="uid://hqvpsw2otsuv" path="res://art/items/helmet_top.png" id="9_4lw55"]
 [ext_resource type="Texture2D" uid="uid://cypv5cjj4ekxv" path="res://art/items/weapon_dagger.png" id="9_navur"]
 [ext_resource type="PackedScene" uid="uid://cueyhajj058b8" path="res://scenes/shield.tscn" id="10_0gan0"]
 [ext_resource type="Texture2D" uid="uid://djrnqc3off2p0" path="res://art/items/shield_curved.png" id="10_ed4y7"]
@@ -275,7 +276,7 @@ arrow_scene = ExtResource("2_bqnf1")
 [node name="NpcAi" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_nin16")]
 enabled = false
 tick_rate = 4
-blackboard = NodePath("@Node@171275")
+blackboard = NodePath("@Node@182366")
 actor = NodePath("..")
 
 [node name="NavAgentComponent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("actor")]
@@ -308,6 +309,11 @@ texture = ExtResource("6_kjk2m")
 unique_name_in_owner = true
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("7_5deju")
+
+[node name="Helmet" type="Sprite2D" parent="SpriteHolder"]
+position = Vector2(-6, 0)
+rotation = -1.57079
+texture = ExtResource("9_4lw55")
 
 [node name="LeftHand" type="Sprite2D" parent="SpriteHolder"]
 unique_name_in_owner = true

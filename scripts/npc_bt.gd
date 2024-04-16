@@ -14,6 +14,7 @@ class_name NPCBT
 @onready var npc_audio = $npc_audio
 @onready var scan_circle = $ScanRegion/CollisionShape2D
 @onready var shield:Shield = %Shield
+@onready var helmet_sprite = $SpriteHolder/Helmet
 
 
 #TODO remove
@@ -47,7 +48,16 @@ var _banners_in_range: Array[SummonedItem] = []
 var _shields_in_range: Array[SummonedItem] = []
 var _has_shield: bool = false
 var _helmets_in_range: Array[SummonedItem] = []
-var _helmet: SummonResource = null
+var _helmet: SummonResource = null:
+	set(h):
+		_helmet = h
+		if (h == null):
+			helmet_sprite.hide()
+			#TODO stats
+			return
+		helmet_sprite.show()
+		helmet_sprite.modulate = h.get_color()
+		#TODO stats
 
 var _weapons_in_range: Array[SummonedItem] = []
 var _current_weapon_type: SummonResource.WEAPON_TYPE = SummonResource.WEAPON_TYPE.NONE
@@ -115,6 +125,7 @@ func _ready():
 
 	_range = scan_circle.shape.radius
 	_current_weapon = null
+	_helmet = null
 
 
 	character_inside.set_self_modulate(base_stats.color)
@@ -144,6 +155,10 @@ func calculate_state():
 	var best_weapon_dict: Dictionary = get_nearest_better_weapon()
 	var best_weapon: SummonedItem = best_weapon_dict.get("best_weapon")
 	var best_weapon_score: float = best_weapon_dict.get("best_score")
+
+	var best_helmet_dict: Dictionary = get_nearest_better_helmet()
+	var best_helmet: SummonedItem = best_helmet_dict.get("best_helmet")
+	var best_helmet_score: float = best_helmet_dict.get("best_score")
 	
 	var best_consumable: SummonedItem = get_closest_consumable()
 	var best_banner:SummonedItem = get_closest_banner()
@@ -165,6 +180,8 @@ func calculate_state():
 		"is_fleeing": _is_fleeing,
 		"best_weapon": best_weapon,
 		"best_weapon_score": best_weapon_score,
+		"best_helmet": best_helmet,
+		"best_helmet_score": best_helmet_score,
 		"storm_radius": storm_node.radius,
 		"in_storm": in_the_storm(),
 		"distance_from_storm": storm_node.radius - global_position.length(),
@@ -226,6 +243,8 @@ func _on_scan_region_area_shape_entered(area_rid: RID, area: Area2D, area_shape_
 					_banners_in_range.push_back(area)
 			SummonResource.SUMMON_TYPE.SHIELD:
 				_shields_in_range.push_back(area)
+			SummonResource.SUMMON_TYPE.ARMOR:
+				_helmets_in_range.push_back(area)
 
 func _on_scan_region_area_shape_exited(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int):
 	if (area == $HitBox || area == null):
@@ -245,6 +264,8 @@ func _on_scan_region_area_shape_exited(area_rid: RID, area: Area2D, area_shape_i
 					_banners_in_range.erase(area)
 			SummonResource.SUMMON_TYPE.SHIELD:
 				_shields_in_range.erase(area)
+			SummonResource.SUMMON_TYPE.ARMOR:
+				_helmets_in_range.erase(area)
 
 func get_nearest_enemy():
 	var closest = null
@@ -314,6 +335,20 @@ func get_closest_shield() -> Dictionary:
 			item = s
 	return {"best_shield": item, "best_score": best_score}
 
+func get_nearest_better_helmet() -> Dictionary:
+	var item:SummonedItem = null
+	var best_score:float = -1
+	for i in _helmets_in_range:
+		# If in the storm, then can chase after (survive will kick us out early)
+		# If not in the storm, then ignore stuff in the storm
+		if (invalid_target_position(i.global_position)):
+			continue
+		var s = get_item_score(i)
+		if s > best_score:
+			best_score = s
+			item = i
+	return {"best_helmet": item, "best_score": best_score}
+	
 func get_nearest_better_weapon() -> Dictionary:
 	var item:SummonedItem = null
 	var best_score:float = -1
@@ -333,6 +368,8 @@ func get_item_score(item: SummonedItem) -> float:
 	match item.stats.summon_type:
 		SummonResource.SUMMON_TYPE.WEAPON:
 			cur_rarity = 0 if _current_weapon == null else _current_weapon.level
+		SummonResource.SUMMON_TYPE.ARMOR:
+			cur_rarity = 0 if _helmet == null else _helmet.level
 		SummonResource.SUMMON_TYPE.SHIELD:
 			cur_rarity = 0 if !_has_shield else 5 # once you have a shield then no need to search
 	if item.stats.level <= cur_rarity:
@@ -348,6 +385,8 @@ func is_item_better(item: SummonedItem) -> bool:
 	match item.stats.summon_type:
 		SummonResource.SUMMON_TYPE.WEAPON:
 			cur_rarity = 0 if _current_weapon == null else _current_weapon.level
+		SummonResource.SUMMON_TYPE.ARMOR:
+			cur_rarity = 0 if _helmet == null else _helmet.level
 	return item.stats.level > cur_rarity
 
 
@@ -491,6 +530,12 @@ func pickup_items() -> bool:
 						_has_shield = true
 						shield.enable()
 						picked_up_something = true
+		
+		for h in _helmets_in_range:
+			if is_item_better(h) && global_position.distance_squared_to(h.global_position) < _pickup_range_sq:
+				if h.pick_up():
+					_helmet = h.stats.duplicate()
+					picked_up_something = true
 				
 			
 	return picked_up_something
@@ -558,9 +603,11 @@ func get_priority(goal:String) -> float:
 			#return (1.0 - ch / mh) * 10.0
 			return 997.0
 		"GetWeapon":
-			return _blackboard.get("best_weapon_score")
+			return _blackboard.get("best_weapon_score", -1)
 		"GetShield":
 			return _blackboard.get("best_shield_score", -1)
+		"GetHelmet":
+			return _blackboard.get("best_helmet_score", -1)
 		"FightEnemy":
 			return 8.0
 		"GetOutOfStorm":
