@@ -6,13 +6,14 @@
 [resource]
 script = ExtResource("2_qfkto")
 summon_type = 3
+weapon_type = 0
 level = 1
 image = ExtResource("1_4fxi2")
 name = "health potion"
-cost = 0
+cost = 30
 health_mod = 10.0
 damage_mod = 0.0
 defense_mod = 0.0
-attack_per_minute_mod = 0.0
+cooldown_mod = 0.0
 range_mod = 0.0
 movement_speed_mod = 0.0

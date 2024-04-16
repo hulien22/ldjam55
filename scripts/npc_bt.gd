@@ -58,6 +58,7 @@ var _helmet: SummonResource = null:
 		helmet_sprite.show()
 		helmet_sprite.modulate = h.get_color()
 		#TODO stats
+		_defence = h.defense_mod
 
 var _weapons_in_range: Array[SummonedItem] = []
 var _current_weapon_type: SummonResource.WEAPON_TYPE = SummonResource.WEAPON_TYPE.NONE
@@ -99,6 +100,7 @@ var _health: float = 10
 var _cooldown: float = 1.5
 var _damage = 0
 var _speed = 0
+var _defence = 0
 
 var base_stats: npc_base_stats
 var my_line
@@ -477,6 +479,13 @@ func tick_damage(dmg: float, attacker: npc_base_stats):
 func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2, knockback: float):
 	if (dmg > 0 && _taking_damage):
 		return
+
+	if dmg > 0:
+
+		dmg = dmg-_defence
+		if dmg < 0:
+			return
+
 	_health -= dmg
 	_health = clampf(_health, 0, base_stats.max_health)
 	$ProgressBar.value = _health * 100.0 / float(base_stats.max_health)
