@@ -105,7 +105,7 @@ var _defence = 0
 var base_stats: npc_base_stats
 var storm_node: storm_class
 var time_since_hurt_noise: float = 100
-
+var already_dead = false
 
 #TODO move elsewhere
 #enum WEAPON_TYPE {
@@ -455,6 +455,9 @@ func tick_damage(dmg: float, attacker: npc_base_stats):
 	_health = clampf(_health, 0, base_stats.max_health)
 	$ProgressBar.value = _health * 100.0 / float(base_stats.max_health)
 	if (_health <= 0):
+		if already_dead:
+			return
+		already_dead = true
 		died.emit(attacker, base_stats)
 		#print(base_stats.first_name + " " + base_stats.last_name + " has died :(")
 		npc_audio.play_death()
@@ -478,6 +481,9 @@ func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2, knockbac
 	_health = clampf(_health, 0, base_stats.max_health)
 	$ProgressBar.value = _health * 100.0 / float(base_stats.max_health)
 	if (_health <= 0):
+		if already_dead:
+			return
+		already_dead = true
 		died.emit(attacker, base_stats)
 		#print(base_stats.first_name + " " + base_stats.last_name + " has died :(")
 		npc_audio.play_death()
