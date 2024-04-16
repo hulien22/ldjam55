@@ -2,7 +2,7 @@ class_name remaining_ui
 extends Control
 
 var count = 100
-var gold = 0
+var gold = 10
 var stormActive = false
 @export var count_text: Label
 @export var count_gold: Label
@@ -27,7 +27,7 @@ func on_death(x, y):
 
 	#the player caused the death of this NPC
 	if x.player:
-		gold += 25
+		gold += 10
 		if count == 1: #player won
 			game_over_scene.on_champion_won()
 		

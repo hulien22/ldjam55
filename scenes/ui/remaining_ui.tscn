@@ -68,4 +68,5 @@ theme_override_font_sizes/font_size = 96
 text = "0"
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 1.5
 autostart = true
