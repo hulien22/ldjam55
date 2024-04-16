@@ -106,7 +106,7 @@ func _follow_plan(plan: Array, delta: float):
 	if (first_time):
 		_last_plan_name = current_plan.get_clazz()
 
-	print(_actor.base_stats.number, " | performing ", current_plan.get_clazz() , " | " , _actor.global_position , " | ", _actor.nav_agent_component.target_position)
+	#print(_actor.base_stats.number, " | performing ", current_plan.get_clazz() , " | " , _actor.global_position , " | ", _actor.nav_agent_component.target_position)
 	var is_step_complete = current_plan.perform(_actor, delta, first_time)
 	
 	#print("performing action: ", current_plan.get_clazz() , " | " , is_step_complete)

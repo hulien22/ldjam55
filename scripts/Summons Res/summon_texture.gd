@@ -10,7 +10,7 @@ func _ready():
 	modulate = stats.get_color()
 
 func _get_drag_data(at_position):
-	print()
+	#print()
 	var data = {}
 	data["summon_stats"] = stats
 	data["origin_node"] = get_parent()

@@ -6,7 +6,7 @@ var items: Array[SummonResource] = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	loadItems("res://resources/items/")
-	print(getItem(0).name)
+	#print(getItem(0).name)
 
 
 func loadItems(path):
@@ -19,7 +19,7 @@ func loadItems(path):
 				#its a file not a dir
 				items.append(load(path + file_name))
 				itemCount+=1
-				print(path + file_name)
+				#print(path + file_name)
 			file_name = dir.get_next()
 			
 	else:

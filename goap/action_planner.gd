@@ -167,5 +167,5 @@ func _print_plan(plan):
 	var actions = []
 	for a in plan.actions:
 		actions.push_back(a.get_clazz())
-	print({"cost": plan.cost, "actions": actions})
+	#print({"cost": plan.cost, "actions": actions})
 	#WorldState.console_message({"cost": plan.cost, "actions": actions})

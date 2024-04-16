@@ -12,7 +12,7 @@ func _ready():
 	play("circle_fade_in")
 
 func on_play_low():
-	print("playingh")
+	#print("playingh")
 	AudioPlayer.play_countdown_low()
 
 func on_play_high():

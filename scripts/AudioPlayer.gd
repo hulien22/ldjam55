@@ -59,7 +59,7 @@ func play_countdown_high():
 	sound_effects.play()
 	
 func play_countdown_low():
-	print("yep playing")
+	#print("yep playing")
 	sound_effects.volume_db = -7
 	sound_effects.stream = countdown_beep
 	sound_effects.play()

@@ -38,7 +38,7 @@ func perform(actor, _delta: float, first_time: bool) -> bool:
 		#actor.set_fleeing()
 		return false
 	
-	print(actor.base_stats.number, " | " , actor._is_fleeing)
+	#print(actor.base_stats.number, " | " , actor._is_fleeing)
 	
 	return actor.done_movement()
 

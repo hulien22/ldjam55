@@ -22,7 +22,7 @@ func temp():
 	on_contestant_killed(x, y)
 
 func on_contestant_killed(killer: npc_base_stats, killed: npc_base_stats):
-	print(str(killer.number) + " has killed " + str(killed.number))
+	#print(str(killer.number) + " has killed " + str(killed.number))
 	var item_instance = kill_feed_item_scene.instantiate()
 	item_instance.set_data(killer, killed)
 	queued_items.push_back(item_instance)

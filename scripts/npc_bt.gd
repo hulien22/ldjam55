@@ -456,7 +456,7 @@ func tick_damage(dmg: float, attacker: npc_base_stats):
 	$ProgressBar.value = _health * 100.0 / float(base_stats.max_health)
 	if (_health <= 0):
 		died.emit(attacker, base_stats)
-		print(base_stats.first_name + " " + base_stats.last_name + " has died :(")
+		#print(base_stats.first_name + " " + base_stats.last_name + " has died :(")
 		npc_audio.play_death()
 		queue_free()
 		return
@@ -479,7 +479,7 @@ func damage(dmg: float, attacker: npc_base_stats, damage_posn: Vector2, knockbac
 	$ProgressBar.value = _health * 100.0 / float(base_stats.max_health)
 	if (_health <= 0):
 		died.emit(attacker, base_stats)
-		print(base_stats.first_name + " " + base_stats.last_name + " has died :(")
+		#print(base_stats.first_name + " " + base_stats.last_name + " has died :(")
 		npc_audio.play_death()
 		queue_free()
 		return

@@ -11,7 +11,7 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print(len(NpcRegistry.contestants))
+	#print(len(NpcRegistry.contestants))
 	if len(NpcRegistry.contestants) == 0: # didnt use main menu for testing
 		NpcRegistry.generate_initial_npcs(100)
 		NpcRegistry.set_chosen_candidate(0)

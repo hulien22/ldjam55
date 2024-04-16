@@ -20,4 +20,4 @@ func _physics_process(delta):
 		transform = transform.translated(dir)
 	else:
 		agent.target_position = Vector2(randi()%size-size/2, randi()%size-size/2)
-		print(agent.target_position)
+		#print(agent.target_position)

@@ -14,7 +14,7 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	for c in get_children():
 		priority_list.push_back([actor.get_priority(c.name), c])
 	priority_list.sort_custom(custom_sort)
-	print(".", actor.base_stats.number, " | ", priority_list)
+	#print(".", actor.base_stats.number, " | ", priority_list)
 	
 	for p in priority_list:
 		var c:Node = p[1]
