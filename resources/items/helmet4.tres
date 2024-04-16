@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="SummonResource" load_steps=3 format=3 uid="uid://2kumpn2oyc3v"]
+
+[ext_resource type="Texture2D" uid="uid://cb4kvhawl4dcj" path="res://art/items/helmet.png" id="1_0wdxu"]
+[ext_resource type="Script" path="res://scripts/Summons Res/summon_resource.gd" id="1_bbfn0"]
+
+[resource]
+script = ExtResource("1_bbfn0")
+summon_type = 1
+weapon_type = 0
+level = 4
+image = ExtResource("1_0wdxu")
+name = "leather helmet"
+cost = 0
+health_mod = 0.0
+damage_mod = 0.0
+defense_mod = 8.0
+cooldown_mod = 0.0
+range_mod = 0.0
+movement_speed_mod = -1.0

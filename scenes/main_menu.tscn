@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://0pikx5nw10hc"]
+[gd_scene load_steps=13 format=3 uid="uid://0pikx5nw10hc"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_fqcoh"]
 [ext_resource type="PackedScene" uid="uid://b7jpts72uj40i" path="res://scenes/candidate_selector.tscn" id="2_hy4ch"]
@@ -6,12 +6,22 @@
 [ext_resource type="Texture2D" uid="uid://63wf86sjyubb" path="res://art/ui/buttonLong_brown_pressed.png" id="4_6s46e"]
 [ext_resource type="Script" path="res://scripts/button_hover.gd" id="5_du3ox"]
 [ext_resource type="FontFile" uid="uid://djhfqg84rk38a" path="res://font/PipersPlayroom-2OP1K.ttf" id="6_mrcet"]
+[ext_resource type="Texture2D" uid="uid://3gyrqskbfmv6" path="res://art/items/weapon_hammer.png" id="7_avu0u"]
+[ext_resource type="Texture2D" uid="uid://cypv5cjj4ekxv" path="res://art/items/weapon_dagger.png" id="8_x2hr8"]
+[ext_resource type="Texture2D" uid="uid://bh8ketjwmsf7g" path="res://art/items/weapon_longsword.png" id="9_s5y1t"]
+[ext_resource type="Texture2D" uid="uid://cvll8jvy4aoyo" path="res://art/items/weapon_bow_arrow.png" id="10_xijgw"]
+[ext_resource type="Texture2D" uid="uid://b17kbyaxmn7" path="res://art/items/wolf.png" id="11_t0uif"]
+[ext_resource type="Texture2D" uid="uid://3avqlagjisyt" path="res://art/items/weapon_bow.png" id="12_autfc"]
 
 [node name="main_menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 19.0
+offset_top = -8.0
+offset_right = 19.0
+offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fqcoh")
@@ -58,6 +68,170 @@ theme_override_fonts/font = ExtResource("6_mrcet")
 theme_override_font_sizes/font_size = 100
 text = "Play"
 horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 200.0
+offset_right = 20.0
+offset_bottom = 240.0
+grow_horizontal = 2
+
+[node name="WeaponHammer" type="Sprite2D" parent="Control"]
+modulate = Color(0.6, 0.196, 0.8, 1)
+position = Vector2(-297, 48)
+texture = ExtResource("7_avu0u")
+
+[node name="WeaponDagger" type="Sprite2D" parent="Control"]
+modulate = Color(0.392, 0.584, 0.929, 1)
+position = Vector2(-231, 59)
+rotation = -3.14159
+texture = ExtResource("8_x2hr8")
+
+[node name="WeaponLongsword" type="Sprite2D" parent="Control"]
+modulate = Color(0.196, 0.804, 0.196, 1)
+position = Vector2(-264, 42)
+texture = ExtResource("9_s5y1t")
+
+[node name="WeaponDagger2" type="Sprite2D" parent="Control"]
+modulate = Color(0.745, 0.745, 0.745, 1)
+position = Vector2(-244, 43)
+rotation = 1.5708
+texture = ExtResource("8_x2hr8")
+
+[node name="Node2D" type="Node2D" parent="Control"]
+position = Vector2(-25, 56)
+rotation = -1.5708
+
+[node name="WeaponDagger3" type="Sprite2D" parent="Control/Node2D"]
+modulate = Color(0.6, 0.196, 0.8, 1)
+position = Vector2(-5, -32)
+rotation = -1.5708
+texture = ExtResource("8_x2hr8")
+
+[node name="WeaponLongsword2" type="Sprite2D" parent="Control/Node2D"]
+modulate = Color(0.745, 0.745, 0.745, 1)
+position = Vector2(12, -65)
+rotation = 1.5708
+texture = ExtResource("9_s5y1t")
+
+[node name="WeaponDagger4" type="Sprite2D" parent="Control/Node2D"]
+modulate = Color(1, 0.843, 0, 1)
+position = Vector2(11, -45)
+rotation = -3.14159
+texture = ExtResource("8_x2hr8")
+
+[node name="Node2D2" type="Node2D" parent="Control"]
+position = Vector2(-35, -25)
+
+[node name="WeaponDagger" type="Sprite2D" parent="Control/Node2D2"]
+modulate = Color(0.196, 0.804, 0.196, 1)
+position = Vector2(61, 81)
+rotation = -1.5708
+texture = ExtResource("8_x2hr8")
+
+[node name="WeaponDagger2" type="Sprite2D" parent="Control/Node2D2"]
+modulate = Color(0.745, 0.745, 0.745, 1)
+position = Vector2(49, 68)
+texture = ExtResource("8_x2hr8")
+
+[node name="WeaponDagger3" type="Sprite2D" parent="Control/Node2D2"]
+modulate = Color(0.196, 0.804, 0.196, 1)
+position = Vector2(65, 57)
+rotation = 1.5708
+texture = ExtResource("8_x2hr8")
+
+[node name="WeaponDagger4" type="Sprite2D" parent="Control/Node2D2"]
+modulate = Color(1, 0.843, 0, 1)
+position = Vector2(61, 102)
+rotation = 1.5708
+texture = ExtResource("8_x2hr8")
+
+[node name="WeaponDagger5" type="Sprite2D" parent="Control/Node2D2"]
+modulate = Color(0.6, 0.196, 0.8, 1)
+position = Vector2(75, 88)
+texture = ExtResource("8_x2hr8")
+
+[node name="WeaponBowArrow" type="Sprite2D" parent="Control"]
+modulate = Color(1, 0.843, 0, 1)
+position = Vector2(73, 54)
+rotation = -1.5708
+texture = ExtResource("10_xijgw")
+
+[node name="WeaponBowArrow2" type="Sprite2D" parent="Control"]
+modulate = Color(1, 0.843, 0, 1)
+position = Vector2(-197, 48)
+rotation = -1.5708
+texture = ExtResource("10_xijgw")
+
+[node name="Node2D3" type="Node2D" parent="Control"]
+position = Vector2(185, 57)
+rotation = -1.5708
+
+[node name="WeaponDagger3" type="Sprite2D" parent="Control/Node2D3"]
+modulate = Color(0.392, 0.584, 0.929, 1)
+position = Vector2(-2, -42)
+rotation = -1.5708
+texture = ExtResource("8_x2hr8")
+
+[node name="WeaponLongsword2" type="Sprite2D" parent="Control/Node2D3"]
+modulate = Color(0.196, 0.804, 0.196, 1)
+position = Vector2(1, -74)
+rotation = 1.5708
+texture = ExtResource("8_x2hr8")
+
+[node name="WeaponDagger4" type="Sprite2D" parent="Control/Node2D3"]
+modulate = Color(0.6, 0.196, 0.8, 1)
+position = Vector2(14, -55)
+rotation = -3.14159
+texture = ExtResource("8_x2hr8")
+
+[node name="Wolf" type="Sprite2D" parent="Control"]
+modulate = Color(0.6, 0.196, 0.8, 1)
+position = Vector2(224, 58)
+texture = ExtResource("11_t0uif")
+
+[node name="Wolf2" type="Sprite2D" parent="Control"]
+modulate = Color(0.392, 0.584, 0.929, 1)
+position = Vector2(-21, 56)
+texture = ExtResource("11_t0uif")
+
+[node name="WeaponBow" type="Sprite2D" parent="Control"]
+modulate = Color(0.392, 0.584, 0.929, 1)
+position = Vector2(-116, 47)
+rotation = -1.5708
+texture = ExtResource("12_autfc")
+
+[node name="Node2D4" type="Node2D" parent="Control"]
+position = Vector2(318, 58)
+rotation = -1.5708
+
+[node name="WeaponDagger3" type="Sprite2D" parent="Control/Node2D4"]
+modulate = Color(1, 0.843, 0, 1)
+position = Vector2(-4, -27)
+rotation = -1.5708
+texture = ExtResource("8_x2hr8")
+
+[node name="WeaponLongsword2" type="Sprite2D" parent="Control/Node2D4"]
+modulate = Color(0.392, 0.584, 0.929, 1)
+position = Vector2(-0.999996, -59)
+rotation = 1.5708
+texture = ExtResource("8_x2hr8")
+
+[node name="WeaponDagger4" type="Sprite2D" parent="Control/Node2D4"]
+modulate = Color(0.745, 0.745, 0.745, 1)
+position = Vector2(12, -40)
+rotation = -3.14159
+texture = ExtResource("8_x2hr8")
+
+[node name="WeaponBowArrow3" type="Sprite2D" parent="Control"]
+modulate = Color(0.196, 0.804, 0.196, 1)
+position = Vector2(325, 57)
+rotation = -1.5708
+texture = ExtResource("10_xijgw")
 
 [connection signal="mouse_entered" from="TextureButton" to="TextureButton" method="on_mouse_entered"]
 [connection signal="mouse_exited" from="TextureButton" to="TextureButton" method="on_mouse_exited"]

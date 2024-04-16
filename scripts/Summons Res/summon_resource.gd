@@ -6,7 +6,8 @@ enum SUMMON_TYPE {
 	ARMOR,
 	SHIELD,
 	CONSUMABLE,
-	MONSTER
+	MONSTER,
+	BANNER
 }
 
 # this should really be put in a class but im lazy rn

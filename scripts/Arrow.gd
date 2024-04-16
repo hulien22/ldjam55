@@ -30,6 +30,9 @@ func _on_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, 
 
 	if (area == null):
 		pass
+	elif (area.get_parent() is Shield):
+		print("SHIELD BLOCKED ARROW!")
+		pass
 	elif (area.get_parent() is NPC || area.get_parent() is NPCBT || area.get_parent() is Wolf):
 		area.get_parent().damage(_dmg, _base_stats, global_position, 0)
 	elif (area.get_parent() is Arrow):

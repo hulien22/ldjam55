@@ -22,7 +22,8 @@ var type_filter = [
 	SummonResource.SUMMON_TYPE.CONSUMABLE,
 	SummonResource.SUMMON_TYPE.WEAPON,
 	SummonResource.SUMMON_TYPE.MONSTER,
-	SummonResource.SUMMON_TYPE.SHIELD
+	SummonResource.SUMMON_TYPE.SHIELD,
+	SummonResource.SUMMON_TYPE.BANNER
 ]
 
 var level_filter = [1]

@@ -98,6 +98,7 @@ wheel_out={
 2d_physics/layer_2="WALLS"
 2d_physics/layer_3="PROJECTILES"
 2d_physics/layer_4="SUMMONED_ITEM"
+2d_physics/layer_5="SHIELD"
 
 [rendering]
 
